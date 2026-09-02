@@ -1,0 +1,21 @@
+# engineering notes live outside this repo
+/docs/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+
+.env
+*.sqlite
+*.sqlite3
+*.db
+
+# large corpora are fetched, not committed (see corpus/README.md)
+corpus/data/
+
+node_modules/
+web/dist/
