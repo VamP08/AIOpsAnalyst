@@ -37,6 +37,18 @@ CREATE TABLE IF NOT EXISTS clusters (
   label TEXT NOT NULL,
   tier TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS verdicts (
+  clusterid TEXT PRIMARY KEY,
+  category TEXT NOT NULL,
+  severity TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  confidence REAL NOT NULL,
+  evidence TEXT NOT NULL,
+  tier TEXT NOT NULL,
+  model TEXT NOT NULL,
+  promptversion TEXT NOT NULL,
+  created TEXT NOT NULL DEFAULT (datetime('now'))
+);
 """
 
 _COLS = ("id", "source", "type", "time", "subject", "datacontenttype",
@@ -104,6 +116,48 @@ class Store:
             "GROUP BY c.id ORDER BY COUNT(e.id) DESC").fetchall()
         return [{"id": r[0], "label": r[1], "tier": r[2], "size": r[3]}
                 for r in rows]
+
+    def clusters_without_verdict(self) -> list[dict]:
+        rows = self.db.execute(
+            "SELECT c.id, c.label, c.tier FROM clusters c "
+            "LEFT JOIN verdicts v ON v.clusterid = c.id "
+            "WHERE v.clusterid IS NULL ORDER BY c.id").fetchall()
+        return [{"id": r[0], "label": r[1], "tier": r[2]} for r in rows]
+
+    def events_in_cluster(self, cluster_id: str, limit: int = 5) -> list[Event]:
+        rows = self.db.execute(
+            f"SELECT {','.join(_COLS)} FROM events WHERE clusterid = ? "
+            "ORDER BY rowid LIMIT ?", (cluster_id, limit)).fetchall()
+        return [self._to_event(r) for r in rows]
+
+    def upsert_verdict(self, cluster_id: str, verdict: dict) -> None:
+        self.db.execute(
+            "INSERT INTO verdicts (clusterid, category, severity, summary, "
+            "confidence, evidence, tier, model, promptversion) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) "
+            "ON CONFLICT(clusterid) DO UPDATE SET category = excluded.category, "
+            "severity = excluded.severity, summary = excluded.summary, "
+            "confidence = excluded.confidence, evidence = excluded.evidence, "
+            "tier = excluded.tier, model = excluded.model, "
+            "promptversion = excluded.promptversion",
+            (cluster_id, verdict["category"], verdict["severity"],
+             verdict["summary"], verdict["confidence"],
+             json.dumps(verdict["evidence"]), verdict["tier"],
+             verdict["model"], verdict["promptversion"]))
+        self.db.commit()
+
+    def get_verdict(self, cluster_id: str) -> dict | None:
+        row = self.db.execute(
+            "SELECT category, severity, summary, confidence, evidence, tier, "
+            "model, promptversion, created FROM verdicts WHERE clusterid = ?",
+            (cluster_id,)).fetchone()
+        if row is None:
+            return None
+        keys = ("category", "severity", "summary", "confidence", "evidence",
+                "tier", "model", "promptversion", "created")
+        verdict = dict(zip(keys, row))
+        verdict["evidence"] = json.loads(verdict["evidence"])
+        return verdict
 
     def get_cursor(self, source: str) -> str | None:
         row = self.db.execute("SELECT cursor FROM cursors WHERE source = ?",

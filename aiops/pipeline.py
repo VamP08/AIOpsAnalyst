@@ -69,3 +69,36 @@ class Pipeline:
 
         self.store.assign_clusters(assignment, clusters)
         return counts
+
+    def triage(self, chat=None, samples_per_cluster: int = 5) -> dict[str, int]:
+        """One LLM call per un-triaged cluster, never per event. Malformed or
+        missing replies leave the cluster untriaged — retried next run, never
+        stored as a guess.
+        """
+        from aiops.triage.gate import decide_tier
+        from aiops.triage.prompts import PROMPT_VERSION, build_messages
+        from aiops.triage.schema import parse_verdict
+
+        if chat is None:
+            from aiops.envfile import load_env
+            from aiops.triage.llm import chat
+            load_env()
+
+        triaged = failed = 0
+        for cluster in self.store.clusters_without_verdict():
+            events = self.store.events_in_cluster(cluster["id"],
+                                                  samples_per_cluster)
+            reply = chat(build_messages(cluster["label"], cluster["tier"],
+                                        events))
+            verdict = parse_verdict(reply.text) if reply else None
+            if verdict is None:
+                failed += 1
+                continue
+            self.store.upsert_verdict(cluster["id"], {
+                **verdict.model_dump(),
+                "tier": decide_tier(verdict),
+                "model": reply.model,
+                "promptversion": PROMPT_VERSION,
+            })
+            triaged += 1
+        return {"triaged": triaged, "failed": failed}
