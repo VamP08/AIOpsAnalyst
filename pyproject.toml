@@ -13,6 +13,8 @@ dependencies = [
 cluster = [
     "drain3>=0.9.11",
     "datasketch>=1.6",
+]
+embeddings = [
     "sentence-transformers>=3.0",
 ]
 server = [
