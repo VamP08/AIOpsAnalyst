@@ -73,6 +73,20 @@ def test_empty_content_falls_through(monkeypatch):
     assert llm.chat([{"role": "user", "content": "hi"}]).text == "real"
 
 
+def test_gpt_oss_calls_request_low_reasoning_effort(monkeypatch):
+    import json
+
+    seen = {}
+
+    def handler(request):
+        seen["body"] = json.loads(request.read())
+        return httpx.Response(200, json=reply("x"))
+
+    install(monkeypatch, handler, {"GROQ_API_KEY": "k"})
+    llm.chat([{"role": "user", "content": "hi"}])
+    assert seen["body"]["reasoning_effort"] == "low"
+
+
 def test_model_overridable_by_env(monkeypatch):
     seen = {}
 

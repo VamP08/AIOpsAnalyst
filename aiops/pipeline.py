@@ -23,16 +23,21 @@ class Pipeline:
             config = yaml.safe_load(f)
         return cls(Store(config["store"]), config.get("sources", []))
 
-    def ingest(self) -> dict[str, int]:
-        inserted = {}
+    def ingest(self) -> dict[str, int | str]:
+        """One flaky source must not block the rest. A failed source inserts
+        nothing and keeps no cursor, so its next run is a clean full retry."""
+        result: dict[str, int | str] = {}
         for entry in self.sources:
             instance = entry["id"]
-            adapter = create(entry["adapter"], entry.get("config", {}))
-            events = adapter.fetch(cursor=self.store.get_cursor(instance))
-            inserted[instance] = self.store.insert_events(events)
-            if adapter.cursor is not None:
-                self.store.set_cursor(instance, adapter.cursor)
-        return inserted
+            try:
+                adapter = create(entry["adapter"], entry.get("config", {}))
+                events = adapter.fetch(cursor=self.store.get_cursor(instance))
+                result[instance] = self.store.insert_events(events)
+                if adapter.cursor is not None:
+                    self.store.set_cursor(instance, adapter.cursor)
+            except Exception as e:
+                result[instance] = f"{type(e).__name__}: {e}"
+        return result
 
     def cluster(self, prose_encoder=None) -> dict[str, int]:
         """Recluster the whole corpus. Stateless and deterministic — a rerun
@@ -70,11 +75,14 @@ class Pipeline:
         self.store.assign_clusters(assignment, clusters)
         return counts
 
-    def triage(self, chat=None, samples_per_cluster: int = 5) -> dict[str, int]:
+    def triage(self, chat=None, samples_per_cluster: int = 5,
+               pause: float = 0.0) -> dict[str, int]:
         """One LLM call per un-triaged cluster, never per event. Malformed or
         missing replies leave the cluster untriaged — retried next run, never
-        stored as a guess.
+        stored as a guess. `pause` sleeps between calls so a batch stays under
+        free-tier tokens-per-minute limits; calling triage again is the retry.
         """
+        import time
         from aiops.triage.gate import decide_tier
         from aiops.triage.prompts import PROMPT_VERSION, build_messages
         from aiops.triage.schema import parse_verdict
@@ -85,7 +93,9 @@ class Pipeline:
             load_env()
 
         triaged = failed = 0
-        for cluster in self.store.clusters_without_verdict():
+        for n, cluster in enumerate(self.store.clusters_without_verdict()):
+            if pause and n:
+                time.sleep(pause)
             events = self.store.events_in_cluster(cluster["id"],
                                                   samples_per_cluster)
             reply = chat(build_messages(cluster["label"], cluster["tier"],

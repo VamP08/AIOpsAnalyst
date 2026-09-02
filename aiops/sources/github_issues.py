@@ -18,11 +18,12 @@ from aiops.registry import Source, register
 @register("github_issues")
 class GitHubIssuesSource(Source):
     def __init__(self, repo: str, token: str | None = None,
-                 client: httpx.Client | None = None):
+                 client: httpx.Client | None = None, max_pages: int = 10):
         self.repo = repo
         self.token = token or os.environ.get("GITHUB_TOKEN")
         self.client = client or httpx.Client(base_url="https://api.github.com",
                                              timeout=30)
+        self.max_pages = max_pages
         self.cursor: str | None = None
 
     def fetch(self, cursor: str | None = None) -> Iterator[Event]:
@@ -34,7 +35,9 @@ class GitHubIssuesSource(Source):
         if cursor:
             params["since"] = cursor
         url: str | None = f"/repos/{self.repo}/issues"
-        while url:
+        for _ in range(self.max_pages):  # bounded batch; cursor resumes the rest
+            if not url:
+                break
             r = self.client.get(url, params=params, headers=headers)
             r.raise_for_status()
             for issue in r.json():
@@ -60,4 +63,7 @@ class GitHubIssuesSource(Source):
                     },
                 )
             url = r.links.get("next", {}).get("url")
-            params = {}
+            # None, not {}: httpx replaces the URL's query with `params` when
+            # one is given, and the Link URL already carries the full query —
+            # stripping it turns paging into an infinite default listing.
+            params = None

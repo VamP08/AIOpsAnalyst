@@ -70,6 +70,24 @@ def test_triaged_clusters_are_not_reprocessed(tmp_path):
     assert len(calls) == 2  # one per cluster, not four
 
 
+def test_pause_sleeps_between_llm_calls(tmp_path, monkeypatch):
+    naps = []
+    monkeypatch.setattr("time.sleep", lambda s: naps.append(s))
+    pipe = make_pipeline(tmp_path)
+    seed_clustered(pipe.store)
+    pipe.triage(chat=lambda m, **kw: Reply(GOOD, "m"), pause=2.5)
+    assert naps == [2.5]  # between calls: 2 clusters, 1 nap
+
+
+def test_no_pause_by_default(tmp_path, monkeypatch):
+    naps = []
+    monkeypatch.setattr("time.sleep", lambda s: naps.append(s))
+    pipe = make_pipeline(tmp_path)
+    seed_clustered(pipe.store)
+    pipe.triage(chat=lambda m, **kw: Reply(GOOD, "m"))
+    assert naps == []
+
+
 def test_invalid_or_missing_reply_leaves_cluster_untriaged(tmp_path):
     pipe = make_pipeline(tmp_path)
     seed_clustered(pipe.store)

@@ -73,6 +73,52 @@ def test_request_carries_auth_and_since_cursor():
     assert params["state"] == "all"
 
 
+def test_pagination_follows_link_url_without_stripping_its_query():
+    captured = []
+
+    def handler(request):
+        captured.append(request)
+        if len(captured) == 1:
+            return httpx.Response(
+                200, json=[ISSUE],
+                headers={"Link": '<https://api.github.com/repositories/1/issues'
+                                 '?state=all&per_page=100&since=X&after=CUR'
+                                 '&page=2>; rel="next"'})
+        return httpx.Response(200, json=[])
+
+    client = httpx.Client(transport=httpx.MockTransport(handler),
+                          base_url="https://api.github.com")
+    src = GitHubIssuesSource(repo="acme/widget", token="tok", client=client)
+    list(src.fetch())
+    assert len(captured) == 2
+    second = dict(captured[1].url.params)
+    assert second.get("after") == "CUR"      # Link's cursor survives
+    assert second.get("per_page") == "100"   # and so does the page size
+
+
+def test_pagination_stops_at_max_pages_and_cursor_resumes():
+    captured = []
+
+    def handler(request):
+        captured.append(request)
+        n = len(captured)
+        issue = {**ISSUE, "number": n, "node_id": f"I_{n}",
+                 "updated_at": f"2026-09-02T0{n}:00:00Z"}
+        return httpx.Response(
+            200, json=[issue],
+            headers={"Link": f'<https://api.github.com/repositories/1/issues'
+                             f'?page={n + 1}>; rel="next"'})
+
+    client = httpx.Client(transport=httpx.MockTransport(handler),
+                          base_url="https://api.github.com")
+    src = GitHubIssuesSource(repo="acme/widget", token="tok", client=client,
+                             max_pages=3)
+    events = list(src.fetch())
+    assert len(events) == 3      # bounded batch, not a runaway
+    assert len(captured) == 3
+    assert src.cursor == "2026-09-02T03:00:00Z"  # next run continues from here
+
+
 def test_cursor_advances_to_max_updated_at():
     older = {**ISSUE, "number": 41, "node_id": "I_old",
              "updated_at": "2026-09-01T12:00:00Z"}
