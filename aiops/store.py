@@ -32,6 +32,11 @@ CREATE TABLE IF NOT EXISTS cursors (
   source TEXT PRIMARY KEY,
   cursor TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS clusters (
+  id TEXT PRIMARY KEY,
+  label TEXT NOT NULL,
+  tier TEXT NOT NULL
+);
 """
 
 _COLS = ("id", "source", "type", "time", "subject", "datacontenttype",
@@ -58,15 +63,47 @@ class Store:
     def count_events(self) -> int:
         return self.db.execute("SELECT COUNT(*) FROM events").fetchone()[0]
 
+    @staticmethod
+    def _to_event(row) -> Event:
+        fields = dict(zip(_COLS, row))
+        fields["attributes"] = json.loads(fields["attributes"] or "{}")
+        return Event(**fields)
+
     def get_event(self, event_id: str) -> Event | None:
         row = self.db.execute(
             f"SELECT {','.join(_COLS)} FROM events WHERE id = ?",
             (event_id,)).fetchone()
-        if row is None:
-            return None
-        fields = dict(zip(_COLS, row))
-        fields["attributes"] = json.loads(fields["attributes"] or "{}")
-        return Event(**fields)
+        return self._to_event(row) if row else None
+
+    def all_events(self) -> list[Event]:
+        rows = self.db.execute(
+            f"SELECT {','.join(_COLS)} FROM events ORDER BY rowid").fetchall()
+        return [self._to_event(r) for r in rows]
+
+    def unclustered_events(self) -> list[Event]:
+        rows = self.db.execute(
+            f"SELECT {','.join(_COLS)} FROM events "
+            "WHERE clusterid IS NULL ORDER BY rowid").fetchall()
+        return [self._to_event(r) for r in rows]
+
+    def assign_clusters(self, assignment: dict[str, str],
+                        clusters: dict[str, tuple[str, str]]) -> None:
+        self.db.executemany(
+            "UPDATE events SET clusterid = ? WHERE id = ?",
+            [(cid, eid) for eid, cid in assignment.items()])
+        self.db.executemany(
+            "INSERT INTO clusters (id, label, tier) VALUES (?, ?, ?) "
+            "ON CONFLICT(id) DO UPDATE SET label = excluded.label",
+            [(cid, label, tier) for cid, (label, tier) in clusters.items()])
+        self.db.commit()
+
+    def list_clusters(self) -> list[dict]:
+        rows = self.db.execute(
+            "SELECT c.id, c.label, c.tier, COUNT(e.id) "
+            "FROM clusters c LEFT JOIN events e ON e.clusterid = c.id "
+            "GROUP BY c.id ORDER BY COUNT(e.id) DESC").fetchall()
+        return [{"id": r[0], "label": r[1], "tier": r[2], "size": r[3]}
+                for r in rows]
 
     def get_cursor(self, source: str) -> str | None:
         row = self.db.execute("SELECT cursor FROM cursors WHERE source = ?",

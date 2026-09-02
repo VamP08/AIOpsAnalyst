@@ -33,3 +33,39 @@ class Pipeline:
             if adapter.cursor is not None:
                 self.store.set_cursor(instance, adapter.cursor)
         return inserted
+
+    def cluster(self, prose_encoder=None) -> dict[str, int]:
+        """Recluster the whole corpus. Stateless and deterministic — a rerun
+        assigns identical ids, so this is safe to call after every ingest.
+        # ponytail: O(corpus) per run; switch to drain3 persistence + inference
+        # mode if the corpus outgrows a laptop
+        """
+        from aiops.cluster.drain import LogClusterer
+        from aiops.cluster.prose import ProseClusterer
+
+        events = self.store.all_events()
+        log_events = [e for e in events if e.type == "dev.aiops.log.line"]
+        prose_events = [e for e in events if e.type == "com.github.issue"]
+
+        counts: dict[str, int] = {}
+        assignment: dict[str, str] = {}
+        clusters: dict[str, tuple[str, str]] = {}
+
+        if log_events:
+            clusterer = LogClusterer()
+            assignment.update(clusterer.assign(log_events))
+            for cid, template, _ in clusterer.clusters():
+                clusters[cid] = (template, "log")
+            counts["log"] = len(log_events)
+
+        if prose_events:
+            prose_assignment = ProseClusterer(
+                encoder=prose_encoder).assign(prose_events)
+            assignment.update(prose_assignment)
+            for event in prose_events:  # first title labels the cluster
+                clusters.setdefault(prose_assignment[event.id],
+                                    (event.title, "prose"))
+            counts["prose"] = len(prose_events)
+
+        self.store.assign_clusters(assignment, clusters)
+        return counts
