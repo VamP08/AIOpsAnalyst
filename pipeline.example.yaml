@@ -1,0 +1,36 @@
+# Copy to pipeline.yaml and edit. Sources and sinks are adapter instances; the
+# routes are the policy — the model supplies labels, this table decides what
+# actually happens to them.
+store: aiops.sqlite
+
+sources:
+  - id: nginx-web-1
+    adapter: log_file
+    config:
+      path: /var/log/nginx/error.log
+      format: nginx_error
+      source: syslog://web-1/nginx
+
+  - id: issues-own-repo
+    adapter: github_issues
+    config:
+      repo: owner/repo        # GITHUB_TOKEN from the environment
+
+sinks:
+  - id: tickets
+    adapter: jira            # JIRA_BASE_URL / JIRA_PROJECT / JIRA_EMAIL / JIRA_API_TOKEN
+    config:
+      issue_type: Task
+  - id: chat
+    adapter: slack           # SLACK_WEBHOOK_URL
+    config: {}
+
+routes:
+  # high-confidence actionable work becomes a ticket
+  - tiers: [auto]
+    categories: [crash, error, performance]
+    sink: tickets
+  # anything the gate sends to a human goes to chat, whatever its category
+  - tiers: [escalate]
+    sink: chat
+  # suggest and abstain deliberately have no route: they wait for a person

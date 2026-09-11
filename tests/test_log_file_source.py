@@ -112,3 +112,23 @@ def test_unparseable_line_still_becomes_an_event_with_raw_preserved(tmp_path):
     assert e.raw == "not a log line at all"
     assert e.title == "not a log line at all"
     assert e.severitynumber == 0
+
+
+APACHE = (
+    "[Thu Jun 09 06:07:04 2005] [notice] LDAP: SSL support unavailable\n"
+    "[Thu Jul 21 03:37:31 2005] [error] [client 218.144.240.75] "
+    "File does not exist: /var/www/html/bin\n"
+)
+
+
+def test_apache_error_lines_parse_level_time_and_client(tmp_path):
+    src = LogFileSource(path=write(tmp_path, "error_log", APACHE),
+                        format="apache_error", source="apache://web-1")
+    notice, error = list(src.fetch())
+    assert notice.severitytext == "notice"
+    assert notice.severitynumber == 9
+    assert notice.time == "2005-06-09T06:07:04"
+    assert notice.title == "LDAP: SSL support unavailable"
+    assert error.severitynumber == 17
+    assert error.attributes["client"] == "218.144.240.75"
+    assert error.title == "File does not exist: /var/www/html/bin"

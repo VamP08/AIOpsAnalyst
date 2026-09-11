@@ -6,6 +6,9 @@ stopped. Import of aiops.sources/aiops.sinks populates the registries.
 """
 import yaml
 
+import aiops.sinks.dryrun  # noqa: F401
+import aiops.sinks.jira  # noqa: F401
+import aiops.sinks.slack  # noqa: F401
 import aiops.sources.github_issues  # noqa: F401  (registers adapter)
 import aiops.sources.log_file  # noqa: F401
 from aiops.registry import create
@@ -13,15 +16,20 @@ from aiops.store import Store
 
 
 class Pipeline:
-    def __init__(self, store: Store, sources: list[dict]):
+    def __init__(self, store: Store, sources: list[dict],
+                 sinks: list[dict] | None = None,
+                 routes: list[dict] | None = None):
         self.store = store
         self.sources = sources
+        self.sink_configs = sinks or []
+        self.routes = routes or []
 
     @classmethod
     def from_yaml(cls, path: str) -> "Pipeline":
         with open(path, encoding="utf-8") as f:
             config = yaml.safe_load(f)
-        return cls(Store(config["store"]), config.get("sources", []))
+        return cls(Store(config["store"]), config.get("sources", []),
+                   config.get("sinks"), config.get("routes"))
 
     def ingest(self) -> dict[str, int | str]:
         """One flaky source must not block the rest. A failed source inserts
@@ -112,3 +120,50 @@ class Pipeline:
             })
             triaged += 1
         return {"triaged": triaged, "failed": failed}
+
+    def _build_sinks(self) -> dict:
+        return {entry["id"]: create(entry["adapter"], entry.get("config", {}))
+                for entry in self.sink_configs}
+
+    def _sinks_for(self, verdict: dict) -> list[str]:
+        """Deterministic policy: the model supplied the labels, these rules
+        decide what happens. A route with no categories matches any."""
+        return [route["sink"] for route in self.routes
+                if verdict["tier"] in route["tiers"]
+                and verdict["category"] in route.get("categories",
+                                                     [verdict["category"]])]
+
+    def route(self, sinks: dict | None = None,
+              samples_per_cluster: int = 3) -> dict[str, int | str]:
+        """Emit every verdict that a route matches and that has not already
+        been emitted to that sink. Side effects are recorded only on success,
+        so a sink that is down costs a retry rather than a duplicate ticket.
+        """
+        from aiops.decision import Decision
+
+        sinks = sinks if sinks is not None else self._build_sinks()
+        sent: dict[str, int] = {}
+        failed: dict[str, int] = {}
+        for cluster in self.store.list_clusters():
+            verdict = self.store.get_verdict(cluster["id"])
+            if not verdict:
+                continue
+            already = self.store.routed(cluster["id"])
+            for name in self._sinks_for(verdict):
+                if name in already or name not in sinks:
+                    continue
+                decision = Decision(
+                    cluster_id=cluster["id"], label=cluster["label"],
+                    tier=verdict["tier"], category=verdict["category"],
+                    severity=verdict["severity"], summary=verdict["summary"],
+                    confidence=verdict["confidence"], size=cluster["size"],
+                    evidence=self.store.events_in_cluster(
+                        cluster["id"], samples_per_cluster))
+                try:
+                    ref = sinks[name].emit(decision)
+                except Exception:
+                    failed[name] = failed.get(name, 0) + 1
+                    continue
+                self.store.record_routed(cluster["id"], name, ref)
+                sent[name] = sent.get(name, 0) + 1
+        return {**sent, **{name: f"{n} failed" for name, n in failed.items()}}

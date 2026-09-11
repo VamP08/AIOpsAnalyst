@@ -26,7 +26,13 @@ class Source(ABC):
 
 class Sink(ABC):
     @abstractmethod
-    def emit(self, decision) -> None: ...
+    def emit(self, decision) -> str | None:
+        """Returns a reference to what was created (a ticket key) when the
+        sink has one, so the store can record it."""
+
+    def check(self) -> bool:
+        """Credentials/config smoke test; override where it means something."""
+        return True
 
 
 def register(name: str):

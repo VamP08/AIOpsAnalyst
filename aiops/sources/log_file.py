@@ -22,6 +22,10 @@ ERROR_RE = re.compile(
     r'(?P<time>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] '
     r'\d+#\d+: (?:\*\d+ )?(?P<msg>.*)'
 )
+APACHE_RE = re.compile(
+    r'\[(?P<time>[^\]]+)\] \[(?P<level>\w+)\] '
+    r'(?:\[client (?P<client>[^\]]+)\] )?(?P<msg>.*)'
+)
 SYSLOG_RE = re.compile(
     r'\w{3}\s+\d+ \d{2}:\d{2}:\d{2} (?P<host>\S+) '
     r'(?P<proc>[\w./-]+)(?:\[\d+\])?: ?(?P<msg>.*)'
@@ -46,6 +50,19 @@ def _parse_nginx_error(raw: str) -> dict:
         return {}
     return {"title": m["msg"], "severitytext": m["level"],
             "severitynumber": severity_number(m["level"])}
+
+
+def _parse_apache_error(raw: str) -> dict:
+    m = APACHE_RE.match(raw)
+    if not m:
+        return {}
+    fields = {"title": m["msg"], "severitytext": m["level"],
+              "severitynumber": severity_number(m["level"]),
+              "time": datetime.strptime(m["time"],
+                                        "%a %b %d %H:%M:%S %Y").isoformat()}
+    if m["client"]:
+        fields["attributes"] = {"client": m["client"]}
+    return fields
 
 
 def _parse_syslog(raw: str) -> dict:
@@ -83,6 +100,7 @@ def _parse_jsonl(raw: str) -> dict:
 _PARSERS = {
     "nginx_access": _parse_nginx_access,
     "nginx_error": _parse_nginx_error,
+    "apache_error": _parse_apache_error,
     "syslog": _parse_syslog,
     "jsonl": _parse_jsonl,
 }

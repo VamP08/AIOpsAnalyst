@@ -37,6 +37,13 @@ CREATE TABLE IF NOT EXISTS clusters (
   label TEXT NOT NULL,
   tier TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS routed (
+  clusterid TEXT NOT NULL,
+  sink TEXT NOT NULL,
+  ref TEXT NOT NULL DEFAULT '',
+  created TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (clusterid, sink)
+);
 CREATE TABLE IF NOT EXISTS verdicts (
   clusterid TEXT PRIMARY KEY,
   category TEXT NOT NULL,
@@ -158,6 +165,19 @@ class Store:
         verdict = dict(zip(keys, row))
         verdict["evidence"] = json.loads(verdict["evidence"])
         return verdict
+
+    def record_routed(self, cluster_id: str, sink: str, ref: str | None) -> None:
+        """Written only after a sink reports success: an unrecorded emit is
+        retried next run, a recorded one is never sent twice."""
+        self.db.execute(
+            "INSERT OR REPLACE INTO routed (clusterid, sink, ref) "
+            "VALUES (?, ?, ?)", (cluster_id, sink, ref or ""))
+        self.db.commit()
+
+    def routed(self, cluster_id: str) -> dict[str, str]:
+        return {sink: ref for sink, ref in self.db.execute(
+            "SELECT sink, ref FROM routed WHERE clusterid = ?",
+            (cluster_id,)).fetchall()}
 
     def get_cursor(self, source: str) -> str | None:
         row = self.db.execute("SELECT cursor FROM cursors WHERE source = ?",

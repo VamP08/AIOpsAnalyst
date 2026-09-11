@@ -12,6 +12,7 @@ from math import sqrt
 
 from datasketch import MinHash, MinHashLSH
 
+from aiops.cluster.drain import cluster_id
 from aiops.envelope import Event
 
 _WORD = re.compile(r"[a-z0-9]+")
@@ -82,11 +83,13 @@ class ProseClusterer:
             if _cosine(vectors[a], vectors[b]) >= self.threshold:
                 uf.union(a, b)
 
+        # named after the earliest member, not a counter: a recluster must
+        # not renumber clusters that already carry a verdict
         cluster_ids: dict[str, str] = {}
         assignment = {}
         for e in events:
             root = uf.find(e.id)
             if root not in cluster_ids:
-                cluster_ids[root] = f"prose-{len(cluster_ids) + 1}"
+                cluster_ids[root] = cluster_id("prose", e.id)
             assignment[e.id] = cluster_ids[root]
         return assignment

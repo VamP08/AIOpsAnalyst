@@ -19,3 +19,5 @@ corpus/data/
 
 node_modules/
 web/dist/
+eval/_sample_*.log
+eval/labeling.sqlite
