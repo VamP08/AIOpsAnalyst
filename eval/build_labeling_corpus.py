@@ -50,7 +50,7 @@ LOGS = [
      11, 3000),
 ]
 REPOS = ["huggingface/transformers", "vercel/next.js", "pytorch/pytorch",
-         "langchain-ai/langchain"]
+         "langchain-ai/langchain", "microsoft/vscode", "kubernetes/kubernetes"]
 ISSUES_PER_REPO = 15
 DAYS_BACK = 4
 
@@ -105,17 +105,25 @@ def write_snapshot(store: Store) -> None:
         indent=1), encoding="utf-8")
 
 
-def main(rebuild: bool) -> None:
-    if DB.exists() and not rebuild:
-        sys.exit(f"{DB.name} already exists — labels are tied to it. "
-                 f"Pass --rebuild only if you mean to discard them.")
-    if DB.exists():
+def main(argv: list[str]) -> None:
+    rebuild, extend = "--rebuild" in argv, "--extend" in argv
+    repos = REPOS
+    if "--repos" in argv:
+        repos = argv[argv.index("--repos") + 1].split(",")
+    if DB.exists() and not (rebuild or extend):
+        sys.exit(f"{DB.name} already exists - labels are tied to it. "
+                 f"Use --extend to add sources, or --rebuild to discard.")
+    labels = ROOT / "eval" / "labels.csv"
+    if rebuild and labels.exists():
+        sys.exit(f"refusing to rebuild: {labels.name} exists and its labels are "
+                 f"tied to this corpus. Move it aside first if you mean it.")
+    if DB.exists() and rebuild:
         DB.unlink()
     load_env(str(ROOT / ".env"))
 
     store = Store(str(DB))
     print("ingest:")
-    ingest(store)
+    ingest(store, repos, logs=[] if extend else LOGS)
     pipe = Pipeline(store, sources=[])
     print(f"cluster: {pipe.cluster()}", flush=True)
     print(f"clusters: {len(store.list_clusters())}")
@@ -125,7 +133,8 @@ def main(rebuild: bool) -> None:
 
     triaged = sum(1 for c in store.list_clusters()
                   if store.get_verdict(c["id"]))
-    print(f"\nready: {store.count_events()} events, "
+    print()
+    print(f"ready: {store.count_events()} events, "
           f"{len(store.list_clusters())} clusters, {triaged} with verdicts")
     print(f"label with: python eval/label.py {DB.relative_to(ROOT)} "
           f"eval/labels.csv")

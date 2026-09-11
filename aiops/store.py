@@ -65,7 +65,10 @@ _COLS = ("id", "source", "type", "time", "subject", "datacontenttype",
 
 class Store:
     def __init__(self, path: str):
-        self.db = sqlite3.connect(path)
+        # check_same_thread=False because the API serves reads from a thread
+        # pool while the pipeline writes from a CLI process; SQLite's own
+        # locking covers that, and the API never writes.
+        self.db = sqlite3.connect(path, check_same_thread=False)
         self.db.executescript(_SCHEMA)
 
     def insert_events(self, events) -> int:
