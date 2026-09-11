@@ -4,9 +4,10 @@ that produced it. The system turn is identical for every cluster (cacheable
 prefix); everything cluster-specific goes in the user turn.
 """
 from aiops.envelope import Event
+from aiops.textclean import strip_boilerplate
 from aiops.triage.schema import CATEGORIES, SEVERITIES
 
-PROMPT_VERSION = "1.0"
+PROMPT_VERSION = "1.1"   # 1.1: issue-template boilerplate stripped from bodies
 
 _SYSTEM = f"""You are a triage analyst. You are given one CLUSTER of similar \
 events from a production system (log template, GitHub issues, or alerts) with \
@@ -35,6 +36,6 @@ def build_messages(label: str, tier: str, samples: list[Event]) -> list[dict]:
     for event in samples:
         lines.append(f"- id={event.id} | {event.title}")
         if event.body:
-            lines.append(f"  {event.body[:400]}")
+            lines.append(f"  {strip_boilerplate(event.body)[:400]}")
     return [{"role": "system", "content": _SYSTEM},
             {"role": "user", "content": "\n".join(lines)}]

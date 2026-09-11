@@ -48,7 +48,7 @@ def test_triage_stores_validated_verdicts_with_provenance(tmp_path):
     assert verdict["category"] == "error"
     assert verdict["tier"] == "auto"          # 0.92 >= 0.9, severity medium
     assert verdict["model"] == "test-model"
-    assert verdict["promptversion"] == "1.0"
+    assert verdict["promptversion"] == "1.1"
     assert verdict["evidence"] == ["l1"]
     # cluster label and sample event titles reached the model
     user_turn = calls[0][1]["content"]

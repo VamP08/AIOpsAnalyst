@@ -15,7 +15,14 @@ even if the database is lost). Refuses to overwrite an existing database:
 rebuilding would renumber nothing, but it would change membership, and labels
 are only as good as the corpus they were made against.
 
-Usage: python eval/build_labeling_corpus.py [--rebuild]
+Cluster ids are content-derived, so the corpus can be grown later without
+invalidating labels already made: --extend adds sources to an existing database
+and triages only what has no verdict yet.
+
+Usage:
+  python eval/build_labeling_corpus.py
+  python eval/build_labeling_corpus.py --extend --repos microsoft/vscode,rust-lang/rust
+  python eval/build_labeling_corpus.py --rebuild        # discards labels' basis
 """
 import itertools
 import json
@@ -58,8 +65,8 @@ def sample_log(path: str, stride: int, keep: int) -> Path:
     return out
 
 
-def ingest(store: Store) -> None:
-    for path, fmt, source, stride, keep in LOGS:
+def ingest(store: Store, repos: list[str], logs=LOGS) -> None:
+    for path, fmt, source, stride, keep in logs:
         sample = sample_log(path, stride, keep)
         events = list(LogFileSource(path=str(sample), format=fmt,
                                     source=source).fetch())
@@ -67,7 +74,7 @@ def ingest(store: Store) -> None:
 
     since = (datetime.now(timezone.utc)
              - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    for repo in REPOS:
+    for repo in repos:
         events = list(itertools.islice(
             GitHubIssuesSource(repo=repo, max_pages=1).fetch(cursor=since),
             ISSUES_PER_REPO))
@@ -125,4 +132,4 @@ def main(rebuild: bool) -> None:
 
 
 if __name__ == "__main__":
-    main("--rebuild" in sys.argv)
+    main(sys.argv[1:])

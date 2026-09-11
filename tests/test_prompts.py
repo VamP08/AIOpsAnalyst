@@ -26,4 +26,15 @@ def test_system_prompt_is_stable_across_clusters():
 
 
 def test_prompt_version_is_stamped():
-    assert PROMPT_VERSION == "1.0"
+    assert PROMPT_VERSION == "1.1"
+
+
+def test_issue_template_boilerplate_never_reaches_the_model():
+    issue = Event(id="i1", source="g", type="com.github.issue",
+                  title="Middleware blocks the event loop",
+                  body="### Submission checklist\n- [x] This is a bug\n\n"
+                       "### Description\ncount_tokens runs synchronously")
+    user = build_messages("Middleware blocks the event loop", "prose",
+                          [issue])[1]["content"]
+    assert "[x]" not in user and "Submission checklist" not in user
+    assert "count_tokens runs synchronously" in user
