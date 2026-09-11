@@ -40,16 +40,18 @@ def show(store: Store, cluster: dict, done: int, total: int) -> None:
     for line in textwrap.wrap(cluster["label"], 70):
         print(f"  {line}")
     for event in store.events_in_cluster(cluster["id"], 3):
-        print()
+        block = []
         if event.title != cluster["label"]:
-            for line in textwrap.wrap(event.title, 68):
-                print(f"    {line}")
+            block += [f"    {line}" for line in textwrap.wrap(event.title, 68)]
         if event.body:
             body = " ".join(strip_boilerplate(event.body).split())[:280]
-            for line in textwrap.wrap(body, 66):
-                print(f"      {line}")
+            block += [f"      {line}" for line in textwrap.wrap(body, 66)]
         if event.url:
-            print(f"      {event.url}")
+            block.append(f"      {event.url}")
+        if block:                  # a template identical to its lines adds nothing
+            print()
+            for line in block:
+                print(line)
     print(f"\n  [1] crash   [2] error    [3] performance")
     print(f"  [4] feature_request   [5] question   [6] noise"
           f"        s=skip  q=quit")
