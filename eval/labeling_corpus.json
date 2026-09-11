@@ -1,0 +1,1978 @@
+{
+ "built": "2026-09-11",
+ "events": 5590,
+ "clusters": [
+  {
+   "id": "log-42d516bd6662",
+   "label": "Received disconnect from <*> 11: Bye Bye [preauth]",
+   "tier": "log",
+   "size": 762,
+   "samples": [
+    {
+     "id": "8de405c20f5b105abc7673d5",
+     "title": "Received disconnect from 112.95.230.3: 11: Bye Bye [preauth]",
+     "url": null
+    },
+    {
+     "id": "4c8eaf861c25dfede0b27b29",
+     "title": "Received disconnect from 112.95.230.3: 11: Bye Bye [preauth]",
+     "url": null
+    },
+    {
+     "id": "ea463117ff02a3b91d3d1453",
+     "title": "Received disconnect from 123.235.32.19: 11: Bye Bye [preauth]",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-c63d022fbece",
+   "label": "pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= <*> <*>",
+   "tier": "log",
+   "size": 690,
+   "samples": [
+    {
+     "id": "1aed84f6ecf08db76e7d0a9b",
+     "title": "pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=112.95.230.3  user=root",
+     "url": null
+    },
+    {
+     "id": "ed20a963737321e5f6715a14",
+     "title": "pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=112.95.230.3  user=root",
+     "url": null
+    },
+    {
+     "id": "3cd69e5ccc6faa32363ec575",
+     "title": "pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=112.95.230.3  user=root",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-6f1f8dab1047",
+   "label": "Failed password for <*> from <*> port <*> ssh2",
+   "tier": "log",
+   "size": 676,
+   "samples": [
+    {
+     "id": "bf873be097bc9e1a11fd0b02",
+     "title": "Failed password for root from 112.95.230.3 port 52660 ssh2",
+     "url": null
+    },
+    {
+     "id": "d4f1a3076bad784128947290",
+     "title": "Failed password for root from 112.95.230.3 port 58304 ssh2",
+     "url": null
+    },
+    {
+     "id": "a27b09046e1e13de5744f953",
+     "title": "Failed password for root from 112.95.230.3 port 45699 ssh2",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-a056711c16d1",
+   "label": "File does not exist: <*>",
+   "tier": "log",
+   "size": 672,
+   "samples": [
+    {
+     "id": "78a071dae38114a671ce03e8",
+     "title": "File does not exist: /var/www/html/sumthin",
+     "url": null
+    },
+    {
+     "id": "f6ebfb144593496d5cbbf4f7",
+     "title": "File does not exist: /var/www/html/sumthin",
+     "url": null
+    },
+    {
+     "id": "86cc3518ba45e2269552fa90",
+     "title": "File does not exist: /var/www/html/sumthin",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-e7d3bf8923cf",
+   "label": "jk2_init() Found child <*> in scoreboard slot <*>",
+   "tier": "log",
+   "size": 555,
+   "samples": [
+    {
+     "id": "31de97b57d584958829e77d0",
+     "title": "jk2_init() Found child 2333 in scoreboard slot 3",
+     "url": null
+    },
+    {
+     "id": "c8fd191a256afc124d47fe24",
+     "title": "jk2_init() Found child 2337 in scoreboard slot 1",
+     "url": null
+    },
+    {
+     "id": "a44a7919f4efded17d6b7126",
+     "title": "jk2_init() Found child 4256 in scoreboard slot 54",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-6c96f8ae4df4",
+   "label": "Directory index forbidden by rule: /var/www/html/",
+   "tier": "log",
+   "size": 480,
+   "samples": [
+    {
+     "id": "7b1df6b908a67b8591d4cce6",
+     "title": "Directory index forbidden by rule: /var/www/html/",
+     "url": null
+    },
+    {
+     "id": "73e3a5bb6631974610cf4034",
+     "title": "Directory index forbidden by rule: /var/www/html/",
+     "url": null
+    },
+    {
+     "id": "0c0c80fbc5aec4fecc63af92",
+     "title": "Directory index forbidden by rule: /var/www/html/",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-6bb08468c6fc",
+   "label": "workerEnv.init() ok /etc/httpd/conf/workers2.properties",
+   "tier": "log",
+   "size": 459,
+   "samples": [
+    {
+     "id": "f5970a41b3205ce522f729ee",
+     "title": "workerEnv.init() ok /etc/httpd/conf/workers2.properties",
+     "url": null
+    },
+    {
+     "id": "8709c3259dbaca02519f6d8c",
+     "title": "workerEnv.init() ok /etc/httpd/conf/workers2.properties",
+     "url": null
+    },
+    {
+     "id": "f439945138fdb3420cf76e7f",
+     "title": "workerEnv.init() ok /etc/httpd/conf/workers2.properties",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-91ff1c61c27a",
+   "label": "mod_jk child workerEnv in error state <*>",
+   "tier": "log",
+   "size": 404,
+   "samples": [
+    {
+     "id": "87eec605ab15c226464ded23",
+     "title": "mod_jk child workerEnv in error state 7",
+     "url": null
+    },
+    {
+     "id": "3bdd49f85f5ceea00dab3093",
+     "title": "mod_jk child workerEnv in error state 1",
+     "url": null
+    },
+    {
+     "id": "9d41405f7fd59d1a995cdf4c",
+     "title": "mod_jk child workerEnv in error state 3",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-10b839a8ef31",
+   "label": "script not found or unable to stat: <*>",
+   "tier": "log",
+   "size": 118,
+   "samples": [
+    {
+     "id": "3bc0f20bb995bc93b5997290",
+     "title": "script not found or unable to stat: /var/www/cgi-bin/awstats",
+     "url": null
+    },
+    {
+     "id": "ebf2dc2f8a8b06732a39b480",
+     "title": "script not found or unable to stat: /var/www/cgi-bin/awstats",
+     "url": null
+    },
+    {
+     "id": "299e01900cbe0d70819ee1c0",
+     "title": "script not found or unable to stat: /var/www/cgi-bin/awstats.pl",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-7d316d4174a2",
+   "label": "mod_jk child init 1 <*>",
+   "tier": "log",
+   "size": 94,
+   "samples": [
+    {
+     "id": "6f809f7b41c701d4164ddfad",
+     "title": "mod_jk child init 1 -2",
+     "url": null
+    },
+    {
+     "id": "d8748211da39297fa8ac11e7",
+     "title": "mod_jk child init 1 -2",
+     "url": null
+    },
+    {
+     "id": "da1de15befa09987eeaef017",
+     "title": "mod_jk child init 1 -2",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-18895615e7b0",
+   "label": "input_userauth_request: invalid user <*> [preauth]",
+   "tier": "log",
+   "size": 84,
+   "samples": [
+    {
+     "id": "8b3e11df0051e8096969c305",
+     "title": "input_userauth_request: invalid user webmaster [preauth]",
+     "url": null
+    },
+    {
+     "id": "10f9352a38a716c4926e4db4",
+     "title": "input_userauth_request: invalid user utsims [preauth]",
+     "url": null
+    },
+    {
+     "id": "00e9a54aca51bcc3d1d82f2f",
+     "title": "input_userauth_request: invalid user inspur [preauth]",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-f0ec08898890",
+   "label": "Failed password for invalid user <*> from <*> port <*> ssh2",
+   "tier": "log",
+   "size": 81,
+   "samples": [
+    {
+     "id": "debe2461289dcb9c72eab21e",
+     "title": "Failed password for invalid user chen from 202.100.179.208 port 32484 ssh2",
+     "url": null
+    },
+    {
+     "id": "419139e2af2c38caed0ee258",
+     "title": "Failed password for invalid user admin from 5.188.10.180 port 60682 ssh2",
+     "url": null
+    },
+    {
+     "id": "d59137376b18e4b75619499a",
+     "title": "Failed password for invalid user admin from 5.188.10.180 port 59647 ssh2",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-7c172cd4dc3c",
+   "label": "pam_unix(sshd:auth): check pass; user unknown",
+   "tier": "log",
+   "size": 80,
+   "samples": [
+    {
+     "id": "2ea9473613ce74a4255dffda",
+     "title": "pam_unix(sshd:auth): check pass; user unknown",
+     "url": null
+    },
+    {
+     "id": "a1f798a57bd2e50e09b9b2c2",
+     "title": "pam_unix(sshd:auth): check pass; user unknown",
+     "url": null
+    },
+    {
+     "id": "fb96ded2eface770abefe5c8",
+     "title": "pam_unix(sshd:auth): check pass; user unknown",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-83740503629b",
+   "label": "Invalid user <*> from <*>",
+   "tier": "log",
+   "size": 79,
+   "samples": [
+    {
+     "id": "088a576a4946e535f1c99d28",
+     "title": "Invalid user test9 from 52.80.34.196",
+     "url": null
+    },
+    {
+     "id": "f8920a8f91efa22d8b64773d",
+     "title": "Invalid user support from 103.207.39.165",
+     "url": null
+    },
+    {
+     "id": "e194626a4ec0bf8bcc392afc",
+     "title": "Invalid user default from 5.188.10.180",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-e6792d1d5f61",
+   "label": "mod_jk2 Shutting down",
+   "tier": "log",
+   "size": 72,
+   "samples": [
+    {
+     "id": "a558725d5fa4dd92cc0d2be7",
+     "title": "mod_jk2 Shutting down",
+     "url": null
+    },
+    {
+     "id": "d1532b72c527f927c93d2b88",
+     "title": "mod_jk2 Shutting down",
+     "url": null
+    },
+    {
+     "id": "2921a38b2f3871ac5ed42b4c",
+     "title": "mod_jk2 Shutting down",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-33489739d6b4",
+   "label": "jk2_init() Can't find child <*> in scoreboard",
+   "tier": "log",
+   "size": 58,
+   "samples": [
+    {
+     "id": "f3f0672cb686e5a531d399e8",
+     "title": "jk2_init() Can't find child 4211 in scoreboard",
+     "url": null
+    },
+    {
+     "id": "c4d4365b0cac18ba1926a717",
+     "title": "jk2_init() Can't find child 4225 in scoreboard",
+     "url": null
+    },
+    {
+     "id": "d77175301e558a09afc168cf",
+     "title": "jk2_init() Can't find child 4243 in scoreboard",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-e3c438ac55fb",
+   "label": "env.createBean2(): Factory error creating <*> ( <*> <*>",
+   "tier": "log",
+   "size": 20,
+   "samples": [
+    {
+     "id": "78d8a4ca6e26a1d526610e12",
+     "title": "env.createBean2(): Factory error creating worker.jni:onStartup ( worker.jni, onStartup)",
+     "url": null
+    },
+    {
+     "id": "b235b3f415ea6207f31e5e86",
+     "title": "env.createBean2(): Factory error creating channel.jni:jni ( channel.jni, jni)",
+     "url": null
+    },
+    {
+     "id": "f000a1eb8cc8fb7b405a6f1e",
+     "title": "env.createBean2(): Factory error creating worker.jni:onStartup ( worker.jni, onStartup)",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-4dc4143fa5df",
+   "label": "reverse mapping checking getaddrinfo for <*> <*> failed - POSSIBLE BREAK-IN ATTEMPT!",
+   "tier": "log",
+   "size": 15,
+   "samples": [
+    {
+     "id": "b12d05027c1ea3d3d58eb9d7",
+     "title": "reverse mapping checking getaddrinfo for ns.marryaldkfaczcz.com [173.234.31.186] failed - POSSIBLE BREAK-IN ATTEMPT!",
+     "url": null
+    },
+    {
+     "id": "6dff6ef68a585910d9648416",
+     "title": "reverse mapping checking getaddrinfo for customer-187-141-143-180-sta.uninet-ide.com.mx [187.141.143.180] failed - POSSIBLE BREAK-IN ATTEMPT!",
+     "url": null
+    },
+    {
+     "id": "bd6af37cc7033995f13b9043",
+     "title": "reverse mapping checking getaddrinfo for customer-187-141-143-180-sta.uninet-ide.com.mx [187.141.143.180] failed - POSSIBLE BREAK-IN ATTEMPT!",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-bb085d029b5a",
+   "label": "Connection closed by <*> [preauth]",
+   "tier": "log",
+   "size": 14,
+   "samples": [
+    {
+     "id": "eb5f37a89d0be04460fc93d2",
+     "title": "Connection closed by 194.190.163.22 [preauth]",
+     "url": null
+    },
+    {
+     "id": "7f37e0f9344bc8cf57b4d77d",
+     "title": "Connection closed by 5.188.10.180 [preauth]",
+     "url": null
+    },
+    {
+     "id": "5aa19e0970ac767e0cb1f90a",
+     "title": "Connection closed by 5.188.10.180 [preauth]",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-7a24056da615",
+   "label": "error: Received disconnect from 103.99.0.122: 14: No more user authentication methods available. [preauth]",
+   "tier": "log",
+   "size": 12,
+   "samples": [
+    {
+     "id": "62653ad63031177ba8fdd806",
+     "title": "error: Received disconnect from 103.99.0.122: 14: No more user authentication methods available. [preauth]",
+     "url": null
+    },
+    {
+     "id": "88be579119e362e95646604e",
+     "title": "error: Received disconnect from 103.99.0.122: 14: No more user authentication methods available. [preauth]",
+     "url": null
+    },
+    {
+     "id": "6a93ff1d51b1e31dbc6d1372",
+     "title": "error: Received disconnect from 103.99.0.122: 14: No more user authentication methods available. [preauth]",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-797bc18eec59",
+   "label": "child process <*> still did not exit, sending a SIGTERM",
+   "tier": "log",
+   "size": 10,
+   "samples": [
+    {
+     "id": "6f7c13838e0542c3a258c80a",
+     "title": "child process 18804 still did not exit, sending a SIGTERM",
+     "url": null
+    },
+    {
+     "id": "0a931eea12f5856d650d488b",
+     "title": "child process 18802 still did not exit, sending a SIGTERM",
+     "url": null
+    },
+    {
+     "id": "e5807e2f3e48924c32f157db",
+     "title": "child process 707 still did not exit, sending a SIGTERM",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-723127386610",
+   "label": "config.update(): Can't create <*>",
+   "tier": "log",
+   "size": 9,
+   "samples": [
+    {
+     "id": "38d176e621cc244d29f8d96d",
+     "title": "config.update(): Can't create worker.jni:onStartup",
+     "url": null
+    },
+    {
+     "id": "3b334c4e09165b0b6e862789",
+     "title": "config.update(): Can't create worker.jni:onStartup",
+     "url": null
+    },
+    {
+     "id": "d728b083af98b5f0bf6544e9",
+     "title": "config.update(): Can't create worker.jni:onStartup",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-0a8e7b4533f1",
+   "label": "Apache/2.0.49 (Fedora) configured -- resuming normal operations",
+   "tier": "log",
+   "size": 6,
+   "samples": [
+    {
+     "id": "3cbba2eccf05b6c4ad7cb9cf",
+     "title": "Apache/2.0.49 (Fedora) configured -- resuming normal operations",
+     "url": null
+    },
+    {
+     "id": "a7a03b1ac497fef02cb2df58",
+     "title": "Apache/2.0.49 (Fedora) configured -- resuming normal operations",
+     "url": null
+    },
+    {
+     "id": "1b55fb3dd2e4c9961e214f70",
+     "title": "Apache/2.0.49 (Fedora) configured -- resuming normal operations",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-3182ae8ec037",
+   "label": "attempt to invoke directory as script: /var/www/cgi-bin/",
+   "tier": "log",
+   "size": 6,
+   "samples": [
+    {
+     "id": "39f0d95c71e2f2e03ce9fe4a",
+     "title": "attempt to invoke directory as script: /var/www/cgi-bin/",
+     "url": null
+    },
+    {
+     "id": "5a65e6682dc2edb8c4ffd9f5",
+     "title": "attempt to invoke directory as script: /var/www/cgi-bin/",
+     "url": null
+    },
+    {
+     "id": "395e7722c1e21354491f57ea",
+     "title": "attempt to invoke directory as script: /var/www/cgi-bin/",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-35f26ad1634d",
+   "label": "LDAP: SSL support unavailable",
+   "tier": "log",
+   "size": 6,
+   "samples": [
+    {
+     "id": "f9d3d2346caa8d88b1040984",
+     "title": "LDAP: SSL support unavailable",
+     "url": null
+    },
+    {
+     "id": "7ac438cc7fa109dff232f356",
+     "title": "LDAP: SSL support unavailable",
+     "url": null
+    },
+    {
+     "id": "5cb6680b92a66c0997f27bc4",
+     "title": "LDAP: SSL support unavailable",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-a5de1a8d7a3c",
+   "label": "mod_python: Creating 32 session mutexes based on 150 max processes and 0 max threads.",
+   "tier": "log",
+   "size": 5,
+   "samples": [
+    {
+     "id": "79ec121abae634b2ca9ca6c8",
+     "title": "mod_python: Creating 32 session mutexes based on 150 max processes and 0 max threads.",
+     "url": null
+    },
+    {
+     "id": "9e35149359467b054029bf08",
+     "title": "mod_python: Creating 32 session mutexes based on 150 max processes and 0 max threads.",
+     "url": null
+    },
+    {
+     "id": "ab706b68fd7abd956b103974",
+     "title": "mod_python: Creating 32 session mutexes based on 150 max processes and 0 max threads.",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-e19771944886",
+   "label": "Digest: done",
+   "tier": "log",
+   "size": 5,
+   "samples": [
+    {
+     "id": "9216951e493554b22baf45d2",
+     "title": "Digest: done",
+     "url": null
+    },
+    {
+     "id": "1c452e1e9823266478ef095c",
+     "title": "Digest: done",
+     "url": null
+    },
+    {
+     "id": "aacd9d41611957f25116ab37",
+     "title": "Digest: done",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-2fe7564a32ff",
+   "label": "Graceful restart requested, doing restart",
+   "tier": "log",
+   "size": 4,
+   "samples": [
+    {
+     "id": "f2a2b645de817ed6663dccca",
+     "title": "Graceful restart requested, doing restart",
+     "url": null
+    },
+    {
+     "id": "26af80868e508f9f7d1b1a18",
+     "title": "Graceful restart requested, doing restart",
+     "url": null
+    },
+    {
+     "id": "025b3dae7a07f2bd4db998cb",
+     "title": "Graceful restart requested, doing restart",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-58a669d8cfb4",
+   "label": "LDAP: Built with OpenLDAP LDAP SDK",
+   "tier": "log",
+   "size": 4,
+   "samples": [
+    {
+     "id": "6dc511511b3f6a875ca63814",
+     "title": "LDAP: Built with OpenLDAP LDAP SDK",
+     "url": null
+    },
+    {
+     "id": "3a1d6ff324a08310e0e8411b",
+     "title": "LDAP: Built with OpenLDAP LDAP SDK",
+     "url": null
+    },
+    {
+     "id": "e58589230822fdbfe6f47170",
+     "title": "LDAP: Built with OpenLDAP LDAP SDK",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "prose-c592e5bc11cc",
+   "label": "`HumanInTheLoopMiddleware`: cross-tool edit bypasses the target tool's `interrupt_on` policy",
+   "tier": "prose",
+   "size": 4,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40166:2026-09-07T13:47:27Z",
+     "title": "`HumanInTheLoopMiddleware`: cross-tool edit bypasses the target tool's `interrupt_on` policy",
+     "url": "https://github.com/langchain-ai/langchain/issues/40166"
+    },
+    {
+     "id": "github:langchain-ai/langchain:40197:2026-09-07T16:52:54Z",
+     "title": "feat(langchain): add allow_list in ShellToolMiddleware",
+     "url": "https://github.com/langchain-ai/langchain/issues/40197"
+    },
+    {
+     "id": "github:langchain-ai/langchain:40236:2026-09-07T23:10:12Z",
+     "title": "Import time: langchain_core.runnables eagerly imports the langsmith SDK via tracer modules",
+     "url": "https://github.com/langchain-ai/langchain/issues/40236"
+    }
+   ]
+  },
+  {
+   "id": "log-05dd4b87c19b",
+   "label": "mod_security/1.9dev2 configured",
+   "tier": "log",
+   "size": 3,
+   "samples": [
+    {
+     "id": "a73d151c4b900da15dca9cb6",
+     "title": "mod_security/1.9dev2 configured",
+     "url": null
+    },
+    {
+     "id": "0036900108e896e37f1ab40e",
+     "title": "mod_security/1.9dev2 configured",
+     "url": null
+    },
+    {
+     "id": "a285e969f1b8afc73024f275",
+     "title": "mod_security/1.9dev2 configured",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-97e2c27d7cad",
+   "label": "Did not receive identification string from <*>",
+   "tier": "log",
+   "size": 3,
+   "samples": [
+    {
+     "id": "7d4dfdbbd7e89c1ee6afa769",
+     "title": "Did not receive identification string from 177.79.82.136",
+     "url": null
+    },
+    {
+     "id": "42b230f68c5ae777c6bb0e2d",
+     "title": "Did not receive identification string from 5.188.203.114",
+     "url": null
+    },
+    {
+     "id": "f2045e09bfea610e9bc81415",
+     "title": "Did not receive identification string from 103.207.37.82",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-983cdffd7ada",
+   "label": "request failed: error reading the headers",
+   "tier": "log",
+   "size": 3,
+   "samples": [
+    {
+     "id": "505922e4f11344a814d8b331",
+     "title": "request failed: error reading the headers",
+     "url": null
+    },
+    {
+     "id": "8e708ffd9a3b116cdf08d2b5",
+     "title": "request failed: error reading the headers",
+     "url": null
+    },
+    {
+     "id": "a93b50976fd2551b9883d2ad",
+     "title": "request failed: error reading the headers",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "prose-eb7db8306bf2",
+   "label": "torch.compile fails to trace iter() on list_reverseiterator",
+   "tier": "prose",
+   "size": 3,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196212:2026-09-07T10:48:40Z",
+     "title": "torch.compile fails to trace iter() on list_reverseiterator",
+     "url": "https://github.com/pytorch/pytorch/issues/196212"
+    },
+    {
+     "id": "github:pytorch/pytorch:196215:2026-09-07T11:31:18Z",
+     "title": "torch.compile(fullgraph=True) cannot capture a valid Python scalar returned by Tensor.storage_offset()",
+     "url": "https://github.com/pytorch/pytorch/issues/196215"
+    },
+    {
+     "id": "github:pytorch/pytorch:196219:2026-09-07T11:54:50Z",
+     "title": "TorchDynamo fails to trace three-argument pow() dispatch to user-defined __pow__",
+     "url": "https://github.com/pytorch/pytorch/issues/196219"
+    }
+   ]
+  },
+  {
+   "id": "log-7bd55878f1e5",
+   "label": "Invalid URI in request GET HTTP/1.1",
+   "tier": "log",
+   "size": 2,
+   "samples": [
+    {
+     "id": "b3376d59c072cc84c2089068",
+     "title": "Invalid URI in request GET  HTTP/1.1",
+     "url": null
+    },
+    {
+     "id": "c23b1ae4a907cfad9c1dac36",
+     "title": "Invalid URI in request GET  HTTP/1.1",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-c0f3346e61d9",
+   "label": "PAM service(sshd) ignoring max retries; 6 > 3",
+   "tier": "log",
+   "size": 2,
+   "samples": [
+    {
+     "id": "a8c23459daaf3c5fbe794a3b",
+     "title": "PAM service(sshd) ignoring max retries; 6 > 3",
+     "url": null
+    },
+    {
+     "id": "a8904fea70ccaf0d291360d1",
+     "title": "PAM service(sshd) ignoring max retries; 6 > 3",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-dd26cabb7f55",
+   "label": "uriMap.mapUri() uri must start with /",
+   "tier": "log",
+   "size": 2,
+   "samples": [
+    {
+     "id": "6e164b06fd905caabb7f3b63",
+     "title": "uriMap.mapUri() uri must start with /",
+     "url": null
+    },
+    {
+     "id": "8b45f371030a779eb13ae82f",
+     "title": "uriMap.mapUri() uri must start with /",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "prose-0413b4e9a158",
+   "label": "Wrong Content-Security-Policy header for serve-web",
+   "tier": "prose",
+   "size": 2,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334872:2026-09-07T09:35:51Z",
+     "title": "Wrong Content-Security-Policy header for serve-web",
+     "url": "https://github.com/microsoft/vscode/issues/334872"
+    },
+    {
+     "id": "github:microsoft/vscode:334875:2026-09-07T09:43:28Z",
+     "title": "VS Code 1.136: Copilot Editor Preview Features policy incorrectly hides native Claude Agent Host harness",
+     "url": "https://github.com/microsoft/vscode/issues/334875"
+    }
+   ]
+  },
+  {
+   "id": "log-53af717e6072",
+   "label": "suEXEC mechanism enabled (wrapper: /usr/sbin/suexec)",
+   "tier": "log",
+   "size": 1,
+   "samples": [
+    {
+     "id": "c9fb43d229c8fb6fdb027845",
+     "title": "suEXEC mechanism enabled (wrapper: /usr/sbin/suexec)",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-857b3b20f55b",
+   "label": "request failed: URI too long (longer than 8190)",
+   "tier": "log",
+   "size": 1,
+   "samples": [
+    {
+     "id": "d222f2da2a8bf9e184ba2de7",
+     "title": "request failed: URI too long (longer than 8190)",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-8d724bb547a6",
+   "label": "Digest: generating secret for digest authentication ...",
+   "tier": "log",
+   "size": 1,
+   "samples": [
+    {
+     "id": "0177acec708246fcfd308dd1",
+     "title": "Digest: generating secret for digest authentication ...",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-d8f7db6a524a",
+   "label": "Disconnecting: Too many authentication failures for root [preauth]",
+   "tier": "log",
+   "size": 1,
+   "samples": [
+    {
+     "id": "492bd1e729d1fd2e61266860",
+     "title": "Disconnecting: Too many authentication failures for root [preauth]",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "log-eb407e9e5ab7",
+   "label": "message repeated 5 times: [ Failed password for root from 219.156.124.234 port 33917 ssh2]",
+   "tier": "log",
+   "size": 1,
+   "samples": [
+    {
+     "id": "92f69fc2287985313bfb0494",
+     "title": "message repeated 5 times: [ Failed password for root from 219.156.124.234 port 33917 ssh2]",
+     "url": null
+    }
+   ]
+  },
+  {
+   "id": "prose-0279df661292",
+   "label": "Could not import module 'Qwen3_5ForCausalLM",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:46218:2026-09-07T11:56:48Z",
+     "title": "Could not import module 'Qwen3_5ForCausalLM",
+     "url": "https://github.com/huggingface/transformers/issues/46218"
+    }
+   ]
+  },
+  {
+   "id": "prose-03ad59d3de70",
+   "label": "[serge] integration failure triage - 2026-09-06",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48579:2026-09-07T22:10:55Z",
+     "title": "[serge] integration failure triage - 2026-09-06",
+     "url": "https://github.com/huggingface/transformers/issues/48579"
+    }
+   ]
+  },
+  {
+   "id": "prose-07b64c9f9b1f",
+   "label": "kubelet system-reserved unexpectedly sets memory.max in system-reserved-cgroup under systemd",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:128284:2026-09-07T22:03:47Z",
+     "title": "kubelet system-reserved unexpectedly sets memory.max in system-reserved-cgroup under systemd",
+     "url": "https://github.com/kubernetes/kubernetes/issues/128284"
+    }
+   ]
+  },
+  {
+   "id": "prose-08be6606ba60",
+   "label": "is_torchvision_available() uses find_spec, so a broken-but-installed torchvision is reported as available",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48559:2026-09-07T17:05:41Z",
+     "title": "is_torchvision_available() uses find_spec, so a broken-but-installed torchvision is reported as available",
+     "url": "https://github.com/huggingface/transformers/issues/48559"
+    }
+   ]
+  },
+  {
+   "id": "prose-0925269a1deb",
+   "label": "Test: Creating and running automations",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333367:2026-09-07T09:20:23Z",
+     "title": "Test: Creating and running automations",
+     "url": "https://github.com/microsoft/vscode/issues/333367"
+    }
+   ]
+  },
+  {
+   "id": "prose-0ddc01ce54c1",
+   "label": "`MCPAdapter` resume fails when a new initial call receives a new elicitation key",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40263:2026-09-07T13:15:21Z",
+     "title": "`MCPAdapter` resume fails when a new initial call receives a new elicitation key",
+     "url": "https://github.com/langchain-ai/langchain/issues/40263"
+    }
+   ]
+  },
+  {
+   "id": "prose-1275cae98181",
+   "label": "Issue handling problem: bug still in main, fix PR ignored, no one assigned",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334819:2026-09-07T09:22:58Z",
+     "title": "Issue handling problem: bug still in main, fix PR ignored, no one assigned",
+     "url": "https://github.com/microsoft/vscode/issues/334819"
+    }
+   ]
+  },
+  {
+   "id": "prose-1495b7e109aa",
+   "label": "Port-forward for UDP",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:47862:2026-09-07T16:18:50Z",
+     "title": "Port-forward for UDP",
+     "url": "https://github.com/kubernetes/kubernetes/issues/47862"
+    }
+   ]
+  },
+  {
+   "id": "prose-1b57615fbdba",
+   "label": "UI bug: \"Close other tabs\" instead of \"Close tab\"",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334802:2026-09-07T09:21:21Z",
+     "title": "UI bug: \"Close other tabs\" instead of \"Close tab\"",
+     "url": "https://github.com/microsoft/vscode/issues/334802"
+    }
+   ]
+  },
+  {
+   "id": "prose-21a1b8cfa805",
+   "label": "[client-go] add a pod-logs example",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:136035:2026-09-07T22:01:26Z",
+     "title": "[client-go] add a pod-logs example",
+     "url": "https://github.com/kubernetes/kubernetes/issues/136035"
+    }
+   ]
+  },
+  {
+   "id": "prose-234681285f0c",
+   "label": "client-go exec authentication plugin failures only report executable name and exit code",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:139150:2026-09-07T13:39:58Z",
+     "title": "client-go exec authentication plugin failures only report executable name and exit code",
+     "url": "https://github.com/kubernetes/kubernetes/issues/139150"
+    }
+   ]
+  },
+  {
+   "id": "prose-2948f9239953",
+   "label": "Copilot Autopilot (Preview) mode answers its own questions without waiting for user input",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:312107:2026-09-07T09:22:22Z",
+     "title": "Copilot Autopilot (Preview) mode answers its own questions without waiting for user input",
+     "url": "https://github.com/microsoft/vscode/issues/312107"
+    }
+   ]
+  },
+  {
+   "id": "prose-2bdbf3338ad8",
+   "label": "AutoProcessor.from_pretrained raises AttributeError: 'NoneType' object has no attribute '__module__' when torchvision is missing",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48556:2026-09-07T09:12:58Z",
+     "title": "AutoProcessor.from_pretrained raises AttributeError: 'NoneType' object has no attribute '__module__' when torchvision is missing",
+     "url": "https://github.com/huggingface/transformers/issues/48556"
+    }
+   ]
+  },
+  {
+   "id": "prose-2c54f837ed57",
+   "label": "React Spring on development server not working on initial load",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:70805:2026-09-07T12:13:56Z",
+     "title": "React Spring on development server not working on initial load",
+     "url": "https://github.com/vercel/next.js/issues/70805"
+    }
+   ]
+  },
+  {
+   "id": "prose-2d880825201b",
+   "label": "500 error instead of 404 when answering a POST request with form data",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:90090:2026-09-07T09:34:34Z",
+     "title": "500 error instead of 404 when answering a POST request with form data",
+     "url": "https://github.com/vercel/next.js/issues/90090"
+    }
+   ]
+  },
+  {
+   "id": "prose-328e2fdcbec2",
+   "label": "Feature Request: Support Canary Models",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:37098:2026-09-08T01:06:13Z",
+     "title": "Feature Request: Support Canary Models",
+     "url": "https://github.com/huggingface/transformers/issues/37098"
+    }
+   ]
+  },
+  {
+   "id": "prose-3c42722c3ff0",
+   "label": "IndexError in transformers chat when a generate flag is missing '=', and values containing '=' are silently truncated",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48588:2026-09-08T12:43:34Z",
+     "title": "IndexError in transformers chat when a generate flag is missing '=', and values containing '=' are silently truncated",
+     "url": "https://github.com/huggingface/transformers/issues/48588"
+    }
+   ]
+  },
+  {
+   "id": "prose-3e92c7940ae9",
+   "label": "DISABLED test_bmm_shared_a_numerics_cuda (__main__.AOTInductorTestABICompatibleGpu)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194554:2026-09-07T12:51:03Z",
+     "title": "DISABLED test_bmm_shared_a_numerics_cuda (__main__.AOTInductorTestABICompatibleGpu)",
+     "url": "https://github.com/pytorch/pytorch/issues/194554"
+    }
+   ]
+  },
+  {
+   "id": "prose-3ef4fb848f68",
+   "label": "[RFC] Public API for programmatic repro generation: torch.compiler.save_repro",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196186:2026-09-07T13:07:01Z",
+     "title": "[RFC] Public API for programmatic repro generation: torch.compiler.save_repro",
+     "url": "https://github.com/pytorch/pytorch/issues/196186"
+    }
+   ]
+  },
+  {
+   "id": "prose-40865ab55a29",
+   "label": "[ATen][Sparse] Empty CSR full reductions produce scalar values and an invalid sparse tensor",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196214:2026-09-07T11:30:31Z",
+     "title": "[ATen][Sparse] Empty CSR full reductions produce scalar values and an invalid sparse tensor",
+     "url": "https://github.com/pytorch/pytorch/issues/196214"
+    }
+   ]
+  },
+  {
+   "id": "prose-43e62601bfa9",
+   "label": "Expandable segments may trigger false \"Invalid __global__ write\" alarms under compute-sanitizer",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196209:2026-09-07T10:49:18Z",
+     "title": "Expandable segments may trigger false \"Invalid __global__ write\" alarms under compute-sanitizer",
+     "url": "https://github.com/pytorch/pytorch/issues/196209"
+    }
+   ]
+  },
+  {
+   "id": "prose-449c6573c95f",
+   "label": "[RFC] Zero-Copy In-Place MoE Dynamic Token Routing for Mixtral/DeepSeek (1.77x Speedup, 0 Bytes Aux VRAM)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48548:2026-09-07T14:46:36Z",
+     "title": "[RFC] Zero-Copy In-Place MoE Dynamic Token Routing for Mixtral/DeepSeek (1.77x Speedup, 0 Bytes Aux VRAM)",
+     "url": "https://github.com/huggingface/transformers/issues/48548"
+    }
+   ]
+  },
+  {
+   "id": "prose-44ac29c1afb7",
+   "label": "create_agent: the first `before_model` hook can return \"model\" but its path map omits it -> KeyError",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40136:2026-09-07T14:38:53Z",
+     "title": "create_agent: the first `before_model` hook can return \"model\" but its path map omits it -> KeyError",
+     "url": "https://github.com/langchain-ai/langchain/issues/40136"
+    }
+   ]
+  },
+  {
+   "id": "prose-46d01634266e",
+   "label": "Half Normal Log_Prob not defined for 0 ",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:54394:2026-09-07T11:03:07Z",
+     "title": "Half Normal Log_Prob not defined for 0 ",
+     "url": "https://github.com/pytorch/pytorch/issues/54394"
+    }
+   ]
+  },
+  {
+   "id": "prose-49d89c9899b7",
+   "label": "Agent Host: Automactially pick latest sdk version of @anthropic-ai/claude-agent-sdk or @openai/codex-sdk",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:332295:2026-09-07T09:48:41Z",
+     "title": "Agent Host: Automactially pick latest sdk version of @anthropic-ai/claude-agent-sdk or @openai/codex-sdk",
+     "url": "https://github.com/microsoft/vscode/issues/332295"
+    }
+   ]
+  },
+  {
+   "id": "prose-50c201912d32",
+   "label": "output export ssg generation for dynamic even with generateStaticParams id value is comming as %5Bslug%5D so page is not generated in build",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:65560:2026-09-07T12:14:04Z",
+     "title": "output export ssg generation for dynamic even with generateStaticParams id value is comming as %5Bslug%5D so page is not generated in build",
+     "url": "https://github.com/vercel/next.js/issues/65560"
+    }
+   ]
+  },
+  {
+   "id": "prose-5c4e27a6b463",
+   "label": "Dynamic Resource Allocation (DeviceClass/Device) is not supported on Windows nodes",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141841:2026-09-07T12:55:23Z",
+     "title": "Dynamic Resource Allocation (DeviceClass/Device) is not supported on Windows nodes",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141841"
+    }
+   ]
+  },
+  {
+   "id": "prose-5e79f5c2b173",
+   "label": "test flake: TestWebhookConverterWithWatchCache: wrong error on decode",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141909:2026-09-07T14:29:49Z",
+     "title": "test flake: TestWebhookConverterWithWatchCache: wrong error on decode",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141909"
+    }
+   ]
+  },
+  {
+   "id": "prose-5edd043497f5",
+   "label": "Test: Layout density in Customize Layout",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334474:2026-09-07T09:21:36Z",
+     "title": "Test: Layout density in Customize Layout",
+     "url": "https://github.com/microsoft/vscode/issues/334474"
+    }
+   ]
+  },
+  {
+   "id": "prose-6081b8e18796",
+   "label": "Feature: Structured compliance audit logging for EU AI Act (Article 12)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:35357:2026-09-08T05:50:23Z",
+     "title": "Feature: Structured compliance audit logging for EU AI Act (Article 12)",
+     "url": "https://github.com/langchain-ai/langchain/issues/35357"
+    }
+   ]
+  },
+  {
+   "id": "prose-643ac7310135",
+   "label": "TF: XLA generation not working properly in some models",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:17935:2026-09-07T21:15:51Z",
+     "title": "TF: XLA generation not working properly in some models",
+     "url": "https://github.com/huggingface/transformers/issues/17935"
+    }
+   ]
+  },
+  {
+   "id": "prose-67f2f754e6a2",
+   "label": "\"Intercepting routes\" feature not working in production",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:63076:2026-09-07T12:14:08Z",
+     "title": "\"Intercepting routes\" feature not working in production",
+     "url": "https://github.com/vercel/next.js/issues/63076"
+    }
+   ]
+  },
+  {
+   "id": "prose-6d0df478cbdd",
+   "label": "torch.compile crashes with InternalTorchDynamoError when an OrderedDict is mutated concurrently",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196208:2026-09-07T10:49:57Z",
+     "title": "torch.compile crashes with InternalTorchDynamoError when an OrderedDict is mutated concurrently",
+     "url": "https://github.com/pytorch/pytorch/issues/196208"
+    }
+   ]
+  },
+  {
+   "id": "prose-70187ceeb2c7",
+   "label": "When using `redirect` in Route Handler, it doesn't respect `baseUrl`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:85267:2026-09-07T12:14:26Z",
+     "title": "When using `redirect` in Route Handler, it doesn't respect `baseUrl`",
+     "url": "https://github.com/vercel/next.js/issues/85267"
+    }
+   ]
+  },
+  {
+   "id": "prose-7124fc93b5e5",
+   "label": "MetalConfig quantization: batched generate silently corrupts all rows after the first \u2014 affine_qmm_t computes only batch element 0 of 3D inputs (verified, one-line fix)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47331:2026-09-07T12:56:40Z",
+     "title": "MetalConfig quantization: batched generate silently corrupts all rows after the first \u2014 affine_qmm_t computes only batch element 0 of 3D inputs (verified, one-line fix)",
+     "url": "https://github.com/huggingface/transformers/issues/47331"
+    }
+   ]
+  },
+  {
+   "id": "prose-77a201d157fa",
+   "label": "PIIMiddleware does not detect email, IP or MAC addresses adjacent to non-ASCII text",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40002:2026-09-07T20:25:41Z",
+     "title": "PIIMiddleware does not detect email, IP or MAC addresses adjacent to non-ASCII text",
+     "url": "https://github.com/langchain-ai/langchain/issues/40002"
+    }
+   ]
+  },
+  {
+   "id": "prose-7a481dde2fc9",
+   "label": "Nextjs not displaying images github-pages",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:81259:2026-09-07T12:14:11Z",
+     "title": "Nextjs not displaying images github-pages",
+     "url": "https://github.com/vercel/next.js/issues/81259"
+    }
+   ]
+  },
+  {
+   "id": "prose-7c416e6b02a2",
+   "label": "ContextEditingMiddleware blocks the event loop with model-based token counting",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40261:2026-09-08T05:54:51Z",
+     "title": "ContextEditingMiddleware blocks the event loop with model-based token counting",
+     "url": "https://github.com/langchain-ai/langchain/issues/40261"
+    }
+   ]
+  },
+  {
+   "id": "prose-859a6f8049ed",
+   "label": "kube-apiserver exits on startup when a nodeport repair reconcile error lands inside the 60s PostStartHook window",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141220:2026-09-07T16:01:06Z",
+     "title": "kube-apiserver exits on startup when a nodeport repair reconcile error lands inside the 60s PostStartHook window",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141220"
+    }
+   ]
+  },
+  {
+   "id": "prose-85cc44a71f72",
+   "label": "ImageGarbageCollect when ImageMaximumGCAge is set should not GC unused images prematurely consistently timing out",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141806:2026-09-07T21:20:42Z",
+     "title": "ImageGarbageCollect when ImageMaximumGCAge is set should not GC unused images prematurely consistently timing out",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141806"
+    }
+   ]
+  },
+  {
+   "id": "prose-89cb1dc8355a",
+   "label": "Test: Chat file icon mask alignment",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334484:2026-09-07T09:12:38Z",
+     "title": "Test: Chat file icon mask alignment",
+     "url": "https://github.com/microsoft/vscode/issues/334484"
+    }
+   ]
+  },
+  {
+   "id": "prose-8a7a81f8b2f3",
+   "label": "Using the latest version of Torch, when the code executes tcpstore, there is no response",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:104510:2026-09-07T11:28:03Z",
+     "title": "Using the latest version of Torch, when the code executes tcpstore, there is no response",
+     "url": "https://github.com/pytorch/pytorch/issues/104510"
+    }
+   ]
+  },
+  {
+   "id": "prose-8d568ab378ca",
+   "label": "Third-party script synchronous loading Hydration problem",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:69478:2026-09-07T12:13:58Z",
+     "title": "Third-party script synchronous loading Hydration problem",
+     "url": "https://github.com/vercel/next.js/issues/69478"
+    }
+   ]
+  },
+  {
+   "id": "prose-90f8d644efb2",
+   "label": "TypeError: The \"payload\" argument must be of type object. Received null when using ImageResponse",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:76407:2026-09-07T12:14:20Z",
+     "title": "TypeError: The \"payload\" argument must be of type object. Received null when using ImageResponse",
+     "url": "https://github.com/vercel/next.js/issues/76407"
+    }
+   ]
+  },
+  {
+   "id": "prose-974bdb471e2a",
+   "label": "DISABLED test_codegen_structure_parallel_matmuls (__main__.TestUserStreamCompile)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194332:2026-09-07T12:50:58Z",
+     "title": "DISABLED test_codegen_structure_parallel_matmuls (__main__.TestUserStreamCompile)",
+     "url": "https://github.com/pytorch/pytorch/issues/194332"
+    }
+   ]
+  },
+  {
+   "id": "prose-a2915b35f719",
+   "label": "Docs: Docs show multiple default.js file used for parallel routes, but never explain why",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:58796:2026-09-07T12:14:17Z",
+     "title": "Docs: Docs show multiple default.js file used for parallel routes, but never explain why",
+     "url": "https://github.com/vercel/next.js/issues/58796"
+    }
+   ]
+  },
+  {
+   "id": "prose-a9792d1fc239",
+   "label": "Test: Agents Window header and tab alignment",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334475:2026-09-07T09:39:52Z",
+     "title": "Test: Agents Window header and tab alignment",
+     "url": "https://github.com/microsoft/vscode/issues/334475"
+    }
+   ]
+  },
+  {
+   "id": "prose-acafa3bd5f01",
+   "label": "release.yml's 'make tests' silently runs nothing for the langchain (langchain_v1) package",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40272:2026-09-07T22:12:42Z",
+     "title": "release.yml's 'make tests' silently runs nothing for the langchain (langchain_v1) package",
+     "url": "https://github.com/langchain-ai/langchain/issues/40272"
+    }
+   ]
+  },
+  {
+   "id": "prose-b061203f9226",
+   "label": "lDay_5_Lisys:334",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334866:2026-09-07T09:39:17Z",
+     "title": "lDay_5_Lisys:334",
+     "url": "https://github.com/microsoft/vscode/issues/334866"
+    }
+   ]
+  },
+  {
+   "id": "prose-b36be57c5ab6",
+   "label": "core: SSRF-safe transports drop streaming request bodies and crash on internationalized hostnames",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40278:2026-09-08T08:57:07Z",
+     "title": "core: SSRF-safe transports drop streaming request bodies and crash on internationalized hostnames",
+     "url": "https://github.com/langchain-ai/langchain/issues/40278"
+    }
+   ]
+  },
+  {
+   "id": "prose-b6e87932c4ae",
+   "label": "PIIMiddleware: email TLD character class contains a literal `|`, swallowing pipe-delimited neighbouring text",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40270:2026-09-07T20:27:15Z",
+     "title": "PIIMiddleware: email TLD character class contains a literal `|`, swallowing pipe-delimited neighbouring text",
+     "url": "https://github.com/langchain-ai/langchain/issues/40270"
+    }
+   ]
+  },
+  {
+   "id": "prose-bb4f9dbac00e",
+   "label": "`torch.cumsum` drops the sign of IEEE `-0.0` on CPU (CUDA and NumPy preserve it)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:195851:2026-09-07T09:25:45Z",
+     "title": "`torch.cumsum` drops the sign of IEEE `-0.0` on CPU (CUDA and NumPy preserve it)",
+     "url": "https://github.com/pytorch/pytorch/issues/195851"
+    }
+   ]
+  },
+  {
+   "id": "prose-bbcd2367853a",
+   "label": "Webpack Errors from Middleware Imports",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:67260:2026-09-07T12:13:47Z",
+     "title": "Webpack Errors from Middleware Imports",
+     "url": "https://github.com/vercel/next.js/issues/67260"
+    }
+   ]
+  },
+  {
+   "id": "prose-beea4478d0d8",
+   "label": "setAssetPrefix not work in custom server",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:71557:2026-09-07T12:14:01Z",
+     "title": "setAssetPrefix not work in custom server",
+     "url": "https://github.com/vercel/next.js/issues/71557"
+    }
+   ]
+  },
+  {
+   "id": "prose-c012016f10c5",
+   "label": "validateQualifiedName / resourcesQualifiedName silently accept names with more than one slash (e.g. \"a/b/c\")",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141869:2026-09-07T12:45:22Z",
+     "title": "validateQualifiedName / resourcesQualifiedName silently accept names with more than one slash (e.g. \"a/b/c\")",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141869"
+    }
+   ]
+  },
+  {
+   "id": "prose-c3eaa8f5b7c6",
+   "label": "DRA: AllocationMode All errors for incomplete or invalid pools are not per-node failures",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141829:2026-09-07T12:56:18Z",
+     "title": "DRA: AllocationMode All errors for incomplete or invalid pools are not per-node failures",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141829"
+    }
+   ]
+  },
+  {
+   "id": "prose-c48287c33aa5",
+   "label": "BarthezTokenizer cannot load moussaKam/barthez: v4.57 \u2192 v5 regression, BPE vocab into a hardcoded Unigram",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48567:2026-09-07T11:00:24Z",
+     "title": "BarthezTokenizer cannot load moussaKam/barthez: v4.57 \u2192 v5 regression, BPE vocab into a hardcoded Unigram",
+     "url": "https://github.com/huggingface/transformers/issues/48567"
+    }
+   ]
+  },
+  {
+   "id": "prose-c68f67915736",
+   "label": "\u4f18\u5316 npu_swiglu_forward\uff1a\u62fc\u63a5\u6295\u5f71\u6743\u91cd\u800c\u4e0d\u662f\u62fc\u63a5\u6fc0\u6d3b\u4ee5\u964d\u4f4e\u5185\u5b58\u5e76\u63d0\u5347 NPU \u6027\u80fd",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48609:2026-09-08T04:10:00Z",
+     "title": "\u4f18\u5316 npu_swiglu_forward\uff1a\u62fc\u63a5\u6295\u5f71\u6743\u91cd\u800c\u4e0d\u662f\u62fc\u63a5\u6fc0\u6d3b\u4ee5\u964d\u4f4e\u5185\u5b58\u5e76\u63d0\u5347 NPU \u6027\u80fd",
+     "url": "https://github.com/huggingface/transformers/issues/48609"
+    }
+   ]
+  },
+  {
+   "id": "prose-cbb4a7a2d3b4",
+   "label": "openai: invalid_tool_calls in additional_kwargs duplicated across streaming usage chunks",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40027:2026-09-07T23:51:52Z",
+     "title": "openai: invalid_tool_calls in additional_kwargs duplicated across streaming usage chunks",
+     "url": "https://github.com/langchain-ai/langchain/issues/40027"
+    }
+   ]
+  },
+  {
+   "id": "prose-cc7b47439ab6",
+   "label": "NVFP4 MoE experts are dequantized without weight_global_scale, silently",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48371:2026-09-08T11:23:17Z",
+     "title": "NVFP4 MoE experts are dequantized without weight_global_scale, silently",
+     "url": "https://github.com/huggingface/transformers/issues/48371"
+    }
+   ]
+  },
+  {
+   "id": "prose-ce040670dacf",
+   "label": "Next Font: {randomlowercaseletter}.default / {randomlowercaseletter}.{name of a google font} is not a function",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:70580:2026-09-07T12:14:23Z",
+     "title": "Next Font: {randomlowercaseletter}.default / {randomlowercaseletter}.{name of a google font} is not a function",
+     "url": "https://github.com/vercel/next.js/issues/70580"
+    }
+   ]
+  },
+  {
+   "id": "prose-d8504fe7103a",
+   "label": "\u5efa\u8bae\uff1a\u652f\u6301The agent engineering platform.\uff0c\u9002\u914d\u65e0\u4eba\u96f6\u552e/IoT\u573a\u666f",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40273:2026-09-08T02:17:20Z",
+     "title": "\u5efa\u8bae\uff1a\u652f\u6301The agent engineering platform.\uff0c\u9002\u914d\u65e0\u4eba\u96f6\u552e/IoT\u573a\u666f",
+     "url": "https://github.com/langchain-ai/langchain/issues/40273"
+    }
+   ]
+  },
+  {
+   "id": "prose-da2c8f88d37e",
+   "label": "\"don't require a load balancer between cluster and control plane and still be HA\"",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:18174:2026-09-07T14:32:00Z",
+     "title": "\"don't require a load balancer between cluster and control plane and still be HA\"",
+     "url": "https://github.com/kubernetes/kubernetes/issues/18174"
+    }
+   ]
+  },
+  {
+   "id": "prose-dd52512bb2fc",
+   "label": "Left-side panel size",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:268624:2026-09-07T09:16:40Z",
+     "title": "Left-side panel size",
+     "url": "https://github.com/microsoft/vscode/issues/268624"
+    }
+   ]
+  },
+  {
+   "id": "prose-e13f3c0e71a1",
+   "label": "Custom nn.Parameter initialization in PreTrainedModel subclasses is overwritten by post_init()/from_pretrained() causing NaNs/Zeros",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:42418:2026-09-07T17:27:12Z",
+     "title": "Custom nn.Parameter initialization in PreTrainedModel subclasses is overwritten by post_init()/from_pretrained() causing NaNs/Zeros",
+     "url": "https://github.com/huggingface/transformers/issues/42418"
+    }
+   ]
+  },
+  {
+   "id": "prose-e508fba15be5",
+   "label": "Hydration error on refresh",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:50329:2026-09-07T12:13:52Z",
+     "title": "Hydration error on refresh",
+     "url": "https://github.com/vercel/next.js/issues/50329"
+    }
+   ]
+  },
+  {
+   "id": "prose-e5642bb8b42a",
+   "label": "4.52.2 \u62a5\u9519Could not import module 'Qwen3ForCausalLM'",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:38291:2026-09-07T11:56:19Z",
+     "title": "4.52.2 \u62a5\u9519Could not import module 'Qwen3ForCausalLM'",
+     "url": "https://github.com/huggingface/transformers/issues/38291"
+    }
+   ]
+  },
+  {
+   "id": "prose-e5d9d45377c8",
+   "label": "Support returning SymInt beyond constant integer in torch.cond",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196207:2026-09-07T09:19:07Z",
+     "title": "Support returning SymInt beyond constant integer in torch.cond",
+     "url": "https://github.com/pytorch/pytorch/issues/196207"
+    }
+   ]
+  },
+  {
+   "id": "prose-e893d873adc4",
+   "label": "Avoiding prompt injection using special tokens via `apply_chat_template`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:29279:2026-09-07T23:59:48Z",
+     "title": "Avoiding prompt injection using special tokens via `apply_chat_template`",
+     "url": "https://github.com/huggingface/transformers/issues/29279"
+    }
+   ]
+  },
+  {
+   "id": "prose-e91dac89e2e2",
+   "label": "Cannot rewrite to external URL when basePath option is defined in next.config.js contains a hyphen",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:74431:2026-09-07T12:13:49Z",
+     "title": "Cannot rewrite to external URL when basePath option is defined in next.config.js contains a hyphen",
+     "url": "https://github.com/vercel/next.js/issues/74431"
+    }
+   ]
+  },
+  {
+   "id": "prose-ea0d137c0a4f",
+   "label": "DRA: List Types for Attributes - limit `includes` CEL function to just the `attributes[x]` target",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:137901:2026-09-08T06:47:52Z",
+     "title": "DRA: List Types for Attributes - limit `includes` CEL function to just the `attributes[x]` target",
+     "url": "https://github.com/kubernetes/kubernetes/issues/137901"
+    }
+   ]
+  },
+  {
+   "id": "prose-eb2c9167eaac",
+   "label": "[Scheduler] Redundant async preemption with already-deleted victim leaves preemptor stuck in unschedulable pool until 5-min flush",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141694:2026-09-08T05:24:12Z",
+     "title": "[Scheduler] Redundant async preemption with already-deleted victim leaves preemptor stuck in unschedulable pool until 5-min flush",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141694"
+    }
+   ]
+  },
+  {
+   "id": "prose-f0d7485098d9",
+   "label": "Issue: pnpm unpack-next fails on Windows due to POSIX-quoted tar paths",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:87833:2026-09-07T12:14:14Z",
+     "title": "Issue: pnpm unpack-next fails on Windows due to POSIX-quoted tar paths",
+     "url": "https://github.com/vercel/next.js/issues/87833"
+    }
+   ]
+  },
+  {
+   "id": "prose-f23218d4a034",
+   "label": "MCP servers are stopped immediately after tool discovery (and mid-initialize) since 1.129 - kills stateful servers (1.128 OK, 1.130/1.131 broken)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:327970:2026-09-07T09:13:24Z",
+     "title": "MCP servers are stopped immediately after tool discovery (and mid-initialize) since 1.129 - kills stateful servers (1.128 OK, 1.130/1.131 broken)",
+     "url": "https://github.com/microsoft/vscode/issues/327970"
+    }
+   ]
+  },
+  {
+   "id": "prose-f2f4b810d230",
+   "label": "PIIMiddleware: detect_url returns overlapping spans for a URL nested in a query string, corrupting redacted text",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40269:2026-09-07T20:23:56Z",
+     "title": "PIIMiddleware: detect_url returns overlapping spans for a URL nested in a query string, corrupting redacted text",
+     "url": "https://github.com/langchain-ai/langchain/issues/40269"
+    }
+   ]
+  },
+  {
+   "id": "prose-f46f0548eee5",
+   "label": "Make native scheduling workload-aware",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:132192:2026-09-07T09:24:26Z",
+     "title": "Make native scheduling workload-aware",
+     "url": "https://github.com/kubernetes/kubernetes/issues/132192"
+    }
+   ]
+  },
+  {
+   "id": "prose-f5a7322f9915",
+   "label": "Prompt editor does not show auto-complete for skills/slash commands",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333660:2026-09-07T09:20:22Z",
+     "title": "Prompt editor does not show auto-complete for skills/slash commands",
+     "url": "https://github.com/microsoft/vscode/issues/333660"
+    }
+   ]
+  },
+  {
+   "id": "prose-f8765cdd19d3",
+   "label": "[GITHUB] How is it possible to reopen a closed pull request?",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:196218:2026-09-07T11:39:35Z",
+     "title": "[GITHUB] How is it possible to reopen a closed pull request?",
+     "url": "https://github.com/pytorch/pytorch/issues/196218"
+    }
+   ]
+  },
+  {
+   "id": "prose-f95f58fa811f",
+   "label": "Implement new backup solution with 99.9% reliability target",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334858:2026-09-07T09:39:05Z",
+     "title": "Implement new backup solution with 99.9% reliability target",
+     "url": "https://github.com/microsoft/vscode/issues/334858"
+    }
+   ]
+  },
+  {
+   "id": "prose-fa7335ab8bca",
+   "label": "[Feature][Scheduler] PodGroup/CompositePodGroup scheduling failure diagnosis is insufficient for debugging",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141025:2026-09-07T09:08:14Z",
+     "title": "[Feature][Scheduler] PodGroup/CompositePodGroup scheduling failure diagnosis is insufficient for debugging",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141025"
+    }
+   ]
+  },
+  {
+   "id": "prose-ff661d2e3f75",
+   "label": "Feature Request: Locally Connected Layer",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:499:2026-09-07T12:55:04Z",
+     "title": "Feature Request: Locally Connected Layer",
+     "url": "https://github.com/pytorch/pytorch/issues/499"
+    }
+   ]
+  }
+ ]
+}

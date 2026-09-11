@@ -19,3 +19,27 @@ def cohens_kappa(a: list[str], b: list[str]) -> float:
     if pe == 1.0:
         return 1.0 if po == 1.0 else 0.0
     return (po - pe) / (1 - pe)
+
+
+def kappa_ci(a: list[str], b: list[str], confidence: float = 0.95,
+             resamples: int = 2000, seed: int = 0) -> tuple[float, float]:
+    """Percentile bootstrap interval for kappa.
+
+    A kappa from 34 pairs and one from 340 deserve different amounts of trust,
+    and a point estimate hides that. Resampling the pairs with replacement
+    shows how much of the number is the sample. Seeded, so a published interval
+    can be reproduced.
+    """
+    import random
+
+    rng = random.Random(seed)
+    n = len(a)
+    draws = []
+    for _ in range(resamples):
+        picks = [rng.randrange(n) for _ in range(n)]
+        draws.append(cohens_kappa([a[i] for i in picks], [b[i] for i in picks]))
+    draws.sort()
+    tail = (1 - confidence) / 2
+    low = draws[int(tail * resamples)]
+    high = draws[min(int((1 - tail) * resamples), resamples - 1)]
+    return round(low, 3), round(high, 3)

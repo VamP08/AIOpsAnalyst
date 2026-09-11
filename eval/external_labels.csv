@@ -1,0 +1,35 @@
+clusterid,category,source_labels,url,size
+prose-0279df661292,defect,bug,https://github.com/huggingface/transformers/issues/46218,1
+prose-0ddc01ce54c1,defect,bug;external;langchain,https://github.com/langchain-ai/langchain/issues/40263,1
+prose-1495b7e109aa,feature_request,area/kubectl;kind/feature;lifecycle/frozen;priority/important-longterm;sig/cli;sig/node;triage/accepted,https://github.com/kubernetes/kubernetes/issues/47862,1
+prose-234681285f0c,feature_request,area/usability;kind/feature;sig/auth;triage/accepted,https://github.com/kubernetes/kubernetes/issues/139150,1
+prose-2c54f837ed57,defect,bug;locked,https://github.com/vercel/next.js/issues/70805,1
+prose-328e2fdcbec2,feature_request,Feature request,https://github.com/huggingface/transformers/issues/37098,1
+prose-3c42722c3ff0,defect,bug,https://github.com/huggingface/transformers/issues/48588,1
+prose-3ef4fb848f68,feature_request,bot-triaged;feature;module: minifier;oncall: pt2;triaged,https://github.com/pytorch/pytorch/issues/196186,1
+prose-449c6573c95f,feature_request,Feature request,https://github.com/huggingface/transformers/issues/48548,1
+prose-44ac29c1afb7,defect,bug;external;langchain,https://github.com/langchain-ai/langchain/issues/40136,1
+prose-50c201912d32,defect,bug;locked,https://github.com/vercel/next.js/issues/65560,1
+prose-5c4e27a6b463,feature_request,kind/feature;needs-triage;sig/node;sig/windows;wg/device-management,https://github.com/kubernetes/kubernetes/issues/141841,1
+prose-67f2f754e6a2,defect,bug;locked,https://github.com/vercel/next.js/issues/63076,1
+prose-77a201d157fa,defect,bug;external;langchain,https://github.com/langchain-ai/langchain/issues/40002,1
+prose-7c416e6b02a2,defect,bug;external;langchain,https://github.com/langchain-ai/langchain/issues/40261,1
+prose-859a6f8049ed,defect,kind/bug;sig/api-machinery;sig/network;triage/accepted,https://github.com/kubernetes/kubernetes/issues/141220,1
+prose-8d568ab378ca,defect,Script (next/script);bug;locked,https://github.com/vercel/next.js/issues/69478,1
+prose-b36be57c5ab6,defect,bug;core;external,https://github.com/langchain-ai/langchain/issues/40278,1
+prose-bbcd2367853a,defect,Middleware;Webpack;bug;locked,https://github.com/vercel/next.js/issues/67260,1
+prose-beea4478d0d8,defect,bug;locked,https://github.com/vercel/next.js/issues/71557,1
+prose-c012016f10c5,defect,kind/bug;needs-triage;sig/api-machinery,https://github.com/kubernetes/kubernetes/issues/141869,1
+prose-c3eaa8f5b7c6,defect,kind/bug;priority/important-longterm;sig/node;triage/accepted;wg/device-management,https://github.com/kubernetes/kubernetes/issues/141829,1
+prose-c48287c33aa5,defect,bug,https://github.com/huggingface/transformers/issues/48567,1
+prose-cbb4a7a2d3b4,defect,bug;external;openai,https://github.com/langchain-ai/langchain/issues/40027,1
+prose-da2c8f88d37e,feature_request,area/HA;area/kube-proxy;area/kubelet;help wanted;kind/api-change;kind/feature;lifecycle/frozen;priority/backlog;sig/api-machinery;sig/network;sig/node;triage/accepted,https://github.com/kubernetes/kubernetes/issues/18174,1
+prose-dd52512bb2fc,defect,bug;layout,https://github.com/microsoft/vscode/issues/268624,1
+prose-e508fba15be5,defect,bug;locked,https://github.com/vercel/next.js/issues/50329,1
+prose-e5642bb8b42a,defect,bug,https://github.com/huggingface/transformers/issues/38291,1
+prose-e893d873adc4,feature_request,Feature request,https://github.com/huggingface/transformers/issues/29279,1
+prose-eb7db8306bf2,feature_request,bot-triaged;enhancement;module: dynamo;oncall: pt2;triaged,https://github.com/pytorch/pytorch/issues/196212,3
+prose-f23218d4a034,defect,agent-host-mitigated;bug;insiders-released;mcp;verification-steps-needed,https://github.com/microsoft/vscode/issues/327970,1
+prose-f46f0548eee5,feature_request,kind/feature;priority/important-longterm;sig/scheduling;triage/accepted,https://github.com/kubernetes/kubernetes/issues/132192,1
+prose-fa7335ab8bca,feature_request,kind/feature;needs-triage;sig/scheduling,https://github.com/kubernetes/kubernetes/issues/141025,1
+prose-ff661d2e3f75,feature_request,Stale;feature;module: nn;proposal accepted;triaged,https://github.com/pytorch/pytorch/issues/499,1

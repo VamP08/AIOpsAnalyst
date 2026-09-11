@@ -76,7 +76,7 @@ def ingest(store: Store, repos: list[str], logs=LOGS) -> None:
              - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%dT%H:%M:%SZ")
     for repo in repos:
         events = list(itertools.islice(
-            GitHubIssuesSource(repo=repo, max_pages=1).fetch(cursor=since),
+            GitHubIssuesSource(repo=repo, max_pages=4).fetch(cursor=since),
             ISSUES_PER_REPO))
         print(f"  {repo}: {store.insert_events(events)} issues")
 
@@ -110,6 +110,11 @@ def main(argv: list[str]) -> None:
     repos = REPOS
     if "--repos" in argv:
         repos = argv[argv.index("--repos") + 1].split(",")
+    global ISSUES_PER_REPO, DAYS_BACK
+    if "--per-repo" in argv:
+        ISSUES_PER_REPO = int(argv[argv.index("--per-repo") + 1])
+    if "--days" in argv:
+        DAYS_BACK = int(argv[argv.index("--days") + 1])
     if DB.exists() and not (rebuild or extend):
         sys.exit(f"{DB.name} already exists - labels are tied to it. "
                  f"Use --extend to add sources, or --rebuild to discard.")

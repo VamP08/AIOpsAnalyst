@@ -1,0 +1,56 @@
+{
+ "pairs": 34,
+ "raw_agreement": 0.882,
+ "cohens_kappa": 0.749,
+ "kappa_ci95": [
+  0.506,
+  0.939
+ ],
+ "per_category": {
+  "defect": {
+   "support": 22,
+   "precision": 0.913,
+   "recall": 0.955
+  },
+  "performance": {
+   "support": 0,
+   "precision": null,
+   "recall": null
+  },
+  "feature_request": {
+   "support": 12,
+   "precision": 1.0,
+   "recall": 0.75
+  },
+  "question": {
+   "support": 0,
+   "precision": 0.0,
+   "recall": null
+  },
+  "noise": {
+   "support": 0,
+   "precision": null,
+   "recall": null
+  }
+ },
+ "confusions": {
+  "feature_request -> defect": 2,
+  "defect -> question": 1,
+  "feature_request -> question": 1
+ },
+ "taxonomy": [
+  "defect",
+  "performance",
+  "feature_request",
+  "question",
+  "noise"
+ ],
+ "prompt_versions": [
+  "1.1"
+ ],
+ "models": {
+  "openai/gpt-oss-120b": 9,
+  "qwen/qwen3.8-27b": 25
+ },
+ "reference": "maintainer labels (collapsed taxonomy)"
+}
