@@ -1,0 +1,1 @@
+{"events":85830,"clusters":380,"triaged":380,"compression":225.9,"by_tier":{"auto":316,"suggest":53,"abstain":6,"escalate":5},"by_category":{"noise":57,"error":212,"crash":10,"feature_request":76,"question":14,"performance":11},"by_source":{"log":91,"prose":289},"tickets":24,"generated":"2026-09-29 00:09 UTC"}
