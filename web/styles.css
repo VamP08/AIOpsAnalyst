@@ -90,3 +90,5 @@ aside dd { margin: 0; word-break: break-word; }
 }
 .paste button:hover { border-color: var(--faint); }
 .paste .out { margin-top: 10px; color: var(--dim); }
+.faint { color: var(--faint); }
+.dim { color: var(--dim); }
