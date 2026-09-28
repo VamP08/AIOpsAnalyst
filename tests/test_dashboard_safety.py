@@ -23,4 +23,4 @@ def test_urls_are_scheme_checked_before_reaching_an_href():
 
 def test_tier_and_ticket_values_are_validated_before_use():
     assert 'TIERS = new Set(["auto", "suggest", "escalate", "abstain"])' in APP
-    assert "TICKET = /^[A-Z][A-Z0-9]*-\d+$/" in APP
+    assert r"TICKET = /^[A-Z][A-Z0-9]*-\d+$/" in APP
