@@ -33,3 +33,19 @@ def test_tally_counts_the_four_outcomes_at_line_level():
 def test_tally_on_an_empty_corpus_is_all_zero():
     assert tally([]) == {"alert_surfaced": 0, "alert_missed": 0,
                          "routine_surfaced": 0, "routine_suppressed": 0}
+
+
+def test_cluster_view_counts_what_a_responder_actually_reads():
+    from bgl_report import cluster_view
+    clusters = [
+        {"category": "error", "alerts": 474, "lines": 474},
+        {"category": "crash", "alerts": 91, "lines": 91},
+        {"category": "noise", "alerts": 0, "lines": 65454},
+        {"category": "error", "alerts": 0, "lines": 4737},
+        {"category": None, "alerts": 2, "lines": 10},
+    ]
+    view = cluster_view(clusters)
+    assert view["clusters"] == 5
+    assert view["surfaced"] == 3            # two error + one crash
+    assert view["alert_bearing"] == 3
+    assert view["alert_bearing_surfaced"] == 2   # the untriaged one is not shown

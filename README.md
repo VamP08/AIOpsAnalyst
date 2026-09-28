@@ -46,6 +46,35 @@ warn about. The number to quote is the one with the larger sample, and it sits
 at the bottom edge of the "substantial" band, so the rubric has work left in it.
 The set grows by harvesting more labelled issues, not by labelling more myself.
 
+**Against the alert labels that Lawrence Livermore's operations staff applied to
+their own supercomputer logs** (the BGL dataset, published with Oliner and
+Stearley, DSN 2007), 80,000 lines:
+
+| | |
+|---|---|
+| operator-flagged alert lines | 566 |
+| alerts surfaced | 566 &mdash; **recall 1.00**, none missed |
+| routine lines suppressed as noise | 73,564 of 79,434 (**92.6%**) |
+| clusters a responder reads | **22**, down from 80,000 lines |
+| incident types preserved | **3 of 3** clusters carrying operator alerts are surfaced |
+| line-level precision | 0.088 |
+| line-level kappa | 0.151 (95% CI 0.140 - 0.161) |
+
+Full scorecard: [`eval/scorecard-bgl.json`](eval/scorecard-bgl.json).
+
+The two views disagree and the disagreement is the finding. Nothing that the
+operators flagged is lost, and the reading pile drops from eighty thousand lines
+to twenty-two clusters. Line-level precision is nevertheless 0.088, because
+5,870 routine lines sit in clusters this system calls failures - `4,737 x
+double-hummer alignment exception`, for one. Those are real failed operations by
+this taxonomy and routine events by the operators', who flag hardware and kernel
+incidents and ignore recoverable exceptions. That is a taxonomy mismatch rather
+than a mistake in either direction, and it is why the cluster view is reported
+next to the line view instead of in place of it.
+
+The label never reaches the model: the parser keeps it in the event's attributes
+and the prompt is built from the title and body, which a test asserts.
+
 Rules the numbers follow: labels are made blind to the model's verdicts;
 agreement is computed before any prompt change; every verdict stores the prompt
 version and the model that answered, and a mixed-version comparison is discarded
@@ -131,8 +160,8 @@ conda activate aiopsanalyst
 pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
-pytest                        # 138 tests
-uvicorn server.app:app        # /api/stats, /api/clusters, /api/triage
+pytest                        # 158 tests
+uvicorn server.app:app        # dashboard on http://127.0.0.1:8000
 ```
 
 `AIOPS_DB` points the API at a store. LLM providers are tried in order and any

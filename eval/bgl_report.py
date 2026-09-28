@@ -52,6 +52,38 @@ def tally(lines: list[tuple[str, str | None]]) -> dict[str, int]:
     return counts
 
 
+def cluster_view(clusters: list[dict]) -> dict:
+    """What a responder actually reads. Line counts flatter or punish a system
+    depending on how large its clusters are; the screen shows clusters."""
+    shown = [c for c in clusters if surfaced(c["category"])]
+    bearing = [c for c in clusters if c["alerts"] > 0]
+    return {
+        "clusters": len(clusters),
+        "surfaced": len(shown),
+        "alert_bearing": len(bearing),
+        "alert_bearing_surfaced": len([c for c in bearing
+                                       if surfaced(c["category"])]),
+    }
+
+
+def collect_clusters(store: Store) -> list[dict]:
+    out = []
+    for cluster in store.list_clusters():
+        events = [e for e in store.events_in_cluster(cluster["id"], 10_000)
+                  if e.source == BGL_SOURCE]
+        if not events:
+            continue
+        verdict = store.get_verdict(cluster["id"]) or {}
+        out.append({
+            "label": cluster["label"],
+            "category": verdict.get("category"),
+            "lines": len(events),
+            "alerts": sum(is_alert(e.attributes.get("bgl_label", "-"))
+                          for e in events),
+        })
+    return out
+
+
 def collect(store: Store) -> list[tuple[str, str | None]]:
     category_of = {c["id"]: (store.get_verdict(c["id"]) or {}).get("category")
                    for c in store.list_clusters()}
@@ -82,7 +114,9 @@ def report(lines: list[tuple[str, str | None]]) -> dict:
 
 
 def main(db_path: str, json_out: str | None) -> None:
-    card = report(collect(Store(db_path)))
+    store = Store(db_path)
+    card = report(collect(store))
+    card["by_cluster"] = cluster_view(collect_clusters(store))
     if not card["lines"]:
         print("no BGL events in this store")
         return
@@ -99,6 +133,13 @@ def main(db_path: str, json_out: str | None) -> None:
     print(f"precision on surfaced: {card['alert_precision']}")
     print(f"cohen's kappa        : {card['cohens_kappa']} "
           f"(95% CI {card['kappa_ci95'][0]} to {card['kappa_ci95'][1]})")
+    view = card["by_cluster"]
+    print()
+    print(f"clusters             : {view['clusters']} "
+          f"({view['surfaced']} surfaced, the rest suppressed as noise)")
+    print(f"incident types found : {view['alert_bearing_surfaced']}"
+          f"/{view['alert_bearing']} clusters carrying operator alerts "
+          f"are surfaced")
     if json_out:
         Path(json_out).write_text(json.dumps(card, indent=1), encoding="utf-8")
         print(f"\nwrote {json_out}")
