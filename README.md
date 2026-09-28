@@ -1,5 +1,9 @@
 # AIOpsAnalyst
 
+**[ai-ops-analyst.vercel.app](https://ai-ops-analyst.vercel.app/)** &mdash; a real
+incident replayed from its own timestamps, both scorecards, the tickets it filed,
+and what it triaged in the last day.
+
 One triage pipeline for every event stream. Server logs, GitHub issues and
 alerts go in; deduplicated clusters with a category, a severity, a confidence
 and an evidence trail come out, and a policy table decides what happens to each
