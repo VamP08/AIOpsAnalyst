@@ -1,6 +1,6 @@
 {
  "built": "2026-09-11",
- "events": 5590,
+ "events": 5830,
  "clusters": [
   {
    "id": "log-42d516bd6662",
@@ -371,6 +371,29 @@
    ]
   },
   {
+   "id": "prose-0ddc01ce54c1",
+   "label": "`MCPAdapter` resume fails when a new initial call receives a new elicitation key",
+   "tier": "prose",
+   "size": 25,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40263:2026-09-07T13:15:21Z",
+     "title": "`MCPAdapter` resume fails when a new initial call receives a new elicitation key",
+     "url": "https://github.com/langchain-ai/langchain/issues/40263"
+    },
+    {
+     "id": "github:langchain-ai/langchain:40166:2026-09-07T13:47:27Z",
+     "title": "`HumanInTheLoopMiddleware`: cross-tool edit bypasses the target tool's `interrupt_on` policy",
+     "url": "https://github.com/langchain-ai/langchain/issues/40166"
+    },
+    {
+     "id": "github:langchain-ai/langchain:40197:2026-09-07T16:52:54Z",
+     "title": "feat(langchain): add allow_list in ShellToolMiddleware",
+     "url": "https://github.com/langchain-ai/langchain/issues/40197"
+    }
+   ]
+  },
+  {
    "id": "log-e3c438ac55fb",
    "label": "env.createBean2(): Factory error creating <*> ( <*> <*>",
    "tier": "log",
@@ -505,6 +528,29 @@
      "id": "d728b083af98b5f0bf6544e9",
      "title": "config.update(): Can't create worker.jni:onStartup",
      "url": null
+    }
+   ]
+  },
+  {
+   "id": "prose-1b57615fbdba",
+   "label": "UI bug: \"Close other tabs\" instead of \"Close tab\"",
+   "tier": "prose",
+   "size": 9,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:334802:2026-09-07T09:21:21Z",
+     "title": "UI bug: \"Close other tabs\" instead of \"Close tab\"",
+     "url": "https://github.com/microsoft/vscode/issues/334802"
+    },
+    {
+     "id": "github:microsoft/vscode:334872:2026-09-07T09:35:51Z",
+     "title": "Wrong Content-Security-Policy header for serve-web",
+     "url": "https://github.com/microsoft/vscode/issues/334872"
+    },
+    {
+     "id": "github:microsoft/vscode:334875:2026-09-07T09:43:28Z",
+     "title": "VS Code 1.136: Copilot Editor Preview Features policy incorrectly hides native Claude Agent Host harness",
+     "url": "https://github.com/microsoft/vscode/issues/334875"
     }
    ]
   },
@@ -670,25 +716,48 @@
    ]
   },
   {
-   "id": "prose-c592e5bc11cc",
-   "label": "`HumanInTheLoopMiddleware`: cross-tool edit bypasses the target tool's `interrupt_on` policy",
+   "id": "prose-03ad59d3de70",
+   "label": "[serge] integration failure triage - 2026-09-06",
    "tier": "prose",
    "size": 4,
    "samples": [
     {
-     "id": "github:langchain-ai/langchain:40166:2026-09-07T13:47:27Z",
-     "title": "`HumanInTheLoopMiddleware`: cross-tool edit bypasses the target tool's `interrupt_on` policy",
-     "url": "https://github.com/langchain-ai/langchain/issues/40166"
+     "id": "github:huggingface/transformers:48579:2026-09-07T22:10:55Z",
+     "title": "[serge] integration failure triage - 2026-09-06",
+     "url": "https://github.com/huggingface/transformers/issues/48579"
     },
     {
-     "id": "github:langchain-ai/langchain:40197:2026-09-07T16:52:54Z",
-     "title": "feat(langchain): add allow_list in ShellToolMiddleware",
-     "url": "https://github.com/langchain-ai/langchain/issues/40197"
+     "id": "github:huggingface/transformers:48413:2026-08-30T22:11:44Z",
+     "title": "[serge] integration failure triage - 2026-08-29",
+     "url": "https://github.com/huggingface/transformers/issues/48413"
     },
     {
-     "id": "github:langchain-ai/langchain:40236:2026-09-07T23:10:12Z",
-     "title": "Import time: langchain_core.runnables eagerly imports the langsmith SDK via tracer modules",
-     "url": "https://github.com/langchain-ai/langchain/issues/40236"
+     "id": "github:huggingface/transformers:48422:2026-08-31T06:20:59Z",
+     "title": "[serge] integration failure triage - 2026-08-30",
+     "url": "https://github.com/huggingface/transformers/issues/48422"
+    }
+   ]
+  },
+  {
+   "id": "prose-5135cd8eabf6",
+   "label": "FilesystemFileSearchMiddleware returns Windows separators in virtual paths",
+   "tier": "prose",
+   "size": 4,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40059:2026-08-31T14:54:51Z",
+     "title": "FilesystemFileSearchMiddleware returns Windows separators in virtual paths",
+     "url": "https://github.com/langchain-ai/langchain/issues/40059"
+    },
+    {
+     "id": "github:langchain-ai/langchain:40060:2026-08-31T14:55:24Z",
+     "title": "Filesystem Claude middleware rejects allowed nested paths on Windows",
+     "url": "https://github.com/langchain-ai/langchain/issues/40060"
+    },
+    {
+     "id": "github:langchain-ai/langchain:40062:2026-09-01T07:25:49Z",
+     "title": "FilesystemFileSearchMiddleware returns Windows separators in virtual paths",
+     "url": "https://github.com/langchain-ai/langchain/issues/40062"
     }
    ]
   },
@@ -758,6 +827,29 @@
      "id": "a93b50976fd2551b9883d2ad",
      "title": "request failed: error reading the headers",
      "url": null
+    }
+   ]
+  },
+  {
+   "id": "prose-974bdb471e2a",
+   "label": "DISABLED test_codegen_structure_parallel_matmuls (__main__.TestUserStreamCompile)",
+   "tier": "prose",
+   "size": 3,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194332:2026-09-07T12:50:58Z",
+     "title": "DISABLED test_codegen_structure_parallel_matmuls (__main__.TestUserStreamCompile)",
+     "url": "https://github.com/pytorch/pytorch/issues/194332"
+    },
+    {
+     "id": "github:pytorch/pytorch:195389:2026-08-31T07:02:07Z",
+     "title": "DISABLED test_nll_loss_backward_1d_input_dynamic_shapes_mps (__main__.DynamicShapesGPUTests)",
+     "url": "https://github.com/pytorch/pytorch/issues/195389"
+    },
+    {
+     "id": "github:pytorch/pytorch:195391:2026-08-31T07:02:08Z",
+     "title": "DISABLED test_nll_loss_backward_1d_input_mps (__main__.GPUTests)",
+     "url": "https://github.com/pytorch/pytorch/issues/195391"
     }
    ]
   },
@@ -839,20 +931,56 @@
    ]
   },
   {
-   "id": "prose-0413b4e9a158",
-   "label": "Wrong Content-Security-Policy header for serve-web",
+   "id": "prose-0bd2895303e5",
+   "label": "core: repeated non-empty `name` in tool call chunk deltas gets duplicated when merging (`merge_dicts` concatenation)",
    "tier": "prose",
    "size": 2,
    "samples": [
     {
-     "id": "github:microsoft/vscode:334872:2026-09-07T09:35:51Z",
-     "title": "Wrong Content-Security-Policy header for serve-web",
-     "url": "https://github.com/microsoft/vscode/issues/334872"
+     "id": "github:langchain-ai/langchain:40041:2026-08-30T18:19:50Z",
+     "title": "core: repeated non-empty `name` in tool call chunk deltas gets duplicated when merging (`merge_dicts` concatenation)",
+     "url": "https://github.com/langchain-ai/langchain/issues/40041"
     },
     {
-     "id": "github:microsoft/vscode:334875:2026-09-07T09:43:28Z",
-     "title": "VS Code 1.136: Copilot Editor Preview Features policy incorrectly hides native Claude Agent Host harness",
-     "url": "https://github.com/microsoft/vscode/issues/334875"
+     "id": "github:langchain-ai/langchain:40044:2026-08-31T04:57:49Z",
+     "title": "core: repeated non-empty `name` in tool call chunk deltas gets duplicated when merging (`merge_dicts` concatenation)",
+     "url": "https://github.com/langchain-ai/langchain/issues/40044"
+    }
+   ]
+  },
+  {
+   "id": "prose-77a201d157fa",
+   "label": "PIIMiddleware does not detect email, IP or MAC addresses adjacent to non-ASCII text",
+   "tier": "prose",
+   "size": 2,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40002:2026-09-07T20:25:41Z",
+     "title": "PIIMiddleware does not detect email, IP or MAC addresses adjacent to non-ASCII text",
+     "url": "https://github.com/langchain-ai/langchain/issues/40002"
+    },
+    {
+     "id": "github:langchain-ai/langchain:39842:2026-08-31T11:19:04Z",
+     "title": "PIIMiddleware `ip` type does not detect IPv6 addresses",
+     "url": "https://github.com/langchain-ai/langchain/issues/39842"
+    }
+   ]
+  },
+  {
+   "id": "prose-87d7c50f0640",
+   "label": "[CPU] inductor::resize_storage_bytes_ leaves tensor metadata larger than its storage",
+   "tier": "prose",
+   "size": 2,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194054:2026-08-30T14:34:37Z",
+     "title": "[CPU] inductor::resize_storage_bytes_ leaves tensor metadata larger than its storage",
+     "url": "https://github.com/pytorch/pytorch/issues/194054"
+    },
+    {
+     "id": "github:pytorch/pytorch:194053:2026-08-30T14:34:38Z",
+     "title": "[CPU] inductor::_alloc_from_pool creates out-of-bounds views from unchecked byte offsets",
+     "url": "https://github.com/pytorch/pytorch/issues/194053"
     }
    ]
   },
@@ -922,6 +1050,32 @@
    ]
   },
   {
+   "id": "prose-004c7f3e8ae7",
+   "label": "Script with beforeInteractive not executing on notFound route",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:46825:2026-08-31T01:40:16Z",
+     "title": "Script with beforeInteractive not executing on notFound route",
+     "url": "https://github.com/vercel/next.js/issues/46825"
+    }
+   ]
+  },
+  {
+   "id": "prose-007a35ba2f6d",
+   "label": "OpenTelemetry Tracing is poluted with some extra spans from middlewares",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:67737:2026-08-31T01:44:16Z",
+     "title": "OpenTelemetry Tracing is poluted with some extra spans from middlewares",
+     "url": "https://github.com/vercel/next.js/issues/67737"
+    }
+   ]
+  },
+  {
    "id": "prose-0279df661292",
    "label": "Could not import module 'Qwen3_5ForCausalLM",
    "tier": "prose",
@@ -935,15 +1089,106 @@
    ]
   },
   {
-   "id": "prose-03ad59d3de70",
-   "label": "[serge] integration failure triage - 2026-09-06",
+   "id": "prose-0280fe264df8",
+   "label": "CSS @import doesn't work on remote URL when imported from another file",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:huggingface/transformers:48579:2026-09-07T22:10:55Z",
-     "title": "[serge] integration failure triage - 2026-09-06",
-     "url": "https://github.com/huggingface/transformers/issues/48579"
+     "id": "github:vercel/next.js:59330:2026-08-31T01:41:42Z",
+     "title": "CSS @import doesn't work on remote URL when imported from another file",
+     "url": "https://github.com/vercel/next.js/issues/59330"
+    }
+   ]
+  },
+  {
+   "id": "prose-028b4b7667fc",
+   "label": "Multiprocessing doesn't preserve data sharing of storage slices",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:46:2026-08-30T11:00:27Z",
+     "title": "Multiprocessing doesn't preserve data sharing of storage slices",
+     "url": "https://github.com/pytorch/pytorch/issues/46"
+    }
+   ]
+  },
+  {
+   "id": "prose-028ffffa882b",
+   "label": "Duplication of CSS rules",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:42082:2026-08-31T01:26:11Z",
+     "title": "Duplication of CSS rules",
+     "url": "https://github.com/vercel/next.js/issues/42082"
+    }
+   ]
+  },
+  {
+   "id": "prose-04115f40f407",
+   "label": "General MPS op coverage tracking issue",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:77764:2026-08-31T03:28:40Z",
+     "title": "General MPS op coverage tracking issue",
+     "url": "https://github.com/pytorch/pytorch/issues/77764"
+    }
+   ]
+  },
+  {
+   "id": "prose-04730f05781d",
+   "label": "Audit all APIs for selector fields, ensure documented semantics when nil or empty.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:25836:2026-09-02T01:10:16Z",
+     "title": "Audit all APIs for selector fields, ensure documented semantics when nil or empty.",
+     "url": "https://github.com/kubernetes/kubernetes/issues/25836"
+    }
+   ]
+  },
+  {
+   "id": "prose-04ed1a43f219",
+   "label": "Question about overriding bnb_4bit_compute_dtype for pre-quantized checkpoints",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47378:2026-09-01T08:04:00Z",
+     "title": "Question about overriding bnb_4bit_compute_dtype for pre-quantized checkpoints",
+     "url": "https://github.com/huggingface/transformers/issues/47378"
+    }
+   ]
+  },
+  {
+   "id": "prose-05a97b6f7983",
+   "label": "Cross-site `assetPrefix` makes Chrome 139+ delay execution of every chunk script",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:97531:2026-08-31T00:48:19Z",
+     "title": "Cross-site `assetPrefix` makes Chrome 139+ delay execution of every chunk script",
+     "url": "https://github.com/vercel/next.js/issues/97531"
+    }
+   ]
+  },
+  {
+   "id": "prose-0656d4797359",
+   "label": "Link triggers full root layout rerender in production build / static export",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:64882:2026-08-31T01:42:42Z",
+     "title": "Link triggers full root layout rerender in production build / static export",
+     "url": "https://github.com/vercel/next.js/issues/64882"
     }
    ]
   },
@@ -957,6 +1202,32 @@
      "id": "github:kubernetes/kubernetes:128284:2026-09-07T22:03:47Z",
      "title": "kubelet system-reserved unexpectedly sets memory.max in system-reserved-cgroup under systemd",
      "url": "https://github.com/kubernetes/kubernetes/issues/128284"
+    }
+   ]
+  },
+  {
+   "id": "prose-081f1be50b2f",
+   "label": "Non-deterministic gradients when using torch.compile and PyTorch >= 2.12",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:188890:2026-08-31T05:27:42Z",
+     "title": "Non-deterministic gradients when using torch.compile and PyTorch >= 2.12",
+     "url": "https://github.com/pytorch/pytorch/issues/188890"
+    }
+   ]
+  },
+  {
+   "id": "prose-0845161ed39d",
+   "label": "`<Link />` and `redirect` navigation causes route handler being called twice",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:72909:2026-08-31T00:45:08Z",
+     "title": "`<Link />` and `redirect` navigation causes route handler being called twice",
+     "url": "https://github.com/vercel/next.js/issues/72909"
     }
    ]
   },
@@ -987,15 +1258,145 @@
    ]
   },
   {
-   "id": "prose-0ddc01ce54c1",
-   "label": "`MCPAdapter` resume fails when a new initial call receives a new elicitation key",
+   "id": "prose-0b1dd7d97614",
+   "label": "[Failing Test] [sig-auth] Projected PodCertificate conformance test cannot bind port 443 under Restricted Linux settings",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:langchain-ai/langchain:40263:2026-09-07T13:15:21Z",
-     "title": "`MCPAdapter` resume fails when a new initial call receives a new elicitation key",
-     "url": "https://github.com/langchain-ai/langchain/issues/40263"
+     "id": "github:kubernetes/kubernetes:141749:2026-09-02T03:09:54Z",
+     "title": "[Failing Test] [sig-auth] Projected PodCertificate conformance test cannot bind port 443 under Restricted Linux settings",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141749"
+    }
+   ]
+  },
+  {
+   "id": "prose-0d68a6e8aa1d",
+   "label": "Arbitrary Code Execution in PyTorch via `torch.package.PackageImporter.load_pickle`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194694:2026-08-31T06:09:34Z",
+     "title": "Arbitrary Code Execution in PyTorch via `torch.package.PackageImporter.load_pickle`",
+     "url": "https://github.com/pytorch/pytorch/issues/194694"
+    }
+   ]
+  },
+  {
+   "id": "prose-0d99ad6fab89",
+   "label": "Using notFound() with ISR pages can result in large number of generated server files with no way to delete",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:96581:2026-08-31T00:45:38Z",
+     "title": "Using notFound() with ISR pages can result in large number of generated server files with no way to delete",
+     "url": "https://github.com/vercel/next.js/issues/96581"
+    }
+   ]
+  },
+  {
+   "id": "prose-0dacb997daf8",
+   "label": "runtimeServerDeploymentId: prerendered flight payloads pin the build-time deployment id \u2014 serving a build under a different deployment id causes an infinite MPA reload loop",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:98078:2026-08-30T11:46:22Z",
+     "title": "runtimeServerDeploymentId: prerendered flight payloads pin the build-time deployment id \u2014 serving a build under a different deployment id causes an infinite MPA reload loop",
+     "url": "https://github.com/vercel/next.js/issues/98078"
+    }
+   ]
+  },
+  {
+   "id": "prose-0ff9dfe632aa",
+   "label": "save/load CUDA tensor always puts it on device 0",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:30:2026-08-30T10:18:47Z",
+     "title": "save/load CUDA tensor always puts it on device 0",
+     "url": "https://github.com/pytorch/pytorch/issues/30"
+    }
+   ]
+  },
+  {
+   "id": "prose-1076186b746f",
+   "label": "PodTopologySpread silently ignores the constraint when `labelSelector` is an empty (non-nil) object `{}`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141339:2026-09-01T11:48:22Z",
+     "title": "PodTopologySpread silently ignores the constraint when `labelSelector` is an empty (non-nil) object `{}`",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141339"
+    }
+   ]
+  },
+  {
+   "id": "prose-10de7a2cd8d0",
+   "label": "Add Talkie (talkie-1930-13b)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47618:2026-09-02T07:01:56Z",
+     "title": "Add Talkie (talkie-1930-13b)",
+     "url": "https://github.com/huggingface/transformers/issues/47618"
+    }
+   ]
+  },
+  {
+   "id": "prose-10e09949eeb9",
+   "label": "[inductor] int64 scatter_ (reduce=None) on GPU devices falls back without deterministic algorithms, unlike index_put_",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194187:2026-08-30T10:52:27Z",
+     "title": "[inductor] int64 scatter_ (reduce=None) on GPU devices falls back without deterministic algorithms, unlike index_put_",
+     "url": "https://github.com/pytorch/pytorch/issues/194187"
+    }
+   ]
+  },
+  {
+   "id": "prose-10ee01e2420d",
+   "label": "Ernie-M for pretraining multilingual models",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:22257:2026-08-31T21:02:17Z",
+     "title": "Ernie-M for pretraining multilingual models",
+     "url": "https://github.com/huggingface/transformers/issues/22257"
+    }
+   ]
+  },
+  {
+   "id": "prose-11617af3a8af",
+   "label": "\ud83c\udf10 [i18n-KO] Translating docs to Korean",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:20179:2026-09-02T00:54:19Z",
+     "title": "\ud83c\udf10 [i18n-KO] Translating docs to Korean",
+     "url": "https://github.com/huggingface/transformers/issues/20179"
+    }
+   ]
+  },
+  {
+   "id": "prose-120dbdbd0c00",
+   "label": "`modeling_qwen3_vl.py` performed D2H makes cpu wait gpu",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47649:2026-08-30T17:29:52Z",
+     "title": "`modeling_qwen3_vl.py` performed D2H makes cpu wait gpu",
+     "url": "https://github.com/huggingface/transformers/issues/47649"
     }
    ]
   },
@@ -1013,6 +1414,58 @@
    ]
   },
   {
+   "id": "prose-12ffc1ba33a6",
+   "label": "[inductor] cpp gemm autotune doesn't work on s390x (AssertionError: Expect L1_cache_size > 0 but got 0)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:195363:2026-08-30T17:31:03Z",
+     "title": "[inductor] cpp gemm autotune doesn't work on s390x (AssertionError: Expect L1_cache_size > 0 but got 0)",
+     "url": "https://github.com/pytorch/pytorch/issues/195363"
+    }
+   ]
+  },
+  {
+   "id": "prose-1353267e0a05",
+   "label": "Native TP has no KV-head replication: tp_size > num_key_value_heads fails mid-forward",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48307:2026-09-01T07:07:52Z",
+     "title": "Native TP has no KV-head replication: tp_size > num_key_value_heads fails mid-forward",
+     "url": "https://github.com/huggingface/transformers/issues/48307"
+    }
+   ]
+  },
+  {
+   "id": "prose-13663db0d7d0",
+   "label": "Persist Copilot chat history per workspace with protection against accidential deletion",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333409:2026-08-30T15:58:50Z",
+     "title": "Persist Copilot chat history per workspace with protection against accidential deletion",
+     "url": "https://github.com/microsoft/vscode/issues/333409"
+    }
+   ]
+  },
+  {
+   "id": "prose-13cf3c45ead8",
+   "label": "CORS error is thrown when load fonts by using fontLocal",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:59813:2026-08-31T01:42:10Z",
+     "title": "CORS error is thrown when load fonts by using fontLocal",
+     "url": "https://github.com/vercel/next.js/issues/59813"
+    }
+   ]
+  },
+  {
    "id": "prose-1495b7e109aa",
    "label": "Port-forward for UDP",
    "tier": "prose",
@@ -1026,15 +1479,171 @@
    ]
   },
   {
-   "id": "prose-1b57615fbdba",
-   "label": "UI bug: \"Close other tabs\" instead of \"Close tab\"",
+   "id": "prose-186b00ce1044",
+   "label": "Chunk conversion op silently produces unequal chunks when the fused tensor is not divisible by the target count",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:microsoft/vscode:334802:2026-09-07T09:21:21Z",
-     "title": "UI bug: \"Close other tabs\" instead of \"Close tab\"",
-     "url": "https://github.com/microsoft/vscode/issues/334802"
+     "id": "github:huggingface/transformers:48323:2026-09-01T02:38:28Z",
+     "title": "Chunk conversion op silently produces unequal chunks when the fused tensor is not divisible by the target count",
+     "url": "https://github.com/huggingface/transformers/issues/48323"
+    }
+   ]
+  },
+  {
+   "id": "prose-189626af0127",
+   "label": "scheduler: Remove dependency to pkg/controller/volume/persistentvolume/testing",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141498:2026-08-31T14:39:24Z",
+     "title": "scheduler: Remove dependency to pkg/controller/volume/persistentvolume/testing",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141498"
+    }
+   ]
+  },
+  {
+   "id": "prose-195070073aa3",
+   "label": "runtimeServerDeploymentId: prerendered flight payloads still pin the build-time deployment id, making build artifacts non-portable across deployments",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:98077:2026-08-30T11:36:04Z",
+     "title": "runtimeServerDeploymentId: prerendered flight payloads still pin the build-time deployment id, making build artifacts non-portable across deployments",
+     "url": "https://github.com/vercel/next.js/issues/98077"
+    }
+   ]
+  },
+  {
+   "id": "prose-1a6c62de86bb",
+   "label": "create_agent Does Not Handle invalid_tool_calls from JSON Parsing Errors (langchain alpha v1)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:33504:2026-09-01T04:55:45Z",
+     "title": "create_agent Does Not Handle invalid_tool_calls from JSON Parsing Errors (langchain alpha v1)",
+     "url": "https://github.com/langchain-ai/langchain/issues/33504"
+    }
+   ]
+  },
+  {
+   "id": "prose-1b638ddc53f7",
+   "label": "[inductor] SDPA fusion silently lost when a SymFloat scale is tensorified (dynamic shapes, e.g. head_dim ** 0.5)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194444:2026-08-30T13:26:34Z",
+     "title": "[inductor] SDPA fusion silently lost when a SymFloat scale is tensorified (dynamic shapes, e.g. head_dim ** 0.5)",
+     "url": "https://github.com/pytorch/pytorch/issues/194444"
+    }
+   ]
+  },
+  {
+   "id": "prose-1b71ce0588f2",
+   "label": "index.Tensor_out & index_put.out errors or segfaults with indices list containing only null tensors ",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:107699:2026-08-30T14:36:33Z",
+     "title": "index.Tensor_out & index_put.out errors or segfaults with indices list containing only null tensors ",
+     "url": "https://github.com/pytorch/pytorch/issues/107699"
+    }
+   ]
+  },
+  {
+   "id": "prose-1ba758b95088",
+   "label": "Toolbar button background colors are not uniform with the new experimental Modern UI",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326109:2026-08-30T23:23:59Z",
+     "title": "Toolbar button background colors are not uniform with the new experimental Modern UI",
+     "url": "https://github.com/microsoft/vscode/issues/326109"
+    }
+   ]
+  },
+  {
+   "id": "prose-1bdace58e92c",
+   "label": "Turbopack standalone build in 16.1.x omits serverExternalPackages from .next/standalone/node_modules",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:88844:2026-08-31T00:47:38Z",
+     "title": "Turbopack standalone build in 16.1.x omits serverExternalPackages from .next/standalone/node_modules",
+     "url": "https://github.com/vercel/next.js/issues/88844"
+    }
+   ]
+  },
+  {
+   "id": "prose-1c79f7a43d12",
+   "label": "VS Code Portable - `~/.copilot/` folder ignores portable mode",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:323325:2026-08-30T17:36:29Z",
+     "title": "VS Code Portable - `~/.copilot/` folder ignores portable mode",
+     "url": "https://github.com/microsoft/vscode/issues/323325"
+    }
+   ]
+  },
+  {
+   "id": "prose-1ca156156d86",
+   "label": "CPUManager distribute-cpus-across-cores relies on CPU numbering order instead of topology",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140688:2026-09-02T08:40:19Z",
+     "title": "CPUManager distribute-cpus-across-cores relies on CPU numbering order instead of topology",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140688"
+    }
+   ]
+  },
+  {
+   "id": "prose-1dc4b82cb66d",
+   "label": "Add support for Microsoft VibeVoice models",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:42758:2026-09-02T07:14:48Z",
+     "title": "Add support for Microsoft VibeVoice models",
+     "url": "https://github.com/huggingface/transformers/issues/42758"
+    }
+   ]
+  },
+  {
+   "id": "prose-203ffb0896b2",
+   "label": "tracker: improve the kubelet test coverage",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:109717:2026-08-31T15:06:31Z",
+     "title": "tracker: improve the kubelet test coverage",
+     "url": "https://github.com/kubernetes/kubernetes/issues/109717"
+    }
+   ]
+  },
+  {
+   "id": "prose-20bfcda786ec",
+   "label": "two-pass cpp_wrapper compilation can raise the high-water mark for memory consumption",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194046:2026-08-30T14:34:38Z",
+     "title": "two-pass cpp_wrapper compilation can raise the high-water mark for memory consumption",
+     "url": "https://github.com/pytorch/pytorch/issues/194046"
     }
    ]
   },
@@ -1052,6 +1661,45 @@
    ]
   },
   {
+   "id": "prose-21ce38ba6b3d",
+   "label": "Test enhancement: Add missing pointer-events assertion in sessionsListTwistie spec",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333430:2026-08-30T21:22:37Z",
+     "title": "Test enhancement: Add missing pointer-events assertion in sessionsListTwistie spec",
+     "url": "https://github.com/microsoft/vscode/issues/333430"
+    }
+   ]
+  },
+  {
+   "id": "prose-21e32a9450bc",
+   "label": "[XPU] Compile-time autotuning (triton.autotune_at_compile_time) benchmarks kernels with unclamped random floats, fatal on XPU when index derived from them is out-of-range",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194018:2026-08-30T14:34:39Z",
+     "title": "[XPU] Compile-time autotuning (triton.autotune_at_compile_time) benchmarks kernels with unclamped random floats, fatal on XPU when index derived from them is out-of-range",
+     "url": "https://github.com/pytorch/pytorch/issues/194018"
+    }
+   ]
+  },
+  {
+   "id": "prose-233af781d390",
+   "label": "Enhance scoredEditReconciler with robust error handling, input validation, and type safety",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333440:2026-08-30T23:22:52Z",
+     "title": "Enhance scoredEditReconciler with robust error handling, input validation, and type safety",
+     "url": "https://github.com/microsoft/vscode/issues/333440"
+    }
+   ]
+  },
+  {
    "id": "prose-234681285f0c",
    "label": "client-go exec authentication plugin failures only report executable name and exit code",
    "tier": "prose",
@@ -1061,6 +1709,71 @@
      "id": "github:kubernetes/kubernetes:139150:2026-09-07T13:39:58Z",
      "title": "client-go exec authentication plugin failures only report executable name and exit code",
      "url": "https://github.com/kubernetes/kubernetes/issues/139150"
+    }
+   ]
+  },
+  {
+   "id": "prose-2348e8a32450",
+   "label": "bug",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326081:2026-08-30T23:24:00Z",
+     "title": "bug",
+     "url": "https://github.com/microsoft/vscode/issues/326081"
+    }
+   ]
+  },
+  {
+   "id": "prose-23dbc74f6838",
+   "label": "Refactor Volume Code",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:14217:2026-09-02T01:10:35Z",
+     "title": "Refactor Volume Code",
+     "url": "https://github.com/kubernetes/kubernetes/issues/14217"
+    }
+   ]
+  },
+  {
+   "id": "prose-240947ec6a2b",
+   "label": "test/images/agnhost/Dockerfile lacks a fallback when golang:$GOLANG_VERSION tag isn't published yet",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141396:2026-08-31T19:00:14Z",
+     "title": "test/images/agnhost/Dockerfile lacks a fallback when golang:$GOLANG_VERSION tag isn't published yet",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141396"
+    }
+   ]
+  },
+  {
+   "id": "prose-2418877735e5",
+   "label": "Copilot plugin agents disappear after AgentPluginManager evicts stale nonce",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333434:2026-08-30T22:52:19Z",
+     "title": "Copilot plugin agents disappear after AgentPluginManager evicts stale nonce",
+     "url": "https://github.com/microsoft/vscode/issues/333434"
+    }
+   ]
+  },
+  {
+   "id": "prose-2828f7444bee",
+   "label": "Solid dark background color renders inconsistently on AMD GPU under native Wayland",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:321288:2026-08-30T17:44:55Z",
+     "title": "Solid dark background color renders inconsistently on AMD GPU under native Wayland",
+     "url": "https://github.com/microsoft/vscode/issues/321288"
     }
    ]
   },
@@ -1117,6 +1830,58 @@
    ]
   },
   {
+   "id": "prose-2dc3993be9a1",
+   "label": "Fix error message for wrong type (THTensor* -> THFloatTensor*)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:26:2026-08-30T10:13:05Z",
+     "title": "Fix error message for wrong type (THTensor* -> THFloatTensor*)",
+     "url": "https://github.com/pytorch/pytorch/issues/26"
+    }
+   ]
+  },
+  {
+   "id": "prose-2f9d31081bcb",
+   "label": "css from dependencies get higher priority over local css",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:59374:2026-08-31T00:44:26Z",
+     "title": "css from dependencies get higher priority over local css",
+     "url": "https://github.com/vercel/next.js/issues/59374"
+    }
+   ]
+  },
+  {
+   "id": "prose-303c83000b70",
+   "label": "PIIMiddleware credit_card detector only matches 16-digit cards, missing Amex, Diners Club and 13-digit Visa",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40000:2026-08-31T11:20:12Z",
+     "title": "PIIMiddleware credit_card detector only matches 16-digit cards, missing Amex, Diners Club and 13-digit Visa",
+     "url": "https://github.com/langchain-ai/langchain/issues/40000"
+    }
+   ]
+  },
+  {
+   "id": "prose-31813fd03dfa",
+   "label": "`proxy` not working with `pageExtensions` in production builds when using `--webpack`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:86303:2026-08-31T00:47:34Z",
+     "title": "`proxy` not working with `pageExtensions` in production builds when using `--webpack`",
+     "url": "https://github.com/vercel/next.js/issues/86303"
+    }
+   ]
+  },
+  {
    "id": "prose-328e2fdcbec2",
    "label": "Feature Request: Support Canary Models",
    "tier": "prose",
@@ -1126,6 +1891,71 @@
      "id": "github:huggingface/transformers:37098:2026-09-08T01:06:13Z",
      "title": "Feature Request: Support Canary Models",
      "url": "https://github.com/huggingface/transformers/issues/37098"
+    }
+   ]
+  },
+  {
+   "id": "prose-37071b5f1098",
+   "label": "Warning: `get_extended_attention_mask` is deprecated",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48449:2026-09-02T13:22:45Z",
+     "title": "Warning: `get_extended_attention_mask` is deprecated",
+     "url": "https://github.com/huggingface/transformers/issues/48449"
+    }
+   ]
+  },
+  {
+   "id": "prose-3a0756120586",
+   "label": "Succeeded pods cause incorrect HPA calculation",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141298:2026-09-01T11:48:12Z",
+     "title": "Succeeded pods cause incorrect HPA calculation",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141298"
+    }
+   ]
+  },
+  {
+   "id": "prose-3a179528cc03",
+   "label": "VSCode keeps freezing my Mac",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:332128:2026-08-30T11:25:38Z",
+     "title": "VSCode keeps freezing my Mac",
+     "url": "https://github.com/microsoft/vscode/issues/332128"
+    }
+   ]
+  },
+  {
+   "id": "prose-3ad81d78431a",
+   "label": "DisentangledFlash: fused Triton attention for DeBERTa-v2/v3",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48176:2026-08-30T10:49:51Z",
+     "title": "DisentangledFlash: fused Triton attention for DeBERTa-v2/v3",
+     "url": "https://github.com/huggingface/transformers/issues/48176"
+    }
+   ]
+  },
+  {
+   "id": "prose-3b67f109496c",
+   "label": "[Bug] `HfArgumentParser` silently corrupts `tuple` and `set` typed dataclass fields from CLI",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48419:2026-08-30T19:08:13Z",
+     "title": "[Bug] `HfArgumentParser` silently corrupts `tuple` and `set` typed dataclass fields from CLI",
+     "url": "https://github.com/huggingface/transformers/issues/48419"
     }
    ]
   },
@@ -1143,6 +1973,19 @@
    ]
   },
   {
+   "id": "prose-3d0a7ce749c9",
+   "label": "Rename CELoss to CrossEntropyLoss",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:42:2026-08-30T10:31:31Z",
+     "title": "Rename CELoss to CrossEntropyLoss",
+     "url": "https://github.com/pytorch/pytorch/issues/42"
+    }
+   ]
+  },
+  {
    "id": "prose-3e92c7940ae9",
    "label": "DISABLED test_bmm_shared_a_numerics_cuda (__main__.AOTInductorTestABICompatibleGpu)",
    "tier": "prose",
@@ -1152,6 +1995,19 @@
      "id": "github:pytorch/pytorch:194554:2026-09-07T12:51:03Z",
      "title": "DISABLED test_bmm_shared_a_numerics_cuda (__main__.AOTInductorTestABICompatibleGpu)",
      "url": "https://github.com/pytorch/pytorch/issues/194554"
+    }
+   ]
+  },
+  {
+   "id": "prose-3e98fc8f0689",
+   "label": "C++ API: `at::adaptive_avg_pool1d` triggers heap-buffer-overflow in quantized CPU implementation",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194023:2026-08-30T14:34:37Z",
+     "title": "C++ API: `at::adaptive_avg_pool1d` triggers heap-buffer-overflow in quantized CPU implementation",
+     "url": "https://github.com/pytorch/pytorch/issues/194023"
     }
    ]
   },
@@ -1169,6 +2025,19 @@
    ]
   },
   {
+   "id": "prose-3fef4949a047",
+   "label": "RoPE corruption due to TF32 on B200 (possibly others) when using `torch.set_float32_matmul_precision(\"high\")`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48428:2026-09-01T08:03:12Z",
+     "title": "RoPE corruption due to TF32 on B200 (possibly others) when using `torch.set_float32_matmul_precision(\"high\")`",
+     "url": "https://github.com/huggingface/transformers/issues/48428"
+    }
+   ]
+  },
+  {
    "id": "prose-40865ab55a29",
    "label": "[ATen][Sparse] Empty CSR full reductions produce scalar values and an invalid sparse tensor",
    "tier": "prose",
@@ -1178,6 +2047,32 @@
      "id": "github:pytorch/pytorch:196214:2026-09-07T11:30:31Z",
      "title": "[ATen][Sparse] Empty CSR full reductions produce scalar values and an invalid sparse tensor",
      "url": "https://github.com/pytorch/pytorch/issues/196214"
+    }
+   ]
+  },
+  {
+   "id": "prose-408810b3da1b",
+   "label": "kubectl edit: error UX is confusing and inconsistent",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:26050:2026-09-02T01:09:58Z",
+     "title": "kubectl edit: error UX is confusing and inconsistent",
+     "url": "https://github.com/kubernetes/kubernetes/issues/26050"
+    }
+   ]
+  },
+  {
+   "id": "prose-42aefb3c2657",
+   "label": "React Version Update Required for create-next-app Template",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:86905:2026-08-30T23:55:18Z",
+     "title": "React Version Update Required for create-next-app Template",
+     "url": "https://github.com/vercel/next.js/issues/86905"
     }
    ]
   },
@@ -1221,6 +2116,19 @@
    ]
   },
   {
+   "id": "prose-45bc91354775",
+   "label": "C++ torch::nn::Sequential clone() method overwrites child module names",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:71069:2026-08-30T20:22:38Z",
+     "title": "C++ torch::nn::Sequential clone() method overwrites child module names",
+     "url": "https://github.com/pytorch/pytorch/issues/71069"
+    }
+   ]
+  },
+  {
    "id": "prose-46d01634266e",
    "label": "Half Normal Log_Prob not defined for 0 ",
    "tier": "prose",
@@ -1230,6 +2138,58 @@
      "id": "github:pytorch/pytorch:54394:2026-09-07T11:03:07Z",
      "title": "Half Normal Log_Prob not defined for 0 ",
      "url": "https://github.com/pytorch/pytorch/issues/54394"
+    }
+   ]
+  },
+  {
+   "id": "prose-46e16ded1db5",
+   "label": "GitHub Copilot constantly freezes for several seconds in long chats.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:328610:2026-08-30T16:58:08Z",
+     "title": "GitHub Copilot constantly freezes for several seconds in long chats.",
+     "url": "https://github.com/microsoft/vscode/issues/328610"
+    }
+   ]
+  },
+  {
+   "id": "prose-4820763e085d",
+   "label": "core/v1: PodLogOptions.Stream has the wrong protobuf wire type in its struct tag",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141594:2026-09-01T19:46:28Z",
+     "title": "core/v1: PodLogOptions.Stream has the wrong protobuf wire type in its struct tag",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141594"
+    }
+   ]
+  },
+  {
+   "id": "prose-48df48658770",
+   "label": "Force-deleting a pod using a DRA claim can free its device for reallocation before the node has actually released it, causing real double-allocation",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141471:2026-09-01T14:42:42Z",
+     "title": "Force-deleting a pod using a DRA claim can free its device for reallocation before the node has actually released it, causing real double-allocation",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141471"
+    }
+   ]
+  },
+  {
+   "id": "prose-4951dda0cdd6",
+   "label": "Automations: Migrate to new chat input widget",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:330701:2026-08-30T20:30:32Z",
+     "title": "Automations: Migrate to new chat input widget",
+     "url": "https://github.com/microsoft/vscode/issues/330701"
     }
    ]
   },
@@ -1247,6 +2207,110 @@
    ]
   },
   {
+   "id": "prose-4abb3cce088e",
+   "label": "The pod associated with the Job cannot be deleted after reaching the 'Completed' state.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141346:2026-09-01T17:18:36Z",
+     "title": "The pod associated with the Job cannot be deleted after reaching the 'Completed' state.",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141346"
+    }
+   ]
+  },
+  {
+   "id": "prose-4b388180f8af",
+   "label": "[torch.compile] BatchNorm1d(momentum=None) training fails under fullgraph=True",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194504:2026-08-30T14:34:41Z",
+     "title": "[torch.compile] BatchNorm1d(momentum=None) training fails under fullgraph=True",
+     "url": "https://github.com/pytorch/pytorch/issues/194504"
+    }
+   ]
+  },
+  {
+   "id": "prose-4b87ef69c4a5",
+   "label": "[OpenTelemetry] Tracing limitations in middleware",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:80445:2026-08-31T00:46:52Z",
+     "title": "[OpenTelemetry] Tracing limitations in middleware",
+     "url": "https://github.com/vercel/next.js/issues/80445"
+    }
+   ]
+  },
+  {
+   "id": "prose-4c0e35ca7ebb",
+   "label": "error message, not understood",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:238543:2026-08-30T15:13:29Z",
+     "title": "error message, not understood",
+     "url": "https://github.com/microsoft/vscode/issues/238543"
+    }
+   ]
+  },
+  {
+   "id": "prose-4d3316f8d6c6",
+   "label": "Add Support for Ovis2.5 Multi-Modal Model\u200b",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:40841:2026-09-01T13:33:56Z",
+     "title": "Add Support for Ovis2.5 Multi-Modal Model\u200b",
+     "url": "https://github.com/huggingface/transformers/issues/40841"
+    }
+   ]
+  },
+  {
+   "id": "prose-4f077a8f43be",
+   "label": "If `out` of `torch.sspaddmm` should be dealt inside the code to solve the `TORCH_INTERNAL_ASSERT` check",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:195013:2026-08-31T06:16:27Z",
+     "title": "If `out` of `torch.sspaddmm` should be dealt inside the code to solve the `TORCH_INTERNAL_ASSERT` check",
+     "url": "https://github.com/pytorch/pytorch/issues/195013"
+    }
+   ]
+  },
+  {
+   "id": "prose-4f2e9cb03091",
+   "label": "NA",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326098:2026-08-30T23:23:59Z",
+     "title": "NA",
+     "url": "https://github.com/microsoft/vscode/issues/326098"
+    }
+   ]
+  },
+  {
+   "id": "prose-4f3ffa415883",
+   "label": "Static export with skipTrailingSlashRedirect results in invalid request paths for RSC payload .txt files",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:74445:2026-08-31T00:45:51Z",
+     "title": "Static export with skipTrailingSlashRedirect results in invalid request paths for RSC payload .txt files",
+     "url": "https://github.com/vercel/next.js/issues/74445"
+    }
+   ]
+  },
+  {
    "id": "prose-50c201912d32",
    "label": "output export ssg generation for dynamic even with generateStaticParams id value is comming as %5Bslug%5D so page is not generated in build",
    "tier": "prose",
@@ -1260,6 +2324,97 @@
    ]
   },
   {
+   "id": "prose-5236865ffa7a",
+   "label": "problematic dependency: cyphar.com/go-pathrs",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141144:2026-09-01T00:56:48Z",
+     "title": "problematic dependency: cyphar.com/go-pathrs",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141144"
+    }
+   ]
+  },
+  {
+   "id": "prose-56494fddd090",
+   "label": "UI/Font rendering appears blurry by default due to GPU hardware acceleration",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333422:2026-08-30T19:23:11Z",
+     "title": "UI/Font rendering appears blurry by default due to GPU hardware acceleration",
+     "url": "https://github.com/microsoft/vscode/issues/333422"
+    }
+   ]
+  },
+  {
+   "id": "prose-56835308ce1a",
+   "label": "apiserver_request_sli_duration_seconds metric includes durations from non-max validating webhook",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140383:2026-08-31T17:43:20Z",
+     "title": "apiserver_request_sli_duration_seconds metric includes durations from non-max validating webhook",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140383"
+    }
+   ]
+  },
+  {
+   "id": "prose-58a62ef36f3a",
+   "label": "[CUDA] fake_quantize_per_channel_affine gives incorrect result for extreme finite float32 input",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:195343:2026-08-31T06:26:53Z",
+     "title": "[CUDA] fake_quantize_per_channel_affine gives incorrect result for extreme finite float32 input",
+     "url": "https://github.com/pytorch/pytorch/issues/195343"
+    }
+   ]
+  },
+  {
+   "id": "prose-5a39405f1887",
+   "label": "Improve init container startup status visibility ( like pulling big image)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141686:2026-09-02T07:30:06Z",
+     "title": "Improve init container startup status visibility ( like pulling big image)",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141686"
+    }
+   ]
+  },
+  {
+   "id": "prose-5adc179c6e42",
+   "label": "Make Mamba Export Compatible with ONNX",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:36403:2026-08-31T13:54:44Z",
+     "title": "Make Mamba Export Compatible with ONNX",
+     "url": "https://github.com/huggingface/transformers/issues/36403"
+    }
+   ]
+  },
+  {
+   "id": "prose-5b71204bc8b4",
+   "label": "cloneElement in client component not working in production builds in some circumstances",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:82527:2026-08-31T00:45:23Z",
+     "title": "cloneElement in client component not working in production builds in some circumstances",
+     "url": "https://github.com/vercel/next.js/issues/82527"
+    }
+   ]
+  },
+  {
    "id": "prose-5c4e27a6b463",
    "label": "Dynamic Resource Allocation (DeviceClass/Device) is not supported on Windows nodes",
    "tier": "prose",
@@ -1269,6 +2424,71 @@
      "id": "github:kubernetes/kubernetes:141841:2026-09-07T12:55:23Z",
      "title": "Dynamic Resource Allocation (DeviceClass/Device) is not supported on Windows nodes",
      "url": "https://github.com/kubernetes/kubernetes/issues/141841"
+    }
+   ]
+  },
+  {
+   "id": "prose-5c8b5fd0b046",
+   "label": "optim API to incorporate not just a rigid model",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:49:2026-08-30T11:03:20Z",
+     "title": "optim API to incorporate not just a rigid model",
+     "url": "https://github.com/pytorch/pytorch/issues/49"
+    }
+   ]
+  },
+  {
+   "id": "prose-5caea21acc30",
+   "label": "generateStaticParams with next export: Build fails when generateStaticParams returns an empty array of params",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:71862:2026-08-31T01:28:55Z",
+     "title": "generateStaticParams with next export: Build fails when generateStaticParams returns an empty array of params",
+     "url": "https://github.com/vercel/next.js/issues/71862"
+    }
+   ]
+  },
+  {
+   "id": "prose-5cbe0ec023a5",
+   "label": "Layout rerender every route navigate after build but dev is fine",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:63040:2026-08-31T01:42:32Z",
+     "title": "Layout rerender every route navigate after build but dev is fine",
+     "url": "https://github.com/vercel/next.js/issues/63040"
+    }
+   ]
+  },
+  {
+   "id": "prose-5e28a29a1b44",
+   "label": "Eviction never happens on pods with long-lived postStart lifecycle phase",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:122222:2026-08-31T16:30:20Z",
+     "title": "Eviction never happens on pods with long-lived postStart lifecycle phase",
+     "url": "https://github.com/kubernetes/kubernetes/issues/122222"
+    }
+   ]
+  },
+  {
+   "id": "prose-5e44b76c32a1",
+   "label": "fp16 support for grounding dino",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:32672:2026-09-01T06:47:07Z",
+     "title": "fp16 support for grounding dino",
+     "url": "https://github.com/huggingface/transformers/issues/32672"
     }
    ]
   },
@@ -1299,6 +2519,32 @@
    ]
   },
   {
+   "id": "prose-5edfdeaabf3b",
+   "label": "Server side dynamic imports will not split client modules in multiple chunks",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:54935:2026-08-31T01:27:01Z",
+     "title": "Server side dynamic imports will not split client modules in multiple chunks",
+     "url": "https://github.com/vercel/next.js/issues/54935"
+    }
+   ]
+  },
+  {
+   "id": "prose-5fbd39667528",
+   "label": "Agent window - single file selection, providing additional context to copilot",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326163:2026-08-30T23:23:59Z",
+     "title": "Agent window - single file selection, providing additional context to copilot",
+     "url": "https://github.com/microsoft/vscode/issues/326163"
+    }
+   ]
+  },
+  {
    "id": "prose-6081b8e18796",
    "label": "Feature: Structured compliance audit logging for EU AI Act (Article 12)",
    "tier": "prose",
@@ -1321,6 +2567,32 @@
      "id": "github:huggingface/transformers:17935:2026-09-07T21:15:51Z",
      "title": "TF: XLA generation not working properly in some models",
      "url": "https://github.com/huggingface/transformers/issues/17935"
+    }
+   ]
+  },
+  {
+   "id": "prose-655a925dd4c6",
+   "label": "kubelet reports a volume as healthy when a CSI driver returns only unknown health conditions",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141725:2026-09-01T11:36:57Z",
+     "title": "kubelet reports a volume as healthy when a CSI driver returns only unknown health conditions",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141725"
+    }
+   ]
+  },
+  {
+   "id": "prose-66dcb34dfafa",
+   "label": "keybinding alt+cmd+f doesn't work (for list.find) in files explorer view",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326147:2026-08-30T23:23:59Z",
+     "title": "keybinding alt+cmd+f doesn't work (for list.find) in files explorer view",
+     "url": "https://github.com/microsoft/vscode/issues/326147"
     }
    ]
   },
@@ -1351,6 +2623,19 @@
    ]
   },
   {
+   "id": "prose-6e22e5b26d4b",
+   "label": "[inductor] [silent incorrectness] torch.full ignores dtype when fill_value is symbolic",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194062:2026-08-31T05:27:52Z",
+     "title": "[inductor] [silent incorrectness] torch.full ignores dtype when fill_value is symbolic",
+     "url": "https://github.com/pytorch/pytorch/issues/194062"
+    }
+   ]
+  },
+  {
    "id": "prose-70187ceeb2c7",
    "label": "When using `redirect` in Route Handler, it doesn't respect `baseUrl`",
    "tier": "prose",
@@ -1377,15 +2662,184 @@
    ]
   },
   {
-   "id": "prose-77a201d157fa",
-   "label": "PIIMiddleware does not detect email, IP or MAC addresses adjacent to non-ASCII text",
+   "id": "prose-71c52dd20bc0",
+   "label": "torch.aminmax silently returns wrong values when out= tensors alias",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:langchain-ai/langchain:40002:2026-09-07T20:25:41Z",
-     "title": "PIIMiddleware does not detect email, IP or MAC addresses adjacent to non-ASCII text",
-     "url": "https://github.com/langchain-ai/langchain/issues/40002"
+     "id": "github:pytorch/pytorch:195337:2026-08-30T14:34:42Z",
+     "title": "torch.aminmax silently returns wrong values when out= tensors alias",
+     "url": "https://github.com/pytorch/pytorch/issues/195337"
+    }
+   ]
+  },
+  {
+   "id": "prose-71cd719b667d",
+   "label": "Regarding security issue i have reported",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47477:2026-08-31T08:04:33Z",
+     "title": "Regarding security issue i have reported",
+     "url": "https://github.com/huggingface/transformers/issues/47477"
+    }
+   ]
+  },
+  {
+   "id": "prose-7233c4b71d70",
+   "label": "fix bad error message",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:43:2026-08-30T10:32:11Z",
+     "title": "fix bad error message",
+     "url": "https://github.com/pytorch/pytorch/issues/43"
+    }
+   ]
+  },
+  {
+   "id": "prose-723be0a9158c",
+   "label": "scrollbar",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333387:2026-08-30T09:56:20Z",
+     "title": "scrollbar",
+     "url": "https://github.com/microsoft/vscode/issues/333387"
+    }
+   ]
+  },
+  {
+   "id": "prose-72a9b5d275c8",
+   "label": "There is an error on line 236, but my code only has 217 lines.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333405:2026-08-30T15:35:08Z",
+     "title": "There is an error on line 236, but my code only has 217 lines.",
+     "url": "https://github.com/microsoft/vscode/issues/333405"
+    }
+   ]
+  },
+  {
+   "id": "prose-73344f8d3a88",
+   "label": "kubelet parameter(eviction-max-pod-grace-period ), not work as expected like officical comment.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:118172:2026-09-01T07:01:55Z",
+     "title": "kubelet parameter(eviction-max-pod-grace-period ), not work as expected like officical comment.",
+     "url": "https://github.com/kubernetes/kubernetes/issues/118172"
+    }
+   ]
+  },
+  {
+   "id": "prose-733766cc32d5",
+   "label": "Language model unavailable",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333427:2026-08-30T20:20:29Z",
+     "title": "Language model unavailable",
+     "url": "https://github.com/microsoft/vscode/issues/333427"
+    }
+   ]
+  },
+  {
+   "id": "prose-74307c5c543a",
+   "label": "Chat session silently fails with \"Sorry, no response was returned\" instead of decoding or declining",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326155:2026-08-30T23:23:59Z",
+     "title": "Chat session silently fails with \"Sorry, no response was returned\" instead of decoding or declining",
+     "url": "https://github.com/microsoft/vscode/issues/326155"
+    }
+   ]
+  },
+  {
+   "id": "prose-74b3898fdc21",
+   "label": "merge_message_runs is O(n^2) in run length for list/content-block messages",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:38217:2026-08-31T09:55:37Z",
+     "title": "merge_message_runs is O(n^2) in run length for list/content-block messages",
+     "url": "https://github.com/langchain-ai/langchain/issues/38217"
+    }
+   ]
+  },
+  {
+   "id": "prose-7677799275de",
+   "label": "Hydration warning when using next/script with a CSP that includes a nonce",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:77952:2026-08-31T00:44:38Z",
+     "title": "Hydration warning when using next/script with a CSP that includes a nonce",
+     "url": "https://github.com/vercel/next.js/issues/77952"
+    }
+   ]
+  },
+  {
+   "id": "prose-77323a696313",
+   "label": ".",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326142:2026-08-30T23:23:59Z",
+     "title": ".",
+     "url": "https://github.com/microsoft/vscode/issues/326142"
+    }
+   ]
+  },
+  {
+   "id": "prose-783b32f02698",
+   "label": "not worki9ng",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326173:2026-08-30T23:23:59Z",
+     "title": "not worki9ng",
+     "url": "https://github.com/microsoft/vscode/issues/326173"
+    }
+   ]
+  },
+  {
+   "id": "prose-79a3f28e7f50",
+   "label": "[Inductor][CPU] Preallocated indexed-update workspace still allocates a fixed temporary per call",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:195330:2026-08-30T10:18:11Z",
+     "title": "[Inductor][CPU] Preallocated indexed-update workspace still allocates a fixed temporary per call",
+     "url": "https://github.com/pytorch/pytorch/issues/195330"
+    }
+   ]
+  },
+  {
+   "id": "prose-7a2001feee78",
+   "label": " ListWatch: StreamWatcher is consuming high memory in high pod churn",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:129705:2026-09-02T01:10:46Z",
+     "title": " ListWatch: StreamWatcher is consuming high memory in high pod churn",
+     "url": "https://github.com/kubernetes/kubernetes/issues/129705"
     }
    ]
   },
@@ -1403,15 +2857,54 @@
    ]
   },
   {
-   "id": "prose-7c416e6b02a2",
-   "label": "ContextEditingMiddleware blocks the event loop with model-based token counting",
+   "id": "prose-7bde063f35ef",
+   "label": "bug(core): same-index tool_call chunks in one streamed delta can split into blank tool_calls and invalid_tool_calls",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:langchain-ai/langchain:40261:2026-09-08T05:54:51Z",
-     "title": "ContextEditingMiddleware blocks the event loop with model-based token counting",
-     "url": "https://github.com/langchain-ai/langchain/issues/40261"
+     "id": "github:langchain-ai/langchain:36627:2026-08-31T07:21:30Z",
+     "title": "bug(core): same-index tool_call chunks in one streamed delta can split into blank tool_calls and invalid_tool_calls",
+     "url": "https://github.com/langchain-ai/langchain/issues/36627"
+    }
+   ]
+  },
+  {
+   "id": "prose-82f74bdc16dc",
+   "label": "Kubelet misses memory request cgroup reconstruction during cgroup config recovery (breaks InPlacePodVerticalScaling and MemoryQoS on restart)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141481:2026-09-01T21:37:42Z",
+     "title": "Kubelet misses memory request cgroup reconstruction during cgroup config recovery (breaks InPlacePodVerticalScaling and MemoryQoS on restart)",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141481"
+    }
+   ]
+  },
+  {
+   "id": "prose-832b4d822a14",
+   "label": "Language model unavailable",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326243:2026-08-30T23:23:59Z",
+     "title": "Language model unavailable",
+     "url": "https://github.com/microsoft/vscode/issues/326243"
+    }
+   ]
+  },
+  {
+   "id": "prose-833796df73e7",
+   "label": "Double redirected to basePath if the application is initially loaded not at the root.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:66660:2026-08-31T01:43:07Z",
+     "title": "Double redirected to basePath if the application is initially loaded not at the root.",
+     "url": "https://github.com/vercel/next.js/issues/66660"
     }
    ]
   },
@@ -1442,6 +2935,45 @@
    ]
   },
   {
+   "id": "prose-866330373beb",
+   "label": "Sessions with Codex are set as \"unread sessions\"",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:300191:2026-08-30T10:44:46Z",
+     "title": "Sessions with Codex are set as \"unread sessions\"",
+     "url": "https://github.com/microsoft/vscode/issues/300191"
+    }
+   ]
+  },
+  {
+   "id": "prose-87de6e2c320d",
+   "label": "Not seeing not-found page on production deployment with dynamicParams = false",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:66796:2026-08-31T01:43:25Z",
+     "title": "Not seeing not-found page on production deployment with dynamicParams = false",
+     "url": "https://github.com/vercel/next.js/issues/66796"
+    }
+   ]
+  },
+  {
+   "id": "prose-88dc8c32caf5",
+   "label": "core: dereference_refs fails to decode escaped JSON Pointer tokens",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40088:2026-09-01T08:48:40Z",
+     "title": "core: dereference_refs fails to decode escaped JSON Pointer tokens",
+     "url": "https://github.com/langchain-ai/langchain/issues/40088"
+    }
+   ]
+  },
+  {
    "id": "prose-89cb1dc8355a",
    "label": "Test: Chat file icon mask alignment",
    "tier": "prose",
@@ -1451,6 +2983,19 @@
      "id": "github:microsoft/vscode:334484:2026-09-07T09:12:38Z",
      "title": "Test: Chat file icon mask alignment",
      "url": "https://github.com/microsoft/vscode/issues/334484"
+    }
+   ]
+  },
+  {
+   "id": "prose-8a3710b53bb0",
+   "label": "core: `format_document` allows metadata keys to override `page_content`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40073:2026-08-31T18:35:44Z",
+     "title": "core: `format_document` allows metadata keys to override `page_content`",
+     "url": "https://github.com/langchain-ai/langchain/issues/40073"
     }
    ]
   },
@@ -1468,6 +3013,19 @@
    ]
   },
   {
+   "id": "prose-8b09af3e53a9",
+   "label": "The number conversion of `Value()` of type Quantity is incorrect",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:110653:2026-09-02T02:07:25Z",
+     "title": "The number conversion of `Value()` of type Quantity is incorrect",
+     "url": "https://github.com/kubernetes/kubernetes/issues/110653"
+    }
+   ]
+  },
+  {
    "id": "prose-8d568ab378ca",
    "label": "Third-party script synchronous loading Hydration problem",
    "tier": "prose",
@@ -1477,6 +3035,45 @@
      "id": "github:vercel/next.js:69478:2026-09-07T12:13:58Z",
      "title": "Third-party script synchronous loading Hydration problem",
      "url": "https://github.com/vercel/next.js/issues/69478"
+    }
+   ]
+  },
+  {
+   "id": "prose-8de892efe733",
+   "label": "Pods stuck in ImagePullBackOff hold their resource requests on the node indefinitely, with no way to reclaim the capacity",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141713:2026-08-31T18:05:18Z",
+     "title": "Pods stuck in ImagePullBackOff hold their resource requests on the node indefinitely, with no way to reclaim the capacity",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141713"
+    }
+   ]
+  },
+  {
+   "id": "prose-902605e3111b",
+   "label": "Error messages to improve",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:39:2026-08-30T10:27:47Z",
+     "title": "Error messages to improve",
+     "url": "https://github.com/pytorch/pytorch/issues/39"
+    }
+   ]
+  },
+  {
+   "id": "prose-905f638b439e",
+   "label": "Enable use of local agent in Agents Window",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:318358:2026-08-30T20:09:24Z",
+     "title": "Enable use of local agent in Agents Window",
+     "url": "https://github.com/microsoft/vscode/issues/318358"
     }
    ]
   },
@@ -1494,15 +3091,275 @@
    ]
   },
   {
-   "id": "prose-974bdb471e2a",
-   "label": "DISABLED test_codegen_structure_parallel_matmuls (__main__.TestUserStreamCompile)",
+   "id": "prose-931a110ed6ff",
+   "label": "loss functions targets shouldn't have to declare requires_grad = False",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:pytorch/pytorch:194332:2026-09-07T12:50:58Z",
-     "title": "DISABLED test_codegen_structure_parallel_matmuls (__main__.TestUserStreamCompile)",
-     "url": "https://github.com/pytorch/pytorch/issues/194332"
+     "id": "github:pytorch/pytorch:41:2026-08-30T10:30:43Z",
+     "title": "loss functions targets shouldn't have to declare requires_grad = False",
+     "url": "https://github.com/pytorch/pytorch/issues/41"
+    }
+   ]
+  },
+  {
+   "id": "prose-934514b99859",
+   "label": "arch_id.h: error: template constraint not satisfied (Pytorch 2.13.0)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:186405:2026-08-30T21:24:04Z",
+     "title": "arch_id.h: error: template constraint not satisfied (Pytorch 2.13.0)",
+     "url": "https://github.com/pytorch/pytorch/issues/186405"
+    }
+   ]
+  },
+  {
+   "id": "prose-935a52ea6acf",
+   "label": "VectorStore.add_texts silently truncates texts when len(ids) < len(texts)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:38203:2026-08-31T22:04:20Z",
+     "title": "VectorStore.add_texts silently truncates texts when len(ids) < len(texts)",
+     "url": "https://github.com/langchain-ai/langchain/issues/38203"
+    }
+   ]
+  },
+  {
+   "id": "prose-9382c4235ac5",
+   "label": "Static export: segment cache files are written to nested directories on Windows due to unnormalized backslashes",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:92339:2026-08-31T00:46:52Z",
+     "title": "Static export: segment cache files are written to nested directories on Windows due to unnormalized backslashes",
+     "url": "https://github.com/vercel/next.js/issues/92339"
+    }
+   ]
+  },
+  {
+   "id": "prose-94559064ffe5",
+   "label": "[Declarative Validation] Track beta\u2192stable graduation of validation rules",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141532:2026-08-30T10:56:36Z",
+     "title": "[Declarative Validation] Track beta\u2192stable graduation of validation rules",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141532"
+    }
+   ]
+  },
+  {
+   "id": "prose-950a08095211",
+   "label": "Add confidence score or extended metadata support to AITextSearchProvider",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333437:2026-08-30T23:02:55Z",
+     "title": "Add confidence score or extended metadata support to AITextSearchProvider",
+     "url": "https://github.com/microsoft/vscode/issues/333437"
+    }
+   ]
+  },
+  {
+   "id": "prose-9593268c075f",
+   "label": ".js file extension not recognized in bundler for Typescript files",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:59744:2026-08-31T01:41:46Z",
+     "title": ".js file extension not recognized in bundler for Typescript files",
+     "url": "https://github.com/vercel/next.js/issues/59744"
+    }
+   ]
+  },
+  {
+   "id": "prose-9c4b10d6ff3d",
+   "label": "PPFormulaNet training-loss bug",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47317:2026-09-01T08:04:02Z",
+     "title": "PPFormulaNet training-loss bug",
+     "url": "https://github.com/huggingface/transformers/issues/47317"
+    }
+   ]
+  },
+  {
+   "id": "prose-9c5b7bc2023e",
+   "label": "[torch.compile][Inductor] smooth_l1_loss with negative beta bypasses eager validation",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:194501:2026-08-30T14:34:41Z",
+     "title": "[torch.compile][Inductor] smooth_l1_loss with negative beta bypasses eager validation",
+     "url": "https://github.com/pytorch/pytorch/issues/194501"
+    }
+   ]
+  },
+  {
+   "id": "prose-9cc063b8fb21",
+   "label": "`aadd_texts() got multiple values for keyword argument 'ids'`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:32283:2026-08-31T05:54:21Z",
+     "title": "`aadd_texts() got multiple values for keyword argument 'ids'`",
+     "url": "https://github.com/langchain-ai/langchain/issues/32283"
+    }
+   ]
+  },
+  {
+   "id": "prose-9d096c287230",
+   "label": "Unable to login to Foundry Tool kit showing sign in error even when signing is done",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333396:2026-08-30T14:03:16Z",
+     "title": "Unable to login to Foundry Tool kit showing sign in error even when signing is done",
+     "url": "https://github.com/microsoft/vscode/issues/333396"
+    }
+   ]
+  },
+  {
+   "id": "prose-9d9510c5f613",
+   "label": "Support multi-type operations where reasonable",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:28:2026-08-30T10:16:26Z",
+     "title": "Support multi-type operations where reasonable",
+     "url": "https://github.com/pytorch/pytorch/issues/28"
+    }
+   ]
+  },
+  {
+   "id": "prose-9de536a40a0e",
+   "label": "Add `[Feature:Networking-IPv6]` and `[Feature:SCTPConnectivity]` CI",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140489:2026-09-01T07:28:14Z",
+     "title": "Add `[Feature:Networking-IPv6]` and `[Feature:SCTPConnectivity]` CI",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140489"
+    }
+   ]
+  },
+  {
+   "id": "prose-9dfb6b9a2b2f",
+   "label": "[inductor] Dynamo fake-tensor tracing rejects a valid broadcasting matmul\u2192attention graph with \"Expected size for first two dimensions of batch2 tensor\", eager runs fine",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:195282:2026-08-31T00:05:02Z",
+     "title": "[inductor] Dynamo fake-tensor tracing rejects a valid broadcasting matmul\u2192attention graph with \"Expected size for first two dimensions of batch2 tensor\", eager runs fine",
+     "url": "https://github.com/pytorch/pytorch/issues/195282"
+    }
+   ]
+  },
+  {
+   "id": "prose-9dfeb250fee4",
+   "label": "Error: Cannot find module 'styled-jsx/style'",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:56900:2026-08-31T00:44:12Z",
+     "title": "Error: Cannot find module 'styled-jsx/style'",
+     "url": "https://github.com/vercel/next.js/issues/56900"
+    }
+   ]
+  },
+  {
+   "id": "prose-9f5997bdc807",
+   "label": "Pass `HFQuantizer` to `from_pretrained` kwargs",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:31738:2026-08-31T21:02:47Z",
+     "title": "Pass `HFQuantizer` to `from_pretrained` kwargs",
+     "url": "https://github.com/huggingface/transformers/issues/31738"
+    }
+   ]
+  },
+  {
+   "id": "prose-9f8034d3a921",
+   "label": "Add `bot_token` attribute to `PreTrainedTokenizer` and `PreTrainedTokenizerFast`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:31709:2026-08-31T13:55:15Z",
+     "title": "Add `bot_token` attribute to `PreTrainedTokenizer` and `PreTrainedTokenizerFast`",
+     "url": "https://github.com/huggingface/transformers/issues/31709"
+    }
+   ]
+  },
+  {
+   "id": "prose-9fbfb6141b9e",
+   "label": "ZeRO-3 zero.Init does not partition composite minimax_m3_vl language submodule -> OOM on multi-GPU load",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:46822:2026-08-31T08:04:41Z",
+     "title": "ZeRO-3 zero.Init does not partition composite minimax_m3_vl language submodule -> OOM on multi-GPU load",
+     "url": "https://github.com/huggingface/transformers/issues/46822"
+    }
+   ]
+  },
+  {
+   "id": "prose-a02470271d93",
+   "label": "Next.js fails to find/load native node modules compiled as a separate package in a (pnpm) workspace",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:71630:2026-08-31T00:43:34Z",
+     "title": "Next.js fails to find/load native node modules compiled as a separate package in a (pnpm) workspace",
+     "url": "https://github.com/vercel/next.js/issues/71630"
+    }
+   ]
+  },
+  {
+   "id": "prose-a0a80147c64e",
+   "label": "[Breaking] NextJs [14.2.3] Draft mode with static pages",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:66277:2026-08-31T01:42:57Z",
+     "title": "[Breaking] NextJs [14.2.3] Draft mode with static pages",
+     "url": "https://github.com/vercel/next.js/issues/66277"
+    }
+   ]
+  },
+  {
+   "id": "prose-a20d93d96e9f",
+   "label": "Silent quality degradation in multi-agent flat round-table: 34.3/100 without synthesis node vs 86.3/100 with it",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:38209:2026-09-01T06:41:39Z",
+     "title": "Silent quality degradation in multi-agent flat round-table: 34.3/100 without synthesis node vs 86.3/100 with it",
+     "url": "https://github.com/langchain-ai/langchain/issues/38209"
     }
    ]
   },
@@ -1520,6 +3377,32 @@
    ]
   },
   {
+   "id": "prose-a4391bc1b7b8",
+   "label": "Can't print tensors with inf or nan",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:27:2026-08-30T10:15:00Z",
+     "title": "Can't print tensors with inf or nan",
+     "url": "https://github.com/pytorch/pytorch/issues/27"
+    }
+   ]
+  },
+  {
+   "id": "prose-a45b9361b690",
+   "label": "StopStringCriteria raises a bare 'substring not found' when the tokenizer vocab cannot round-trip its validation probe",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48320:2026-08-30T15:38:46Z",
+     "title": "StopStringCriteria raises a bare 'substring not found' when the tokenizer vocab cannot round-trip its validation probe",
+     "url": "https://github.com/huggingface/transformers/issues/48320"
+    }
+   ]
+  },
+  {
    "id": "prose-a9792d1fc239",
    "label": "Test: Agents Window header and tab alignment",
    "tier": "prose",
@@ -1533,6 +3416,58 @@
    ]
   },
   {
+   "id": "prose-aa65a962ee69",
+   "label": "Bug/inconsistency with `dynamicIO` and client-side hooks in dynamic segment",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:72756:2026-08-30T16:55:40Z",
+     "title": "Bug/inconsistency with `dynamicIO` and client-side hooks in dynamic segment",
+     "url": "https://github.com/vercel/next.js/issues/72756"
+    }
+   ]
+  },
+  {
+   "id": "prose-aad3b2c25788",
+   "label": "Gemma-4-E4B: the PLE table holds ~5.6 GB of VRAM that can live on CPU bit-identically - is there a supported device_map path?",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47705:2026-09-01T08:52:22Z",
+     "title": "Gemma-4-E4B: the PLE table holds ~5.6 GB of VRAM that can live on CPU bit-identically - is there a supported device_map path?",
+     "url": "https://github.com/huggingface/transformers/issues/47705"
+    }
+   ]
+  },
+  {
+   "id": "prose-ab68f7550e8a",
+   "label": "next/jest not respecting transformIgnorePatterns if not a transpiledPackage",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:83397:2026-08-31T00:43:19Z",
+     "title": "next/jest not respecting transformIgnorePatterns if not a transpiledPackage",
+     "url": "https://github.com/vercel/next.js/issues/83397"
+    }
+   ]
+  },
+  {
+   "id": "prose-aca05e9a723c",
+   "label": "anthropic: prompt caching drops trailing string system content",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40089:2026-09-01T08:54:49Z",
+     "title": "anthropic: prompt caching drops trailing string system content",
+     "url": "https://github.com/langchain-ai/langchain/issues/40089"
+    }
+   ]
+  },
+  {
    "id": "prose-acafa3bd5f01",
    "label": "release.yml's 'make tests' silently runs nothing for the langchain (langchain_v1) package",
    "tier": "prose",
@@ -1542,6 +3477,58 @@
      "id": "github:langchain-ai/langchain:40272:2026-09-07T22:12:42Z",
      "title": "release.yml's 'make tests' silently runs nothing for the langchain (langchain_v1) package",
      "url": "https://github.com/langchain-ai/langchain/issues/40272"
+    }
+   ]
+  },
+  {
+   "id": "prose-adaae588522c",
+   "label": "ExternalJWTSigner (KEP-740) proto doc doesn't specify required signature encoding (RFC 7518 IEEE P1363), causing silent verification failures",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141669:2026-08-30T11:15:14Z",
+     "title": "ExternalJWTSigner (KEP-740) proto doc doesn't specify required signature encoding (RFC 7518 IEEE P1363), causing silent verification failures",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141669"
+    }
+   ]
+  },
+  {
+   "id": "prose-aefeb3fddc7b",
+   "label": "revalidateTag breaks the page with static params",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:58813:2026-08-31T01:41:27Z",
+     "title": "revalidateTag breaks the page with static params",
+     "url": "https://github.com/vercel/next.js/issues/58813"
+    }
+   ]
+  },
+  {
+   "id": "prose-af991279a5a9",
+   "label": "API can be streamlined: assume same key for some `EnvVarSource`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:132195:2026-09-02T01:10:07Z",
+     "title": "API can be streamlined: assume same key for some `EnvVarSource`",
+     "url": "https://github.com/kubernetes/kubernetes/issues/132195"
+    }
+   ]
+  },
+  {
+   "id": "prose-afc3d814c1d9",
+   "label": "keyutil.ParsePublicKeysPEM rejects PKCS#8-encoded ECDSA keys",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141773:2026-09-02T01:08:01Z",
+     "title": "keyutil.ParsePublicKeysPEM rejects PKCS#8-encoded ECDSA keys",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141773"
     }
    ]
   },
@@ -1572,6 +3559,58 @@
    ]
   },
   {
+   "id": "prose-b4637f637854",
+   "label": "Support for a2a",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:32645:2026-08-30T11:12:38Z",
+     "title": "Support for a2a",
+     "url": "https://github.com/langchain-ai/langchain/issues/32645"
+    }
+   ]
+  },
+  {
+   "id": "prose-b47d863eb642",
+   "label": "[NEX Agent Co.] NEX as x402 payment-enabled LLM provider for LangChain agents",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40061:2026-08-31T15:05:48Z",
+     "title": "[NEX Agent Co.] NEX as x402 payment-enabled LLM provider for LangChain agents",
+     "url": "https://github.com/langchain-ai/langchain/issues/40061"
+    }
+   ]
+  },
+  {
+   "id": "prose-b65499a610f1",
+   "label": "How to Log Training Loss at Step Zero in Hugging Face Trainer or SFT Trainer?",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:34981:2026-09-02T17:48:50Z",
+     "title": "How to Log Training Loss at Step Zero in Hugging Face Trainer or SFT Trainer?",
+     "url": "https://github.com/huggingface/transformers/issues/34981"
+    }
+   ]
+  },
+  {
+   "id": "prose-b6dddb7626a8",
+   "label": "Weird behavior with mBART-50 and Spanish",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:12958:2026-09-02T17:47:54Z",
+     "title": "Weird behavior with mBART-50 and Spanish",
+     "url": "https://github.com/huggingface/transformers/issues/12958"
+    }
+   ]
+  },
+  {
    "id": "prose-b6e87932c4ae",
    "label": "PIIMiddleware: email TLD character class contains a literal `|`, swallowing pipe-delimited neighbouring text",
    "tier": "prose",
@@ -1581,6 +3620,58 @@
      "id": "github:langchain-ai/langchain:40270:2026-09-07T20:27:15Z",
      "title": "PIIMiddleware: email TLD character class contains a literal `|`, swallowing pipe-delimited neighbouring text",
      "url": "https://github.com/langchain-ai/langchain/issues/40270"
+    }
+   ]
+  },
+  {
+   "id": "prose-b7ed2f091e6f",
+   "label": "kubelet HTTP probe logs probe `httpHeaders` (Authorization / Cookie / API keys) at -v=4",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140174:2026-08-31T16:53:03Z",
+     "title": "kubelet HTTP probe logs probe `httpHeaders` (Authorization / Cookie / API keys) at -v=4",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140174"
+    }
+   ]
+  },
+  {
+   "id": "prose-b8fac2a41b3b",
+   "label": "Issue with mBART50 es-en translation ",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:12104:2026-09-02T17:46:18Z",
+     "title": "Issue with mBART50 es-en translation ",
+     "url": "https://github.com/huggingface/transformers/issues/12104"
+    }
+   ]
+  },
+  {
+   "id": "prose-ba759e9a1e59",
+   "label": "Convert between CUDA types",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:25:2026-08-30T10:11:43Z",
+     "title": "Convert between CUDA types",
+     "url": "https://github.com/pytorch/pytorch/issues/25"
+    }
+   ]
+  },
+  {
+   "id": "prose-bab0333428e3",
+   "label": "nn.Container.add_module: should return self, and name optional",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:31:2026-08-30T10:19:44Z",
+     "title": "nn.Container.add_module: should return self, and name optional",
+     "url": "https://github.com/pytorch/pytorch/issues/31"
     }
    ]
   },
@@ -1598,6 +3689,19 @@
    ]
   },
   {
+   "id": "prose-bb6c7f6418a6",
+   "label": "M",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141685:2026-08-31T04:14:15Z",
+     "title": "M",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141685"
+    }
+   ]
+  },
+  {
    "id": "prose-bbcd2367853a",
    "label": "Webpack Errors from Middleware Imports",
    "tier": "prose",
@@ -1607,6 +3711,19 @@
      "id": "github:vercel/next.js:67260:2026-09-07T12:13:47Z",
      "title": "Webpack Errors from Middleware Imports",
      "url": "https://github.com/vercel/next.js/issues/67260"
+    }
+   ]
+  },
+  {
+   "id": "prose-bedcd15c237c",
+   "label": "The Unix domain socket EOF between kubelet and device plugin is disconnected. Currently, kubelet does not have the retry mechanism",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:131013:2026-08-31T16:03:36Z",
+     "title": "The Unix domain socket EOF between kubelet and device plugin is disconnected. Currently, kubelet does not have the retry mechanism",
+     "url": "https://github.com/kubernetes/kubernetes/issues/131013"
     }
    ]
   },
@@ -1624,6 +3741,32 @@
    ]
   },
   {
+   "id": "prose-bf75a64a05da",
+   "label": "Replace bare except in usage.py with specific exception types",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40078:2026-08-31T20:52:00Z",
+     "title": "Replace bare except in usage.py with specific exception types",
+     "url": "https://github.com/langchain-ai/langchain/issues/40078"
+    }
+   ]
+  },
+  {
+   "id": "prose-bff515ceac20",
+   "label": "`global-not-found` page not used for `notFound()` in root layout",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:86095:2026-08-31T00:47:15Z",
+     "title": "`global-not-found` page not used for `notFound()` in root layout",
+     "url": "https://github.com/vercel/next.js/issues/86095"
+    }
+   ]
+  },
+  {
    "id": "prose-c012016f10c5",
    "label": "validateQualifiedName / resourcesQualifiedName silently accept names with more than one slash (e.g. \"a/b/c\")",
    "tier": "prose",
@@ -1633,6 +3776,32 @@
      "id": "github:kubernetes/kubernetes:141869:2026-09-07T12:45:22Z",
      "title": "validateQualifiedName / resourcesQualifiedName silently accept names with more than one slash (e.g. \"a/b/c\")",
      "url": "https://github.com/kubernetes/kubernetes/issues/141869"
+    }
+   ]
+  },
+  {
+   "id": "prose-c2736763f09b",
+   "label": "code-generator clientset constructor overrides config.NegotiatedSerializer",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:135544:2026-09-02T03:09:37Z",
+     "title": "code-generator clientset constructor overrides config.NegotiatedSerializer",
+     "url": "https://github.com/kubernetes/kubernetes/issues/135544"
+    }
+   ]
+  },
+  {
+   "id": "prose-c3de3107d25e",
+   "label": "Terminal always starts with a warning sign",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:327522:2026-08-30T11:42:27Z",
+     "title": "Terminal always starts with a warning sign",
+     "url": "https://github.com/microsoft/vscode/issues/327522"
     }
    ]
   },
@@ -1663,6 +3832,32 @@
    ]
   },
   {
+   "id": "prose-c52a92cca915",
+   "label": "Relaunch terminal hides terminal after reloading window",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:196483:2026-08-30T11:42:18Z",
+     "title": "Relaunch terminal hides terminal after reloading window",
+     "url": "https://github.com/microsoft/vscode/issues/196483"
+    }
+   ]
+  },
+  {
+   "id": "prose-c55ee8350a32",
+   "label": "scheduler: DATA RACE",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141653:2026-09-01T08:48:13Z",
+     "title": "scheduler: DATA RACE",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141653"
+    }
+   ]
+  },
+  {
    "id": "prose-c68f67915736",
    "label": "\u4f18\u5316 npu_swiglu_forward\uff1a\u62fc\u63a5\u6295\u5f71\u6743\u91cd\u800c\u4e0d\u662f\u62fc\u63a5\u6fc0\u6d3b\u4ee5\u964d\u4f4e\u5185\u5b58\u5e76\u63d0\u5347 NPU \u6027\u80fd",
    "tier": "prose",
@@ -1676,15 +3871,41 @@
    ]
   },
   {
-   "id": "prose-cbb4a7a2d3b4",
-   "label": "openai: invalid_tool_calls in additional_kwargs duplicated across streaming usage chunks",
+   "id": "prose-c77cc1497633",
+   "label": "Specifying multiple metrics in TrainingArguments.metric_for_best_model",
    "tier": "prose",
    "size": 1,
    "samples": [
     {
-     "id": "github:langchain-ai/langchain:40027:2026-09-07T23:51:52Z",
-     "title": "openai: invalid_tool_calls in additional_kwargs duplicated across streaming usage chunks",
-     "url": "https://github.com/langchain-ai/langchain/issues/40027"
+     "id": "github:huggingface/transformers:39235:2026-09-01T23:05:40Z",
+     "title": "Specifying multiple metrics in TrainingArguments.metric_for_best_model",
+     "url": "https://github.com/huggingface/transformers/issues/39235"
+    }
+   ]
+  },
+  {
+   "id": "prose-c7b9daef98d1",
+   "label": "FineGrainedFP8 DeepGEMM path returns silently wrong results on SM100 (UE8M0 scale rounding without requantization)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47030:2026-09-01T08:04:07Z",
+     "title": "FineGrainedFP8 DeepGEMM path returns silently wrong results on SM100 (UE8M0 scale rounding without requantization)",
+     "url": "https://github.com/huggingface/transformers/issues/47030"
+    }
+   ]
+  },
+  {
+   "id": "prose-cc3aa74b2c6a",
+   "label": "Add information about non-differentiable points to grad tests",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:32:2026-08-30T10:20:53Z",
+     "title": "Add information about non-differentiable points to grad tests",
+     "url": "https://github.com/pytorch/pytorch/issues/32"
     }
    ]
   },
@@ -1702,6 +3923,19 @@
    ]
   },
   {
+   "id": "prose-ccc51e4c9811",
+   "label": "[Flaky] TestControllerSyncPool/multiple-resourceslices-existing-with-different-resource-pool-generation",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140041:2026-09-01T03:16:21Z",
+     "title": "[Flaky] TestControllerSyncPool/multiple-resourceslices-existing-with-different-resource-pool-generation",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140041"
+    }
+   ]
+  },
+  {
    "id": "prose-ce040670dacf",
    "label": "Next Font: {randomlowercaseletter}.default / {randomlowercaseletter}.{name of a google font} is not a function",
    "tier": "prose",
@@ -1711,6 +3945,84 @@
      "id": "github:vercel/next.js:70580:2026-09-07T12:14:23Z",
      "title": "Next Font: {randomlowercaseletter}.default / {randomlowercaseletter}.{name of a google font} is not a function",
      "url": "https://github.com/vercel/next.js/issues/70580"
+    }
+   ]
+  },
+  {
+   "id": "prose-ce195e01752f",
+   "label": "Migrate Kubelet codebase to contextual logging",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:130069:2026-08-31T11:33:31Z",
+     "title": "Migrate Kubelet codebase to contextual logging",
+     "url": "https://github.com/kubernetes/kubernetes/issues/130069"
+    }
+   ]
+  },
+  {
+   "id": "prose-d1063c2cee8b",
+   "label": "Router Cache misses on every navigation when Link href includes search params (15.x)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:90008:2026-08-31T00:46:05Z",
+     "title": "Router Cache misses on every navigation when Link href includes search params (15.x)",
+     "url": "https://github.com/vercel/next.js/issues/90008"
+    }
+   ]
+  },
+  {
+   "id": "prose-d140db2c8ce4",
+   "label": "Copilot",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333415:2026-08-30T18:20:35Z",
+     "title": "Copilot",
+     "url": "https://github.com/microsoft/vscode/issues/333415"
+    }
+   ]
+  },
+  {
+   "id": "prose-d1809c217c43",
+   "label": "Checkpoint conversion silently loads transposed fused-expert weights when the swapped dims are equal (Transpose(check_dims=True), qwen3_vl_moe)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:47031:2026-09-01T08:04:05Z",
+     "title": "Checkpoint conversion silently loads transposed fused-expert weights when the swapped dims are equal (Transpose(check_dims=True), qwen3_vl_moe)",
+     "url": "https://github.com/huggingface/transformers/issues/47031"
+    }
+   ]
+  },
+  {
+   "id": "prose-d517d53227aa",
+   "label": "MTP: `test_generate_with_mtp` skips for every checkpoint but Inkling, and `MtpModel.forward` raises with the default `logits_processor=None`",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48003:2026-09-01T09:09:06Z",
+     "title": "MTP: `test_generate_with_mtp` skips for every checkpoint but Inkling, and `MtpModel.forward` raises with the default `logits_processor=None`",
+     "url": "https://github.com/huggingface/transformers/issues/48003"
+    }
+   ]
+  },
+  {
+   "id": "prose-d761a204edd6",
+   "label": "Replace bare except in JSON parsing utility to surface malformed input errors",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40043:2026-08-30T19:34:26Z",
+     "title": "Replace bare except in JSON parsing utility to surface malformed input errors",
+     "url": "https://github.com/langchain-ai/langchain/issues/40043"
     }
    ]
   },
@@ -1728,6 +4040,19 @@
    ]
   },
   {
+   "id": "prose-d8acaa4cff27",
+   "label": "More freedom to override kernels for functions",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48375:2026-09-02T13:43:08Z",
+     "title": "More freedom to override kernels for functions",
+     "url": "https://github.com/huggingface/transformers/issues/48375"
+    }
+   ]
+  },
+  {
    "id": "prose-da2c8f88d37e",
    "label": "\"don't require a load balancer between cluster and control plane and still be HA\"",
    "tier": "prose",
@@ -1737,6 +4062,45 @@
      "id": "github:kubernetes/kubernetes:18174:2026-09-07T14:32:00Z",
      "title": "\"don't require a load balancer between cluster and control plane and still be HA\"",
      "url": "https://github.com/kubernetes/kubernetes/issues/18174"
+    }
+   ]
+  },
+  {
+   "id": "prose-dbd6c9530bc8",
+   "label": "Daily terminal relaunch warning for Git auth provider on Windows",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:307601:2026-08-30T11:41:15Z",
+     "title": "Daily terminal relaunch warning for Git auth provider on Windows",
+     "url": "https://github.com/microsoft/vscode/issues/307601"
+    }
+   ]
+  },
+  {
+   "id": "prose-dc0f7ac5aeec",
+   "label": "[NEXT-1130] app router: Scroll position not reset when dynamic segment changes",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:49427:2026-08-31T01:26:47Z",
+     "title": "[NEXT-1130] app router: Scroll position not reset when dynamic segment changes",
+     "url": "https://github.com/vercel/next.js/issues/49427"
+    }
+   ]
+  },
+  {
+   "id": "prose-dc43d0a39c0c",
+   "label": "module.parameters() should only return unique parameters ?",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:29:2026-08-30T10:17:20Z",
+     "title": "module.parameters() should only return unique parameters ?",
+     "url": "https://github.com/pytorch/pytorch/issues/29"
     }
    ]
   },
@@ -1754,6 +4118,58 @@
    ]
   },
   {
+   "id": "prose-de2ebd89d7ca",
+   "label": "[Flash Attention 2] Performance improvement",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:28160:2026-09-02T07:28:06Z",
+     "title": "[Flash Attention 2] Performance improvement",
+     "url": "https://github.com/huggingface/transformers/issues/28160"
+    }
+   ]
+  },
+  {
+   "id": "prose-dffa378cf808",
+   "label": "Copilot Agent (Claude Sonnet 5) freezes forever on \"Thinking\" - Needs help!",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333419:2026-08-30T18:48:58Z",
+     "title": "Copilot Agent (Claude Sonnet 5) freezes forever on \"Thinking\" - Needs help!",
+     "url": "https://github.com/microsoft/vscode/issues/333419"
+    }
+   ]
+  },
+  {
+   "id": "prose-e03a507e0ff0",
+   "label": "[NEX Agent Co.] Add NEX A2A + x402 as transformer inference example",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:48441:2026-09-01T06:05:14Z",
+     "title": "[NEX Agent Co.] Add NEX A2A + x402 as transformer inference example",
+     "url": "https://github.com/huggingface/transformers/issues/48441"
+    }
+   ]
+  },
+  {
+   "id": "prose-e13ac114827b",
+   "label": "k8s.io/apiserver/pkg/server/mux: PathRecorderMux.Handle is not working",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140832:2026-08-31T16:47:57Z",
+     "title": "k8s.io/apiserver/pkg/server/mux: PathRecorderMux.Handle is not working",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140832"
+    }
+   ]
+  },
+  {
    "id": "prose-e13f3c0e71a1",
    "label": "Custom nn.Parameter initialization in PreTrainedModel subclasses is overwritten by post_init()/from_pretrained() causing NaNs/Zeros",
    "tier": "prose",
@@ -1763,6 +4179,32 @@
      "id": "github:huggingface/transformers:42418:2026-09-07T17:27:12Z",
      "title": "Custom nn.Parameter initialization in PreTrainedModel subclasses is overwritten by post_init()/from_pretrained() causing NaNs/Zeros",
      "url": "https://github.com/huggingface/transformers/issues/42418"
+    }
+   ]
+  },
+  {
+   "id": "prose-e3bb06f3577d",
+   "label": "nn API Docs",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:35:2026-08-30T10:25:08Z",
+     "title": "nn API Docs",
+     "url": "https://github.com/pytorch/pytorch/issues/35"
+    }
+   ]
+  },
+  {
+   "id": "prose-e3dcbe6c2188",
+   "label": "Copilot memory tool: str_replace with empty old_str causes an infinite loop (100% CPU, unbounded memory growth) until RangeError",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:333395:2026-08-30T13:51:27Z",
+     "title": "Copilot memory tool: str_replace with empty old_str causes an infinite loop (100% CPU, unbounded memory growth) until RangeError",
+     "url": "https://github.com/microsoft/vscode/issues/333395"
     }
    ]
   },
@@ -1806,6 +4248,32 @@
    ]
   },
   {
+   "id": "prose-e671f73879bc",
+   "label": "Extend feature gate dependency validation to required API group/versions (runtime-config)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141474:2026-09-01T19:50:31Z",
+     "title": "Extend feature gate dependency validation to required API group/versions (runtime-config)",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141474"
+    }
+   ]
+  },
+  {
+   "id": "prose-e87c45f372ea",
+   "label": "Middleware called redirect but the browser is not redirected",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:73176:2026-08-30T18:02:44Z",
+     "title": "Middleware called redirect but the browser is not redirected",
+     "url": "https://github.com/vercel/next.js/issues/73176"
+    }
+   ]
+  },
+  {
    "id": "prose-e893d873adc4",
    "label": "Avoiding prompt injection using special tokens via `apply_chat_template`",
    "tier": "prose",
@@ -1845,6 +4313,19 @@
    ]
   },
   {
+   "id": "prose-ea15766442ce",
+   "label": "Cannot use CommonJS packages in PNPM workspace",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:62199:2026-08-31T00:43:20Z",
+     "title": "Cannot use CommonJS packages in PNPM workspace",
+     "url": "https://github.com/vercel/next.js/issues/62199"
+    }
+   ]
+  },
+  {
    "id": "prose-eb2c9167eaac",
    "label": "[Scheduler] Redundant async preemption with already-deleted victim leaves preemptor stuck in unschedulable pool until 5-min flush",
    "tier": "prose",
@@ -1858,6 +4339,45 @@
    ]
   },
   {
+   "id": "prose-eb468e4972d5",
+   "label": "experimental.inlineCss: stylesheet duplicated twice in the flight payload \u2014 _full.segment.rsc carries the CSS text 2x (3x total per prerendered page)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:98079:2026-08-30T11:56:26Z",
+     "title": "experimental.inlineCss: stylesheet duplicated twice in the flight payload \u2014 _full.segment.rsc carries the CSS text 2x (3x total per prerendered page)",
+     "url": "https://github.com/vercel/next.js/issues/98079"
+    }
+   ]
+  },
+  {
+   "id": "prose-eba65be34e85",
+   "label": "docs: list langchain-truthbear in integrations (official-source signal tools)",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:langchain-ai/langchain:40091:2026-09-01T09:10:55Z",
+     "title": "docs: list langchain-truthbear in integrations (official-source signal tools)",
+     "url": "https://github.com/langchain-ai/langchain/issues/40091"
+    }
+   ]
+  },
+  {
+   "id": "prose-ec59ed4855d5",
+   "label": "new empty window always crashes",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:microsoft/vscode:326091:2026-08-30T23:23:59Z",
+     "title": "new empty window always crashes",
+     "url": "https://github.com/microsoft/vscode/issues/326091"
+    }
+   ]
+  },
+  {
    "id": "prose-f0d7485098d9",
    "label": "Issue: pnpm unpack-next fails on Windows due to POSIX-quoted tar paths",
    "tier": "prose",
@@ -1867,6 +4387,32 @@
      "id": "github:vercel/next.js:87833:2026-09-07T12:14:14Z",
      "title": "Issue: pnpm unpack-next fails on Windows due to POSIX-quoted tar paths",
      "url": "https://github.com/vercel/next.js/issues/87833"
+    }
+   ]
+  },
+  {
+   "id": "prose-f115f729172c",
+   "label": "windows nodes fail to stream/retrieve logs when c:\\var is a secondary disk",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:139239:2026-08-31T05:20:12Z",
+     "title": "windows nodes fail to stream/retrieve logs when c:\\var is a secondary disk",
+     "url": "https://github.com/kubernetes/kubernetes/issues/139239"
+    }
+   ]
+  },
+  {
+   "id": "prose-f12f213b6789",
+   "label": "GPT2 cannot be used with device_map='auto'; Report \"found at least two devices\"",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:28672:2026-09-01T23:06:11Z",
+     "title": "GPT2 cannot be used with device_map='auto'; Report \"found at least two devices\"",
+     "url": "https://github.com/huggingface/transformers/issues/28672"
     }
    ]
   },
@@ -1897,6 +4443,32 @@
    ]
   },
   {
+   "id": "prose-f3dcad2c41a1",
+   "label": "full half tensor support for nn and autograd",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:pytorch/pytorch:48:2026-08-30T11:02:20Z",
+     "title": "full half tensor support for nn and autograd",
+     "url": "https://github.com/pytorch/pytorch/issues/48"
+    }
+   ]
+  },
+  {
+   "id": "prose-f41dcb1ad6df",
+   "label": "Adding Gradient Checkpointing and Flash Attention 2 implementation to VisionTextDualEncoderModel",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:28813:2026-08-31T05:15:21Z",
+     "title": "Adding Gradient Checkpointing and Flash Attention 2 implementation to VisionTextDualEncoderModel",
+     "url": "https://github.com/huggingface/transformers/issues/28813"
+    }
+   ]
+  },
+  {
    "id": "prose-f46f0548eee5",
    "label": "Make native scheduling workload-aware",
    "tier": "prose",
@@ -1910,6 +4482,32 @@
    ]
   },
   {
+   "id": "prose-f477b5de3d5a",
+   "label": "Model Parallelism and Big Models",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:8771:2026-09-02T17:43:23Z",
+     "title": "Model Parallelism and Big Models",
+     "url": "https://github.com/huggingface/transformers/issues/8771"
+    }
+   ]
+  },
+  {
+   "id": "prose-f4c0fb14be60",
+   "label": "False positive for the \"Server Actions must be async functions.\" diagnostic when using builder pattern with arrow function",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:77864:2026-08-31T00:46:30Z",
+     "title": "False positive for the \"Server Actions must be async functions.\" diagnostic when using builder pattern with arrow function",
+     "url": "https://github.com/vercel/next.js/issues/77864"
+    }
+   ]
+  },
+  {
    "id": "prose-f5a7322f9915",
    "label": "Prompt editor does not show auto-complete for skills/slash commands",
    "tier": "prose",
@@ -1919,6 +4517,32 @@
      "id": "github:microsoft/vscode:333660:2026-09-07T09:20:22Z",
      "title": "Prompt editor does not show auto-complete for skills/slash commands",
      "url": "https://github.com/microsoft/vscode/issues/333660"
+    }
+   ]
+  },
+  {
+   "id": "prose-f66683d7ec22",
+   "label": "Kubelet allocates system-reserved CPU to pod when cpu-topology is hybrid",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:140495:2026-08-31T04:36:08Z",
+     "title": "Kubelet allocates system-reserved CPU to pod when cpu-topology is hybrid",
+     "url": "https://github.com/kubernetes/kubernetes/issues/140495"
+    }
+   ]
+  },
+  {
+   "id": "prose-f726182dee32",
+   "label": "Unable to import VGG16 model transformers",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:22567:2026-09-01T13:41:15Z",
+     "title": "Unable to import VGG16 model transformers",
+     "url": "https://github.com/huggingface/transformers/issues/22567"
     }
    ]
   },
@@ -1962,6 +4586,45 @@
    ]
   },
   {
+   "id": "prose-fc0d2ec81779",
+   "label": "[NEXT-878] False positive image size warning for non-integer width/height",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:vercel/next.js:47278:2026-08-31T01:40:39Z",
+     "title": "[NEXT-878] False positive image size warning for non-integer width/height",
+     "url": "https://github.com/vercel/next.js/issues/47278"
+    }
+   ]
+  },
+  {
+   "id": "prose-fc6ca42a5cd2",
+   "label": "validation: incorrect field paths in core validation error messages",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:kubernetes/kubernetes:141267:2026-09-01T19:56:45Z",
+     "title": "validation: incorrect field paths in core validation error messages",
+     "url": "https://github.com/kubernetes/kubernetes/issues/141267"
+    }
+   ]
+  },
+  {
+   "id": "prose-ff5197a9c333",
+   "label": "generation error when same token in \"forced_eos_token_id\" and \"supress_token\" parameter.",
+   "tier": "prose",
+   "size": 1,
+   "samples": [
+    {
+     "id": "github:huggingface/transformers:24099:2026-09-01T06:20:10Z",
+     "title": "generation error when same token in \"forced_eos_token_id\" and \"supress_token\" parameter.",
+     "url": "https://github.com/huggingface/transformers/issues/24099"
+    }
+   ]
+  },
+  {
    "id": "prose-ff661d2e3f75",
    "label": "Feature Request: Locally Connected Layer",
    "tier": "prose",
@@ -1973,6 +4636,34 @@
      "url": "https://github.com/pytorch/pytorch/issues/499"
     }
    ]
+  },
+  {
+   "id": "prose-0413b4e9a158",
+   "label": "Wrong Content-Security-Policy header for serve-web",
+   "tier": "prose",
+   "size": 0,
+   "samples": []
+  },
+  {
+   "id": "prose-7c416e6b02a2",
+   "label": "ContextEditingMiddleware blocks the event loop with model-based token counting",
+   "tier": "prose",
+   "size": 0,
+   "samples": []
+  },
+  {
+   "id": "prose-c592e5bc11cc",
+   "label": "`HumanInTheLoopMiddleware`: cross-tool edit bypasses the target tool's `interrupt_on` policy",
+   "tier": "prose",
+   "size": 0,
+   "samples": []
+  },
+  {
+   "id": "prose-cbb4a7a2d3b4",
+   "label": "openai: invalid_tool_calls in additional_kwargs duplicated across streaming usage chunks",
+   "tier": "prose",
+   "size": 0,
+   "samples": []
   }
  ]
 }

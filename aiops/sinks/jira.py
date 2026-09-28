@@ -12,11 +12,18 @@ from aiops.decision import Decision
 from aiops.registry import Sink, register
 
 
+# A tracker distinguishes a defect from a request; the taxonomy already knows
+# which is which, so the ticket arrives as the right type instead of a pile of
+# identical tasks. Anything unmapped falls back to Task.
+ISSUE_TYPES = {"crash": "Bug", "error": "Bug", "feature_request": "Story"}
+
+
 @register("jira")
 class JiraSink(Sink):
     def __init__(self, base_url: str | None = None, project: str | None = None,
                  email: str | None = None, token: str | None = None,
-                 issue_type: str = "Task", client: httpx.Client | None = None):
+                 issue_type: str | None = None,
+                 client: httpx.Client | None = None):
         self.base_url = (base_url or os.environ.get("JIRA_BASE_URL", "")
                          ).rstrip("/")
         self.project = project or os.environ.get("JIRA_PROJECT", "")
@@ -24,6 +31,9 @@ class JiraSink(Sink):
         self.token = token or os.environ.get("JIRA_API_TOKEN", "")
         self.issue_type = issue_type
         self.client = client or httpx.Client(timeout=30)
+
+    def _issue_type(self, category: str) -> str:
+        return self.issue_type or ISSUE_TYPES.get(category, "Task")
 
     def check(self) -> bool:
         return all([self.base_url, self.project, self.email, self.token])
@@ -48,7 +58,7 @@ class JiraSink(Sink):
             auth=(self.email, self.token),
             json={"fields": {
                 "project": {"key": self.project},
-                "issuetype": {"name": self.issue_type},
+                "issuetype": {"name": self._issue_type(decision.category)},
                 "summary": f"[{decision.category}] {decision.summary}"[:250],
                 "description": self._description(decision),
             }},

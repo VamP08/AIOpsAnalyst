@@ -21,3 +21,6 @@ node_modules/
 web/dist/
 eval/_sample_*.log
 eval/labeling.sqlite
+
+# local run config (credentials come from .env, but the store path is machine-specific)
+pipeline.yaml

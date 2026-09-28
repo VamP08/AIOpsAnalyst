@@ -88,3 +88,48 @@ def test_jira_error_response_raises_rather_than_reporting_success():
         assert False, "a rejected ticket must not look like a created one"
     except httpx.HTTPStatusError:
         pass
+
+
+def test_jira_picks_issue_type_from_category():
+    from aiops.sinks.jira import JiraSink
+
+    sent = []
+
+    def handler(request):
+        sent.append(json.loads(request.read())["fields"]["issuetype"]["name"])
+        return httpx.Response(201, json={"key": "AIOPS-1"})
+
+    sink = JiraSink(base_url="https://x.atlassian.net", project="AIOPS",
+                    email="e", token="t",
+                    client=httpx.Client(transport=httpx.MockTransport(handler)))
+    for category in ("crash", "error", "feature_request", "question"):
+        sink.emit(make_decision(category=category))
+    assert sent == ["Bug", "Bug", "Story", "Task"]
+
+
+def test_jira_explicit_issue_type_overrides_the_map():
+    from aiops.sinks.jira import JiraSink
+
+    sent = []
+
+    def handler(request):
+        sent.append(json.loads(request.read())["fields"]["issuetype"]["name"])
+        return httpx.Response(201, json={"key": "AIOPS-1"})
+
+    sink = JiraSink(base_url="https://x.atlassian.net", project="AIOPS",
+                    email="e", token="t", issue_type="Task",
+                    client=httpx.Client(transport=httpx.MockTransport(handler)))
+    sink.emit(make_decision(category="crash"))
+    assert sent == ["Task"]
+
+
+def test_evidence_lines_drop_repeats_from_one_template():
+    same = [Event(id=f"e{i}", source="s", type="dev.aiops.log.line",
+                  title="pam_unix(sshd:auth): check pass; user unknown")
+            for i in range(3)]
+    decision = make_decision(evidence=same + [
+        Event(id="e9", source="s", type="dev.aiops.log.line",
+              title="Failed password for root from 10.0.0.5")])
+    lines = decision.evidence_lines()
+    assert len(lines) == 2
+    assert lines[0].endswith("check pass; user unknown")

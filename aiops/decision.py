@@ -22,5 +22,12 @@ class Decision:
     evidence: list[Event] = field(default_factory=list)
 
     def evidence_lines(self) -> list[str]:
-        return [f"- {e.title}" + (f" ({e.url})" if e.url else "")
-                for e in self.evidence]
+        """Distinct samples only: three identical lines from one log template
+        fill a ticket without telling the reader anything."""
+        lines, seen = [], set()
+        for event in self.evidence:
+            line = f"- {event.title}" + (f" ({event.url})" if event.url else "")
+            if line not in seen:
+                seen.add(line)
+                lines.append(line)
+        return lines

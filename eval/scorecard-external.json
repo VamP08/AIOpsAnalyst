@@ -1,26 +1,26 @@
 {
- "pairs": 34,
- "raw_agreement": 0.882,
- "cohens_kappa": 0.749,
+ "pairs": 109,
+ "raw_agreement": 0.807,
+ "cohens_kappa": 0.61,
  "kappa_ci95": [
-  0.506,
-  0.939
+  0.467,
+  0.746
  ],
  "per_category": {
   "defect": {
-   "support": 22,
-   "precision": 0.913,
-   "recall": 0.955
+   "support": 76,
+   "precision": 0.939,
+   "recall": 0.816
   },
   "performance": {
-   "support": 0,
-   "precision": null,
-   "recall": null
+   "support": 1,
+   "precision": 0.25,
+   "recall": 1.0
   },
   "feature_request": {
-   "support": 12,
-   "precision": 1.0,
-   "recall": 0.75
+   "support": 32,
+   "precision": 0.806,
+   "recall": 0.781
   },
   "question": {
    "support": 0,
@@ -29,14 +29,18 @@
   },
   "noise": {
    "support": 0,
-   "precision": null,
+   "precision": 0.0,
    "recall": null
   }
  },
  "confusions": {
-  "feature_request -> defect": 2,
-  "defect -> question": 1,
-  "feature_request -> question": 1
+  "defect -> feature_request": 6,
+  "feature_request -> defect": 4,
+  "defect -> question": 4,
+  "defect -> performance": 2,
+  "defect -> noise": 2,
+  "feature_request -> question": 2,
+  "feature_request -> performance": 1
  },
  "taxonomy": [
   "defect",
@@ -49,8 +53,9 @@
   "1.1"
  ],
  "models": {
-  "openai/gpt-oss-120b": 9,
-  "qwen/qwen3.8-27b": 25
+  "qwen/qwen3.8-27b": 96,
+  "openai/gpt-oss-120b": 12,
+  "openai/gpt-oss-20b": 1
  },
  "reference": "maintainer labels (collapsed taxonomy)"
 }

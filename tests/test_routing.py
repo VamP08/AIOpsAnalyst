@@ -102,3 +102,23 @@ def test_a_failing_sink_does_not_block_others_and_is_retried(tmp_path):
     assert pipe.store.routed("log-def") == {}   # unrecorded, so it retries
 
     assert pipe.route({"tickets": DryRunSink(), "chat": chat}) == {"tickets": 1}
+
+def test_route_limit_caps_one_run_and_the_rest_follow_next_run(tmp_path):
+    pipe = make_pipeline(tmp_path)
+    for n in range(5):
+        seed(pipe.store, cluster_id=f'log-{n}')
+    tickets = DryRunSink()
+
+    assert pipe.route({'tickets': tickets}, limit=2) == {'tickets': 2}
+    assert pipe.route({'tickets': tickets}, limit=2) == {'tickets': 2}
+    assert len({d.cluster_id for d in tickets.sent}) == 4   # none resent
+    assert pipe.route({'tickets': tickets}) == {'tickets': 1}
+    assert len(tickets.sent) == 5
+
+
+def test_route_without_a_limit_emits_everything_matching(tmp_path):
+    pipe = make_pipeline(tmp_path)
+    for n in range(4):
+        seed(pipe.store, cluster_id=f'log-{n}')
+    tickets = DryRunSink()
+    assert pipe.route({'tickets': tickets}) == {'tickets': 4}

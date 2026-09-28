@@ -133,11 +133,16 @@ class Pipeline:
                 and verdict["category"] in route.get("categories",
                                                      [verdict["category"]])]
 
-    def route(self, sinks: dict | None = None,
-              samples_per_cluster: int = 3) -> dict[str, int | str]:
+    def route(self, sinks: dict | None = None, samples_per_cluster: int = 3,
+              limit: int | None = None) -> dict[str, int | str]:
         """Emit every verdict that a route matches and that has not already
         been emitted to that sink. Side effects are recorded only on success,
         so a sink that is down costs a retry rather than a duplicate ticket.
+
+        limit caps how many emits one run may perform - blast radius for a
+        first run against a real tracker, and what stops a backfill of a large
+        corpus from opening hundreds of tickets at once. The rest follow on the
+        next run, because what was sent is recorded.
         """
         from aiops.decision import Decision
 
@@ -166,4 +171,7 @@ class Pipeline:
                     continue
                 self.store.record_routed(cluster["id"], name, ref)
                 sent[name] = sent.get(name, 0) + 1
+                if limit is not None and sum(sent.values()) >= limit:
+                    return {**sent, **{n: f"{c} failed"
+                                       for n, c in failed.items()}}
         return {**sent, **{name: f"{n} failed" for name, n in failed.items()}}

@@ -17,17 +17,17 @@ and the procedure that produced it.
 
 **Against labels applied by the maintainers of the repositories themselves**
 (`bug`, `kind/feature`, and similar, on issues from transformers, next.js,
-pytorch, langchain, vscode and kubernetes), as of 2026-09-11:
+pytorch, langchain, vscode and kubernetes), as of 2026-09-28:
 
 | | |
 |---|---|
-| clusters compared | 34 |
-| raw agreement | 0.882 |
-| Cohen's kappa | **0.749** (95% CI 0.506 - 0.939, bootstrap, seeded) |
-| defect | precision 0.91, recall 0.95 (n=22) |
-| feature_request | precision 1.00, recall 0.75 (n=12) |
+| clusters compared | 109 |
+| raw agreement | 0.807 |
+| Cohen's kappa | **0.610** (95% CI 0.467 - 0.746, bootstrap, seeded) |
+| defect | precision 0.94, recall 0.82 (n=76) |
+| feature_request | precision 0.81, recall 0.78 (n=32) |
 | prompt version | 1.1 |
-| models that answered | gpt-oss-120b (9), qwen3.8-27b (25) |
+| models that answered | qwen3.8-27b (96), gpt-oss-120b (12), gpt-oss-20b (1) |
 
 Full scorecard: [`eval/scorecard-external.json`](eval/scorecard-external.json).
 
@@ -39,9 +39,12 @@ limitation, the mapping table, the six-class taxonomy used internally, the
 annotation procedure and the known biases are written down in
 [`eval/CODEBOOK.md`](eval/CODEBOOK.md).
 
-The interval is wide because 34 pairs is a small sample. That is what the
-interval is for, and the set grows by harvesting more labelled issues rather
-than by labelling more myself.
+What the interval was for: the first run of this measurement scored kappa 0.749
+on 34 pairs. Tripling the set to 109 moved it to 0.610 - inside the earlier
+interval, which is exactly the outcome a published interval is supposed to
+warn about. The number to quote is the one with the larger sample, and it sits
+at the bottom edge of the "substantial" band, so the rubric has work left in it.
+The set grows by harvesting more labelled issues, not by labelling more myself.
 
 Rules the numbers follow: labels are made blind to the model's verdicts;
 agreement is computed before any prompt change; every verdict stores the prompt
@@ -128,7 +131,7 @@ conda activate aiopsanalyst
 pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
-pytest                        # 133 tests
+pytest                        # 138 tests
 uvicorn server.app:app        # /api/stats, /api/clusters, /api/triage
 ```
 
