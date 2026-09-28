@@ -38,3 +38,12 @@ def test_issue_template_boilerplate_never_reaches_the_model():
                           [issue])[1]["content"]
     assert "[x]" not in user and "Submission checklist" not in user
     assert "count_tokens runs synchronously" in user
+
+
+def test_ground_truth_attributes_never_reach_the_model():
+    event = Event(id="b1", source="bgl://llnl", type="dev.aiops.log.line",
+                  title="data TLB error interrupt",
+                  attributes={"bgl_label": "KERNDTLB", "node": "R20-M0"})
+    messages = build_messages("data TLB error interrupt", "log", [event])
+    prompt = messages[0]["content"] + messages[1]["content"]
+    assert "KERNDTLB" not in prompt

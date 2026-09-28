@@ -97,3 +97,41 @@ def test_triage_text_reports_unavailable_when_no_provider_answers(tmp_path):
 def test_triage_text_rejects_empty_input(tmp_path):
     r = client(tmp_path).post("/api/triage", json={"text": "   "})
     assert r.status_code == 422
+
+
+def test_cluster_rows_and_detail_carry_their_ticket_reference(tmp_path):
+    store = seeded_store(tmp_path)
+    store.record_routed("log-aaa", "tickets", "AIOPS-7")
+    client = TestClient(create_app(store))
+
+    [row] = [r for r in client.get("/api/clusters").json()
+             if r["id"] == "log-aaa"]
+    assert row["routed"] == {"tickets": "AIOPS-7"}
+
+    detail = client.get("/api/clusters/log-aaa").json()
+    assert detail["routed"] == {"tickets": "AIOPS-7"}
+
+
+def test_unrouted_cluster_reports_no_references(tmp_path):
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    assert client.get("/api/clusters").json()[0]["routed"] == {}
+
+
+def test_dashboard_is_served_at_the_root(tmp_path):
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    page = client.get("/")
+    assert page.status_code == 200
+    assert "AIOpsAnalyst" in page.text
+    assert client.get("/app.js").status_code == 200
+
+
+def test_stats_expose_the_tracker_base_url_for_ticket_links(tmp_path, monkeypatch):
+    monkeypatch.setenv("JIRA_BASE_URL", "https://acme.atlassian.net")
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    assert client.get("/api/stats").json()["jira_base"] == "https://acme.atlassian.net"
+
+
+def test_stats_report_no_tracker_when_unconfigured(tmp_path, monkeypatch):
+    monkeypatch.setenv("JIRA_BASE_URL", "")
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    assert client.get("/api/stats").json()["jira_base"] == ""

@@ -7,6 +7,7 @@ runs (a cron job, a re-run CLI) a saved position per source.
 """
 import json
 import sqlite3
+import threading
 
 from aiops.envelope import Event
 
@@ -64,12 +65,30 @@ _COLS = ("id", "source", "type", "time", "subject", "datacontenttype",
 
 
 class Store:
+    """One connection per thread.
+
+    The API serves reads from a threadpool, and the dashboard asks for two
+    endpoints at once; a single shared sqlite connection used from two threads
+    at the same moment raises "bad parameter or other API misuse" rather than
+    blocking, so each thread gets its own. WAL lets those readers run while the
+    pipeline writes from another process, which is exactly what happens when
+    someone watches the demo during an ingest.
+    """
+
     def __init__(self, path: str):
-        # check_same_thread=False because the API serves reads from a thread
-        # pool while the pipeline writes from a CLI process; SQLite's own
-        # locking covers that, and the API never writes.
-        self.db = sqlite3.connect(path, check_same_thread=False)
+        self.path = path
+        self._local = threading.local()
         self.db.executescript(_SCHEMA)
+
+    @property
+    def db(self) -> sqlite3.Connection:
+        connection = getattr(self._local, "connection", None)
+        if connection is None:
+            connection = sqlite3.connect(self.path, timeout=30)
+            connection.execute("PRAGMA journal_mode=WAL")
+            connection.execute("PRAGMA busy_timeout=30000")
+            self._local.connection = connection
+        return connection
 
     def insert_events(self, events) -> int:
         rows = [tuple(json.dumps(e.attributes) if col == "attributes"
@@ -181,6 +200,15 @@ class Store:
         return {sink: ref for sink, ref in self.db.execute(
             "SELECT sink, ref FROM routed WHERE clusterid = ?",
             (cluster_id,)).fetchall()}
+
+    def routed_map(self) -> dict[str, dict[str, str]]:
+        """Every cluster's sink references in one query, for list views that
+        would otherwise ask per row."""
+        out: dict[str, dict[str, str]] = {}
+        for cluster_id, sink, ref in self.db.execute(
+                "SELECT clusterid, sink, ref FROM routed"):
+            out.setdefault(cluster_id, {})[sink] = ref
+        return out
 
     def get_cursor(self, source: str) -> str | None:
         row = self.db.execute("SELECT cursor FROM cursors WHERE source = ?",

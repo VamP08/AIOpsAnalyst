@@ -1,4 +1,4 @@
-"""File-based log source: nginx access/error, syslog, JSON-lines.
+"""File-based log source: nginx access/error, Apache, syslog, JSON-lines, BGL.
 
 Event ids hash (source, line number, raw line): re-ingesting the same file
 yields the same ids — the store's primary key makes ingestion idempotent —
@@ -25,6 +25,14 @@ ERROR_RE = re.compile(
 APACHE_RE = re.compile(
     r'\[(?P<time>[^\]]+)\] \[(?P<level>\w+)\] '
     r'(?:\[client (?P<client>[^\]]+)\] )?(?P<msg>.*)'
+)
+# BGL ships with an operator-applied alert label as the first field. It is
+# ground truth for the evaluation, so it is captured into attributes and kept
+# out of every field the model reads - the prompt builds from title and body.
+BGL_RE = re.compile(
+    r'(?P<label>\S+) (?P<epoch>\d+) (?P<date>\S+) (?P<node>\S+) '
+    r'(?P<stamp>\S+) (?P<node2>\S+) (?P<kind>\S+) (?P<component>\S+) '
+    r'(?P<level>\S+) (?P<msg>.*)'
 )
 SYSLOG_RE = re.compile(
     r'\w{3}\s+\d+ \d{2}:\d{2}:\d{2} (?P<host>\S+) '
@@ -97,12 +105,33 @@ def _parse_jsonl(raw: str) -> dict:
     return out
 
 
+def _parse_bgl(raw: str) -> dict:
+    m = BGL_RE.match(raw)
+    if not m:
+        return {}
+    try:
+        stamp = datetime.strptime(m["stamp"], "%Y-%m-%d-%H.%M.%S.%f").isoformat()
+    except ValueError:
+        stamp = None
+    fields = {
+        "title": m["msg"],
+        "severitytext": m["level"],
+        "severitynumber": severity_number(m["level"]),
+        "attributes": {"node": m["node"], "component": m["component"],
+                       "kind": m["kind"], "bgl_label": m["label"]},
+    }
+    if stamp:
+        fields["time"] = stamp
+    return fields
+
+
 _PARSERS = {
     "nginx_access": _parse_nginx_access,
     "nginx_error": _parse_nginx_error,
     "apache_error": _parse_apache_error,
     "syslog": _parse_syslog,
     "jsonl": _parse_jsonl,
+    "bgl": _parse_bgl,
 }
 
 

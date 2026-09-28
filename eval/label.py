@@ -6,7 +6,10 @@ comparison is fair. Appends to the CSV after every keypress: stop whenever,
 resume by rerunning. Order is shuffled with a fixed seed so effort spreads
 across sources instead of front-loading one.
 
-Usage: python eval/label.py eval/labeling.sqlite eval/labels.csv
+--tier log restricts the session to log clusters, the half no maintainer can
+label; eval/CODEBOOK.md explains every template in that set.
+
+Usage: python eval/label.py eval/labeling.sqlite eval/labels.csv [--tier log]
 Keys:  1-6 category, s skip, q quit
 """
 import csv
@@ -32,9 +35,10 @@ def already_labeled(path: Path) -> set[str]:
         return {row["clusterid"] for row in csv.DictReader(f)}
 
 
-def show(store: Store, cluster: dict, done: int, total: int) -> None:
+def show(store: Store, cluster: dict, done: int, total: int,
+         note: str = "") -> None:
     print(f"\n{RULE}\n {done}/{total} labeled"
-          f"{'' if done >= TARGET else f' (gate needs {TARGET})'}"
+          f"{note}"
           f"  |  {cluster['tier']} cluster, {cluster['size']} event"
           f"{'s' if cluster['size'] != 1 else ''}\n")
     for line in textwrap.wrap(cluster["label"], 70):
@@ -57,11 +61,12 @@ def show(store: Store, cluster: dict, done: int, total: int) -> None:
           f"        s=skip  q=quit")
 
 
-def main(db_path: str, out_path: str) -> None:
+def main(db_path: str, out_path: str, tier: str | None = None) -> None:
     store = Store(db_path)
     out = Path(out_path)
     done = already_labeled(out)
-    clusters = store.list_clusters()
+    clusters = [c for c in store.list_clusters()
+                if tier is None or c["tier"] == tier]
     total = len(clusters)
     pending = [c for c in clusters if c["id"] not in done]
     random.Random(7).shuffle(pending)
@@ -69,13 +74,14 @@ def main(db_path: str, out_path: str) -> None:
         print(f"all {total} clusters labeled - run eval/agreement_report.py")
         return
 
+    note = "" if tier or len(done) >= TARGET else f" (gate wants {TARGET})"
     new_file = not out.exists()
     with open(out, "a", encoding="utf-8", newline="") as f:
         writer = csv.writer(f)
         if new_file:
             writer.writerow(["clusterid", "category"])
         for cluster in pending:
-            show(store, cluster, len(done), total)
+            show(store, cluster, len(done), total, note)
             try:
                 answer = input("  > ").strip().lower()
             except EOFError:
@@ -87,9 +93,14 @@ def main(db_path: str, out_path: str) -> None:
             writer.writerow([cluster["id"], CATEGORIES[int(answer) - 1]])
             f.flush()
             done.add(cluster["id"])
-    print(f"\n{len(done)} labeled of {total}. "
-          f"{'Gate satisfied.' if len(done) >= TARGET else f'{TARGET - len(done)} to go.'}")
+    here = len([c for c in clusters if c["id"] in done])
+    scope = f" {tier}" if tier else ""
+    print()
+    print(f"{here}/{total}{scope} clusters labeled. "
+          f"Run eval/agreement_report.py when you are done.")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    argv = sys.argv[1:]
+    tier = argv[argv.index("--tier") + 1] if "--tier" in argv else None
+    main(argv[0], argv[1], tier)

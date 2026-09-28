@@ -61,3 +61,57 @@ def test_set_cursor_overwrites(tmp_path):
     store.set_cursor("s", "1")
     store.set_cursor("s", "2")
     assert store.get_cursor("s") == "2"
+
+
+def test_store_is_readable_from_another_thread(tmp_path):
+    # FastAPI runs sync endpoints in a threadpool: a connection pinned to the
+    # creating thread turns every dashboard request into a 500.
+    import threading
+
+    store = Store(str(tmp_path / "t.sqlite"))
+    store.insert_events([make_event(1)])
+    result = {}
+
+    def read():
+        try:
+            result["count"] = store.count_events()
+        except Exception as e:                       # noqa: BLE001
+            result["error"] = e
+
+    thread = threading.Thread(target=read)
+    thread.start()
+    thread.join()
+    assert result == {"count": 1}
+
+
+def test_store_uses_wal_so_a_reader_is_not_blocked_by_a_writer(tmp_path):
+    store = Store(str(tmp_path / "t.sqlite"))
+    mode = store.db.execute("PRAGMA journal_mode").fetchone()[0]
+    assert mode.lower() == "wal"
+
+
+def test_concurrent_readers_do_not_corrupt_the_connection(tmp_path):
+    # The dashboard asks for /api/stats and /api/clusters at the same time and
+    # FastAPI runs both in its threadpool. Sharing one sqlite connection across
+    # those threads raises InterfaceError: bad parameter or other API misuse.
+    import threading
+
+    store = Store(str(tmp_path / "t.sqlite"))
+    store.insert_events([make_event(i) for i in range(50)])
+    errors = []
+
+    def hammer():
+        try:
+            for _ in range(40):
+                store.count_events()
+                store.get_event("evt-7")
+                store.list_clusters()
+        except Exception as e:                       # noqa: BLE001
+            errors.append(e)
+
+    threads = [threading.Thread(target=hammer) for _ in range(4)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert errors == []

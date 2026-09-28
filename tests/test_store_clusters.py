@@ -39,3 +39,13 @@ def test_reassigning_updates_size_and_label(tmp_path):
     [cluster] = store.list_clusters()
     assert cluster["size"] == 2
     assert cluster["label"] == "new"
+
+
+def test_routed_map_returns_every_clusters_sinks_in_one_query(tmp_path):
+    store = Store(str(tmp_path / "t.sqlite"))
+    store.insert_events([make_event(1), make_event(2)])
+    store.assign_clusters({"e1": "log-1", "e2": "log-2"},
+                          {"log-1": ("t1", "log"), "log-2": ("t2", "log")})
+    store.record_routed("log-1", "tickets", "AIOPS-7")
+    store.record_routed("log-1", "chat", None)
+    assert store.routed_map() == {"log-1": {"tickets": "AIOPS-7", "chat": ""}}

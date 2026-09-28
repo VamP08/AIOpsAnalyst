@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIOpsAnalyst</title>
+<link rel="stylesheet" href="styles.css">
+
+<header>
+  <h1>AIOpsAnalyst</h1>
+  <span class="sub">one triage pipeline over logs, issues and alerts &mdash; clusters, categories, and what was done about them</span>
+</header>
+
+<section class="stats" id="stats"></section>
+
+<div class="filters">
+  <input id="q" placeholder="filter by summary or template" autocomplete="off">
+  <select id="category"><option value="">every category</option></select>
+  <select id="tier"><option value="">every tier</option></select>
+  <select id="source"><option value="">every source</option></select>
+  <label style="color:var(--dim);font-size:12px">
+    <input type="checkbox" id="routed-only" style="min-width:auto"> ticketed only
+  </label>
+  <span class="count" id="count"></span>
+</div>
+
+<main>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>summary</th><th>category</th><th>tier</th>
+          <th style="text-align:right">conf</th>
+          <th style="text-align:right">events</th><th>ticket</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <aside id="detail"><h2>cluster</h2><p class="empty">Select a row to see its verdict and the events behind it.</p></aside>
+</main>
+
+<div class="paste">
+  <h2 style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 8px">
+    Triage your own event
+  </h2>
+  <textarea id="paste" placeholder="Paste a log line, stack trace, alert payload or issue body. It runs through the same prompt and the same confidence gate as the pipeline, and is not stored."></textarea>
+  <button id="run">triage it</button>
+  <div class="out" id="paste-out"></div>
+</div>
+
+<script src="app.js"></script>

@@ -7,11 +7,14 @@ visitors must not be able to write into the corpus the numbers are measured on.
 """
 import os
 from collections import Counter
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, field_validator
 
 from aiops.envelope import Event
+from aiops.envfile import load_env
 from aiops.store import Store
 from aiops.triage.gate import decide_tier
 from aiops.triage.prompts import PROMPT_VERSION, build_messages
@@ -42,10 +45,12 @@ def create_app(store: Store, chat=None) -> FastAPI:
         return live_chat
 
     def _rows() -> list[dict]:
+        routed = store.routed_map()
         return [{**cluster, **{f: None for f in
                                ("category", "severity", "summary",
                                 "confidence", "verdict_tier", "model")},
-                 **_verdict_fields(store.get_verdict(cluster["id"]))}
+                 **_verdict_fields(store.get_verdict(cluster["id"])),
+                 "routed": routed.get(cluster["id"], {})}
                 for cluster in store.list_clusters()]
 
     def _verdict_fields(verdict: dict | None) -> dict:
@@ -70,6 +75,9 @@ def create_app(store: Store, chat=None) -> FastAPI:
             "by_category": dict(Counter(r["category"] for r in triaged)),
             "by_source_tier": dict(Counter(r["tier"] for r in rows)),
             "prompt_version": PROMPT_VERSION,
+            # the page turns a ticket reference into a link with this; the
+            # credentials behind it never leave the server
+            "jira_base": os.environ.get("JIRA_BASE_URL", "").rstrip("/"),
         }
 
     @app.get("/api/clusters")
@@ -89,6 +97,7 @@ def create_app(store: Store, chat=None) -> FastAPI:
         if match is None:
             raise HTTPException(404, f"no cluster {cluster_id}")
         return {**match, "verdict": store.get_verdict(cluster_id),
+                "routed": store.routed(cluster_id),
                 "events": [e.to_dict() | {"title": e.title}
                            for e in store.events_in_cluster(cluster_id, 10)]}
 
@@ -106,7 +115,14 @@ def create_app(store: Store, chat=None) -> FastAPI:
         return {**verdict.model_dump(), "tier": decide_tier(verdict),
                 "model": reply.model, "prompt_version": PROMPT_VERSION}
 
+    dashboard = Path(__file__).resolve().parent.parent / "web"
+    if dashboard.is_dir():          # mounted last so /api keeps precedence
+        app.mount("/", StaticFiles(directory=dashboard, html=True),
+                  name="dashboard")
     return app
 
 
+# uvicorn server.app:app should work from a clean shell: credentials and the
+# tracker URL come from .env, and a real environment variable still wins.
+load_env()
 app = create_app(Store(os.environ.get("AIOPS_DB", "aiops.sqlite")))

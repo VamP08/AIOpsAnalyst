@@ -132,3 +132,35 @@ def test_apache_error_lines_parse_level_time_and_client(tmp_path):
     assert error.severitynumber == 17
     assert error.attributes["client"] == "218.144.240.75"
     assert error.title == "File does not exist: /var/www/html/bin"
+
+
+BGL = (
+    "- 1117838570 2005.06.03 R02-M1-N0-C:J12-U11 2005-06-03-15.42.50.363779 "
+    "R02-M1-N0-C:J12-U11 RAS KERNEL INFO instruction cache parity error corrected\n"
+    "KERNDTLB 1117955293 2005.06.05 R20-M0-N2-C:J10-U11 "
+    "2005-06-05-00.08.13.410695 R20-M0-N2-C:J10-U11 RAS KERNEL FATAL "
+    "data TLB error interrupt\n"
+)
+
+
+def test_bgl_lines_parse_content_node_and_level(tmp_path):
+    src = LogFileSource(path=write(tmp_path, "bgl.log", BGL),
+                        format="bgl", source="bgl://llnl")
+    routine, alert = list(src.fetch())
+    assert routine.title == "instruction cache parity error corrected"
+    assert routine.severitytext == "INFO"
+    assert routine.attributes["node"] == "R02-M1-N0-C:J12-U11"
+    assert routine.attributes["component"] == "KERNEL"
+    assert alert.title == "data TLB error interrupt"
+    assert alert.severitynumber == 21          # FATAL
+
+
+def test_bgl_operator_label_is_captured_but_kept_out_of_the_text(tmp_path):
+    src = LogFileSource(path=write(tmp_path, "bgl.log", BGL),
+                        format="bgl", source="bgl://llnl")
+    routine, alert = list(src.fetch())
+    assert routine.attributes["bgl_label"] == "-"
+    assert alert.attributes["bgl_label"] == "KERNDTLB"
+    # the label is ground truth; it must not appear in anything the model reads
+    assert "KERNDTLB" not in alert.title
+    assert "KERNDTLB" not in (alert.body or "")
