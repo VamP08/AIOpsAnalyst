@@ -4,6 +4,8 @@
 incident replayed from its own timestamps, both scorecards, the tickets it filed,
 and what it triaged in the last day.
 
+[![The replay: 16,595 lines of a supercomputer log collapsing into 41 clusters](media/demo-replay.png)](https://ai-ops-analyst.vercel.app/)
+
 One triage pipeline for every event stream. Server logs, GitHub issues and
 alerts go in; deduplicated clusters with a category, a severity, a confidence
 and an evidence trail come out, and a policy table decides what happens to each
@@ -116,6 +118,11 @@ Drain3 template mining for log lines, and MinHash LSH followed by MiniLM
 embeddings for prose. No UMAP or HDBSCAN: they cluster prose better and they do
 not reproduce run to run, and a number that cannot be reproduced is not worth
 having.
+
+![The dashboard: filterable clusters, tier badges, linked tickets, and the evidence behind one verdict](media/dashboard.png)
+
+The dashboard runs locally against a store (`uvicorn server.app:app`); the page
+above is the static demo, which is what the public URL serves.
 
 ## Asking the corpus
 
