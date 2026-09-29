@@ -63,12 +63,20 @@ def compact(stream: list[dict], samples: int = 3) -> list[dict]:
     return out
 
 
-def cluster_rows(store: Store) -> list[dict]:
+def cluster_rows(store: Store, samples: int = 5) -> list[dict]:
+    """Everything the dashboard needs without a server behind it: the verdict,
+    the timing SQL would have computed, and enough sample events to show what a
+    cluster is made of."""
     routed = store.routed_map()
     rows = []
     for cluster in store.list_clusters():
         verdict = store.get_verdict(cluster["id"]) or {}
+        span = store.timespan(cluster["id"])
         rows.append({
+            "first": span["first"],
+            "last": span["last"],
+            "samples": [{"title": e.title, "url": e.url, "time": e.time}
+                        for e in store.events_in_cluster(cluster["id"], samples)],
             "id": cluster["id"],
             "label": cluster["label"],
             "source": cluster["tier"],

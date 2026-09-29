@@ -14,6 +14,10 @@ const api = (path, options) => fetch(path, options).then((r) => {
 
 let clusters = [];
 let selected = null;
+// "api" when a server is behind this page, "static" when it is the exported
+// corpus on a CDN. Everything read-only works either way; the two features
+// that genuinely need a server say so rather than failing quietly.
+let mode = "api";
 
 const num = (n) => n.toLocaleString("en-US");
 const text = (s) => (s ?? "").toString();
@@ -135,10 +139,24 @@ function renderRows() {
   $("rows").replaceWith(body);
 }
 
+function staticCluster(id) {
+  const row = clusters.find((c) => c.id === id);
+  return {
+    ...row,
+    verdict: row.category ? {
+      category: row.category, severity: row.severity, summary: row.summary,
+      confidence: row.confidence, tier: row.verdict_tier, model: row.model,
+      promptversion: row.prompt_version,
+    } : null,
+    events: (row.samples || []).map((e) => ({ title: e.title, data: { url: e.url } })),
+  };
+}
+
 async function select(id) {
   selected = id;
   renderRows();
-  const c = await api(`/api/clusters/${encodeURIComponent(id)}`);
+  const c = mode === "static" ? staticCluster(id)
+    : await api(`/api/clusters/${encodeURIComponent(id)}`);
   const verdict = c.verdict;
 
   const panel = el("aside");
@@ -221,13 +239,66 @@ async function triagePasted() {
   }
 }
 
+// the same routing the server uses: counting and timing are answered from the
+// data, not from prose, and the static build keeps that property by carrying
+// each cluster's first, last and event count
+const WHEN = /\b(when|since when|what time|how long|start(ed)?|begin|began|first|last seen)\b/i;
+const COUNT = /\b(how many|how much|count|number of|total)\b/i;
+
+function classify(question) {
+  if (COUNT.test(question)) return "count";
+  if (WHEN.test(question)) return "when";
+  return "what";
+}
+
+// words that say what kind of question this is, not what it is about; they
+// must not drive retrieval or every question matches whatever says "error"
+const STOPWORDS = new Set([
+  "when", "did", "does", "the", "what", "which", "was", "were", "are", "is",
+  "how", "many", "much", "count", "number", "total", "of", "in", "on", "to",
+  "for", "and", "or", "any", "there", "show", "me", "begin", "began", "start",
+  "started", "first", "last", "seen", "happened", "with", "about", "look",
+  "looks", "like", "that", "this", "it", "its", "anything", "wrong",
+]);
+
+function askStatic(question) {
+  const words = (question.toLowerCase().match(/[a-z0-9_]{2,}/g) || [])
+    .filter((w) => !STOPWORDS.has(w));
+  const scored = clusters.map((c) => {
+    const hay = `${text(c.label)} ${text(c.summary)}`.toLowerCase();
+    return { c, score: words.filter((w) => hay.includes(w)).length };
+  }).filter((s) => s.score > 0).sort((a, b) => b.score - a.score).slice(0, 5);
+  const matches = scored.map(({ c }) => ({
+    id: c.id, label: c.label, summary: c.summary, tier: c.verdict_tier,
+    events: c.size, first: c.first, last: c.last, how: "lexical",
+  }));
+  if (!matches.length) {
+    return { kind: "none", matches: [], answer: "Nothing in the corpus matches that." };
+  }
+  const kind = classify(question);
+  const top = matches[0];
+  if (kind === "count") {
+    const events = matches.reduce((sum, m) => sum + m.events, 0);
+    return { kind, matches,
+      answer: `${num(events)} events in ${matches.length} cluster${matches.length === 1 ? "" : "s"}.` };
+  }
+  if (kind === "when") {
+    return { kind, matches,
+      answer: `First seen ${text(top.first)}, last seen ${text(top.last)}, ${num(top.events)} events.` };
+  }
+  return { kind, matches,
+    answer: `${matches.length} matching cluster${matches.length === 1 ? "" : "s"}, `
+      + `strongest: ${text(top.summary) || text(top.label)}` };
+}
+
 async function askCorpus() {
   const question = $("ask").value.trim();
   if (!question) return;
   $("ask-run").disabled = true;
   $("ask-out").textContent = "searching...";
   try {
-    const r = await api(`/api/ask?q=${encodeURIComponent(question)}`);
+    const r = mode === "static" ? askStatic(question)
+      : await api(`/api/ask?q=${encodeURIComponent(question)}`);
     const out = $("ask-out");
     out.replaceChildren(el("strong", null, text(r.answer)));
     for (const m of r.matches.slice(0, 3)) {
@@ -237,9 +308,10 @@ async function askCorpus() {
       if (m.tier) row.append(document.createTextNode(" "), tierTag(m.tier));
       out.append(row);
     }
-    // counting and timing answers come from SQL, not from a model; say so
-    out.append(el("div", "faint",
-      "answered from the store, no model call"));
+    // counting and timing answers come from the data, not from a model
+    out.append(el("div", "faint", mode === "static"
+      ? "answered from the exported corpus in your browser, no model call"
+      : "answered from the store, no model call"));
   } catch (e) {
     $("ask-out").textContent = `no answer: ${e.message}`;
   } finally {
@@ -247,11 +319,43 @@ async function askCorpus() {
   }
 }
 
+function fromExport(row) {
+  // the export names the source tier "source" and the verdict tier "tier";
+  // the API does the opposite, so one of them has to be translated
+  return { ...row, tier: row.source, verdict_tier: row.tier,
+           routed: row.ticket ? { tickets: row.ticket } : {} };
+}
+
+async function loadCorpus() {
+  try {
+    const [stats, rows] = await Promise.all([
+      api("/api/stats"), api("/api/clusters?limit=2000"),
+    ]);
+    return { stats, rows };
+  } catch {
+    mode = "static";
+    const [stats, rows] = await Promise.all([
+      api("../data/stats.json"), api("../data/clusters.json"),
+    ]);
+    return { stats, rows: rows.map(fromExport) };
+  }
+}
+
+function announceStaticMode() {
+  const note = el("div", null,
+    "Reading the exported corpus: browsing, filtering, evidence and the ask box "
+    + "all work here. Triaging your own text needs the pipeline running, which "
+    + "is a local step — see the README.");
+  note.style.cssText = "padding:8px 20px;border-bottom:1px solid var(--line);"
+    + "color:var(--dim);font-size:12px";
+  document.querySelector("header").after(note);
+  document.querySelector(".paste:last-of-type")?.remove();
+}
+
 async function boot() {
-  const [stats, rows] = await Promise.all([
-    api("/api/stats"), api("/api/clusters?limit=2000"),
-  ]);
+  const { stats, rows } = await loadCorpus();
   clusters = rows;
+  if (mode === "static") announceStaticMode();
   renderStats(stats);
   fillOptions($("category"), [...new Set(rows.map((r) => r.category))]);
   fillOptions($("tier"), [...new Set(rows.map((r) => r.verdict_tier))]);
@@ -259,7 +363,7 @@ async function boot() {
   renderRows();
   ["q", "category", "tier", "source", "routed-only"].forEach((id) =>
     $(id).addEventListener("input", renderRows));
-  $("run").addEventListener("click", triagePasted);
+  if (mode !== "static") $("run").addEventListener("click", triagePasted);
   $("ask-run").addEventListener("click", askCorpus);
   $("ask").addEventListener("keydown", (e) => {
     if (e.key === "Enter") askCorpus();

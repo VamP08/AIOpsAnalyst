@@ -126,7 +126,7 @@ def create_app(store: Store, chat=None) -> FastAPI:
         return {**verdict.model_dump(), "tier": decide_tier(verdict),
                 "model": reply.model, "prompt_version": PROMPT_VERSION}
 
-    dashboard = Path(__file__).resolve().parent.parent / "web"
+    dashboard = Path(__file__).resolve().parent.parent / "demo" / "dashboard"
     if dashboard.is_dir():          # mounted last so /api keeps precedence
         app.mount("/", StaticFiles(directory=dashboard, html=True),
                   name="dashboard")

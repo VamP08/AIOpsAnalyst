@@ -121,7 +121,7 @@ having.
 
 ![The dashboard: filterable clusters, tier badges, linked tickets, and the evidence behind one verdict](media/dashboard.png)
 
-The dashboard runs locally against a store (`uvicorn server.app:app`); the page
+The dashboard runs locally against a store (`uvicorn server.app:app`, which serves `demo/dashboard/`); the page
 above is the static demo, which is what the public URL serves.
 
 ## Asking the corpus
