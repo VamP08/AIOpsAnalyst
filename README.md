@@ -22,35 +22,71 @@ Triage quality is a claim. Here is the measurement, the ground truth it used,
 and the procedure that produced it.
 
 **Against labels applied by the maintainers of the repositories themselves**
-(`bug`, `kind/feature`, and similar, on issues from transformers, next.js,
-pytorch, langchain, vscode and kubernetes), as of 2026-09-28:
+(`bug`, `kind/feature` and similar, on issues from transformers, next.js,
+pytorch, langchain, vscode and kubernetes):
 
 | | |
 |---|---|
-| clusters compared | 109 |
-| raw agreement | 0.807 |
-| Cohen's kappa | **0.610** (95% CI 0.467 - 0.746, bootstrap, seeded) |
-| defect | precision 0.94, recall 0.82 (n=76) |
-| feature_request | precision 0.81, recall 0.78 (n=32) |
+| Cohen's kappa | **0.631** (95% CI 0.493 - 0.763, bootstrap, seeded) |
+| raw agreement | 0.820 |
+| defect | precision 0.94, recall 0.82 (n=78) |
+| feature_request | precision 0.84, recall 0.81 (n=32) |
+| clusters compared | 111 |
 | prompt version | 1.1 |
-| models that answered | qwen3.8-27b (96), gpt-oss-120b (12), gpt-oss-20b (1) |
 
 Full scorecard: [`eval/scorecard-external.json`](eval/scorecard-external.json).
 
-Why this ground truth rather than self-made labels: nobody on this project chose
-those labels, and anyone can open the issue and check. Maintainer vocabularies
-do not distinguish "the process died" from "an operation failed", so the
-comparison runs on a collapsed taxonomy (`defect` covers crash and error) - that
-limitation, the mapping table, the six-class taxonomy used internally, the
-annotation procedure and the known biases are written down in
+Nobody on this project chose those labels, and anyone can open the issue and
+check. Maintainer vocabularies do not distinguish "the process died" from "an
+operation failed", so the comparison runs on a collapsed taxonomy (`defect`
+covers crash and error); the mapping, the six-class taxonomy used internally,
+the annotation procedure and the known biases are in
 [`eval/CODEBOOK.md`](eval/CODEBOOK.md).
 
-What the interval was for: the first run of this measurement scored kappa 0.749
-on 34 pairs. Tripling the set to 109 moved it to 0.610 - inside the earlier
-interval, which is exactly the outcome a published interval is supposed to
-warn about. The number to quote is the one with the larger sample, and it sits
-at the bottom edge of the "substantial" band, so the rubric has work left in it.
-The set grows by harvesting more labelled issues, not by labelling more myself.
+An earlier run of this measurement scored 0.749 on 34 clusters. Tripling the
+sample moved it to 0.610, inside the earlier run's published interval, which is
+what an interval is for; re-triaging the corpus later put it at the 0.631 above.
+None of those are corrections of each other - they are the same measurement
+drawing a different sample of model behaviour, which the run table below sizes.
+
+### The rubric revision that was measured and rejected
+
+The figure sits near the bottom of the band usually called substantial, so the
+prompt was revised. Properly: the labelled set was cut in half with a seed, the
+disagreements in the dev half were read, three boundary rules were written
+against them, and the held-out half decided
+([`eval/split.py`](eval/split.py), [`eval/prompt_experiment.py`](eval/prompt_experiment.py)).
+
+It won its half, repeatedly:
+
+| prompt | kappa on the held-out 56, one entry per run | spread |
+|---|---|---|
+| 1.1 | 0.565, 0.584 | 0.019 |
+| 1.2 | 0.604, 0.649, 0.764 | 0.160 |
+
+And it was still rejected, because the rules were written against GitHub issues
+and the pipeline is not only issues:
+
+| | 1.1 | 1.2 |
+|---|---|---|
+| alert recall on the supercomputer log | 1.00, 3 of 3 incident types | 0.998, 2 of 3 |
+| questions reaching the right cluster | hit@1 0.90 | hit@1 0.80 |
+| clusters escalated to a human | 5, three of them critical | 0 |
+| verdicts using the critical severity | 3 | **0** |
+
+The last row decided it. Adding category rules made the model stop using
+`critical` at all, which silences the one gate rule that ignores confidence
+entirely - the rule that exists so an outage is never actioned automatically on
+a 0.95. A prompt that improves the metric it was tuned against while quietly
+removing a safety branch is not an improvement.
+
+1.2 stays in the code (`SYSTEMS["1.2"]`) so both sides of this can be rerun,
+and the run-by-run figures are in
+[`eval/scorecard-runs.json`](eval/scorecard-runs.json). The spread there is
+worth its own note: three runs of the same prompt over the same 56 clusters
+ranged from 0.604 to 0.764, because the free tiers meter per model per minute
+and each run lands on a different mix. Any single kappa published anywhere
+carries about that much slack.
 
 **Against the alert labels that Lawrence Livermore's operations staff applied to
 their own supercomputer logs** (the BGL dataset, published with Oliner and
@@ -58,25 +94,28 @@ Stearley, DSN 2007), 80,000 lines:
 
 | | |
 |---|---|
-| operator-flagged alert lines | 566 |
-| alerts surfaced | 566 &mdash; **recall 1.00**, none missed |
-| routine lines suppressed as noise | 73,564 of 79,434 (**92.6%**) |
 | clusters a responder reads | **22**, down from 80,000 lines |
 | incident types preserved | **3 of 3** clusters carrying operator alerts are surfaced |
-| line-level precision | 0.088 |
-| line-level kappa | 0.151 (95% CI 0.140 - 0.161) |
+| alert recall | **1.00** &mdash; all 566 operator-flagged lines surfaced |
+| line-level precision | 0.008 |
+| line-level noise suppression | 9% in this corpus, 93% in two earlier runs |
 
 Full scorecard: [`eval/scorecard-bgl.json`](eval/scorecard-bgl.json).
 
-The two views disagree and the disagreement is the finding. Nothing that the
-operators flagged is lost, and the reading pile drops from eighty thousand lines
-to twenty-two clusters. Line-level precision is nevertheless 0.088, because
-5,870 routine lines sit in clusters this system calls failures - `4,737 x
-double-hummer alignment exception`, for one. Those are real failed operations by
-this taxonomy and routine events by the operators', who flag hardware and kernel
-incidents and ignore recoverable exceptions. That is a taxonomy mismatch rather
-than a mistake in either direction, and it is why the cluster view is reported
-next to the line view instead of in place of it.
+The cluster numbers are the ones that hold. The line numbers move enormously
+between runs, and the reason is a single cluster: `generating <*>` is 65,454 of
+the 80,000 lines, and the lines read `RAS KERNEL INFO generating core.304`. That
+is a core dump. As text it is a crash; to the people who ran a machine where
+jobs die constantly it is background, and they labelled all 65,454 lines
+routine. The model has landed on both sides across three runs, and because the
+cluster is 76% of the corpus, noise suppression follows it from 93% to 9%
+([`eval/scorecard-runs.json`](eval/scorecard-runs.json)).
+
+That is worth more than a tidier number would be. A line-level metric on log
+data is hostage to whichever cluster happens to be biggest, which is exactly why
+the cluster view is reported first: 22 things to read instead of 80,000, with
+every incident type the operators flagged still among them, held across every
+run.
 
 The label never reaches the model: the parser keeps it in the event's attributes
 and the prompt is built from the title and body, which a test asserts.
@@ -141,12 +180,12 @@ ever run, and not edited afterwards ([`eval/questions.yaml`](eval/questions.yaml
 
 | | |
 |---|---|
-| hit@1 | **0.90** |
+| hit@1 | **0.85** |
 | hit@3 | 0.90 |
 | routing accuracy | 1.00 |
 
-Both misses are the same failure: the question uses words the corpus never
-does. "What is failing on the web server" and "what happened with the Tomcat
+Three misses, and they are the same failure: the question uses words the corpus
+never does. "What is failing on the web server" and "what happened with the Tomcat
 connector" are asking about templates that say `File does not exist` and
 `mod_jk`. A semantic pass over MiniLM embeddings was added for exactly that gap
 and **did not move the number** - the right cluster for the first question ranks

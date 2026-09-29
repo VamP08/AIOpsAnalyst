@@ -4,15 +4,15 @@
  "operator_routine": 79434,
  "alert_surfaced": 566,
  "alert_missed": 0,
- "routine_surfaced": 5870,
- "routine_suppressed": 73564,
+ "routine_surfaced": 72284,
+ "routine_suppressed": 7150,
  "alert_recall": 1.0,
- "alert_precision": 0.0879,
- "noise_suppression": 0.9261,
- "cohens_kappa": 0.1506,
+ "alert_precision": 0.0078,
+ "noise_suppression": 0.09,
+ "cohens_kappa": 0.0014,
  "kappa_ci95": [
-  0.14,
-  0.161
+  0.001,
+  0.002
  ],
  "by_cluster": {
   "clusters": 51,

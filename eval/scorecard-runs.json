@@ -1,0 +1,59 @@
+{
+ "what": "Cohen kappa on the 56 held-out maintainer-labelled clusters, one entry per full re-triage of that half. Provider routing differs between runs because the free tiers meter per model per minute, and that is most of the spread.",
+ "prompt_1.1": [
+  {
+   "kappa": 0.565,
+   "agreement": 0.786,
+   "note": "baseline, whole corpus at 1.1"
+  },
+  {
+   "kappa": 0.584,
+   "agreement": 0.786,
+   "note": "repeat run in a copy"
+  }
+ ],
+ "prompt_1.2": [
+  {
+   "kappa": 0.649,
+   "agreement": null,
+   "note": "first experiment in a copy"
+  },
+  {
+   "kappa": 0.604,
+   "agreement": 0.821,
+   "note": "the published corpus, re-triaged"
+  },
+  {
+   "kappa": 0.764,
+   "agreement": 0.893,
+   "note": "repeat run in a copy"
+  }
+ ],
+ "reading": "Every 1.2 run scores above every 1.1 run, so the rubric change is doing something. The size of it is not pinned down: 1.2 spans 0.604 to 0.764 across three runs, so a single published figure carries roughly that much slack. The number quoted elsewhere is the one belonging to the corpus you can download, not the best of the three.",
+ "bgl_line_metric_across_runs": {
+  "what": "Line-level noise suppression on the 80,000-line BGL slice, one entry per full re-triage. The spread is not the pipeline changing; it is one cluster changing.",
+  "runs": [
+   {
+    "suppression": 0.926,
+    "prompt": "1.1",
+    "generating_core_classified": "noise"
+   },
+   {
+    "suppression": 0.93,
+    "prompt": "1.2",
+    "generating_core_classified": "noise"
+   },
+   {
+    "suppression": 0.09,
+    "prompt": "1.1",
+    "generating_core_classified": "crash"
+   }
+  ],
+  "why": "The cluster 'generating <*>' is 65,454 of the 80,000 lines, and its content is 'RAS KERNEL INFO generating core.304' - a core dump. Read as text that is a crash; read by the people who ran the machine it is routine, and they labelled all 65,454 lines '-'. The model has landed on both sides across runs, and because the cluster is 76% of the corpus the line metric follows it.",
+  "stable_across_all_runs": {
+   "clusters_surfaced": "18 to 22 of 51",
+   "incident_types_preserved": "2 or 3 of 3",
+   "alert_recall": "0.998 to 1.00"
+  }
+ }
+}
