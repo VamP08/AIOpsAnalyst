@@ -112,3 +112,17 @@ def test_semantic_keeps_slots_even_when_lexical_fills_the_page(store):
     result = answer(store, "what is going on", limit=2, encoder=encoder)
     hows = [m["how"] for m in result["matches"]]
     assert "semantic" in hows
+
+
+def test_asking_still_works_when_embeddings_are_not_installed(store, monkeypatch):
+    # a minimal install has no sentence-transformers; the lexical half must
+    # carry on rather than the endpoint raising
+    import aiops.ask as ask
+
+    def missing(_texts):
+        raise ImportError("No module named 'sentence_transformers'")
+
+    monkeypatch.setattr(ask, "_default_encoder", missing)
+    result = ask.answer(store, "password failures")
+    assert result["matches"][0]["id"] == "log-ssh"
+    assert all(m["how"] == "lexical" for m in result["matches"])

@@ -97,9 +97,15 @@ def _match(store, question: str, limit: int, encoder=None) -> list[dict]:
             for h in store.search_clusters(question, limit=limit)]
     if encoder is not False:
         seen = {h["id"] for h in hits}
-        semantic = [h for h in _semantic(store, question,
-                                         encoder or _default_encoder, limit)
-                    if h["id"] not in seen]
+        try:
+            semantic = [h for h in _semantic(store, question,
+                                             encoder or _default_encoder, limit)
+                        if h["id"] not in seen]
+        except ImportError:
+            # a minimal install has no embeddings; lexical search is the whole
+            # answer then, which is worse for unusual wording and fine for the
+            # rest, so it degrades rather than failing
+            semantic = []
         # reserve seats rather than appending: a question full of common words
         # fills every lexical slot with weak matches, and appending after them
         # means the semantic pass can never be seen
