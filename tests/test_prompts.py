@@ -47,3 +47,27 @@ def test_ground_truth_attributes_never_reach_the_model():
     messages = build_messages("data TLB error interrupt", "log", [event])
     prompt = messages[0]["content"] + messages[1]["content"]
     assert "KERNDTLB" not in prompt
+
+
+def test_candidate_prompt_adds_boundary_rules_without_touching_the_default():
+    from aiops.triage.prompts import CANDIDATE_VERSION, SYSTEMS
+
+    assert PROMPT_VERSION == "1.1"          # 1.2 won its half and lost overall
+    assert CANDIDATE_VERSION == "1.2"
+    base = SYSTEMS["1.1"]
+    candidate = SYSTEMS[CANDIDATE_VERSION]
+    assert base in candidate.replace(
+        candidate[candidate.index("Boundary rules"):candidate.index(
+            "Do not guess")], "")
+    for rule in ("never noise", "worded as a question", "phrased as a wish"):
+        assert rule in candidate
+        assert rule not in base
+
+
+def test_build_messages_uses_the_requested_version():
+    samples = make_samples()
+    current = build_messages("t", "log", samples)[0]["content"]
+    candidate = build_messages("t", "log", samples, version="1.2")[0]["content"]
+    assert current != candidate
+    assert "Boundary rules" not in current    # 1.1 is in use
+    assert "Boundary rules" in candidate      # 1.2 kept so it can be rerun

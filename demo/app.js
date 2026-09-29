@@ -189,9 +189,12 @@ function renderScorecards(cards) {
        ["clusters compared", num(maintainer.pairs)],
        ["prompt", (maintainer.prompt_versions ?? []).join(", ")]],
       "Maintainers do not separate a crash from a failed operation, so this "
-      + "runs on a collapsed taxonomy. An earlier run of the same measurement "
-      + "scored 0.749 on 34 pairs; tripling the sample moved it here, inside "
-      + "that run's published interval."));
+      + "runs on a collapsed taxonomy. Re-triaging the same clusters gives a "
+      + "different figure each time — 0.610 and 0.631 on two runs of this "
+      + "prompt — because the free tiers meter per model per minute and "
+      + "each run lands on a different mix. A revision that beat this on a "
+      + "held-out half was measured and rejected: it stopped using the critical "
+      + "severity, which silences the escalation rule below."));
   }
   const operator = cards.operator_labels;
   if (operator) {
@@ -200,15 +203,17 @@ function renderScorecards(cards) {
       "Against supercomputer operator labels",
       "alert labels applied by Lawrence Livermore staff to the Blue Gene/L log, published with the dataset",
       null,
-      [["alert recall", Number(operator.alert_recall).toFixed(2), true],
+      [["clusters to read", `${num(view.surfaced)} of ${num(view.clusters)}`, true],
+       ["incident types kept", `${view.alert_bearing_surfaced} of ${view.alert_bearing}`],
+       ["alert recall", Number(operator.alert_recall).toFixed(2)],
        ["alerts missed", num(operator.alert_missed)],
-       ["routine suppressed", `${Math.round((operator.noise_suppression ?? 0) * 100)}%`],
-       ["clusters to read", `${num(view.surfaced)} of ${num(view.clusters)}`],
-       ["incident types kept", `${view.alert_bearing_surfaced} of ${view.alert_bearing}`]],
-      "Line-level precision is 0.088: 5,870 routine lines sit in clusters this "
-      + "taxonomy calls failures. Those are real failed operations here and "
-      + "routine events to operators who flag hardware and kernel incidents — "
-      + "a taxonomy mismatch, reported rather than tuned away.", null));
+       ["line-level suppression", `${Math.round((operator.noise_suppression ?? 0) * 100)}%`]],
+      "The cluster figures hold across runs; the line figure does not. One "
+      + "cluster is 65,454 of the 80,000 lines and its text is \"generating "
+      + "core.304\" — a crash as text, background to people running a machine "
+      + "where jobs die constantly, who labelled all of it routine. The model "
+      + "has read it both ways, and line-level suppression follows it from 93% "
+      + "to 9%.", null));
   }
   const ask = cards.ask;
   if (ask) {
