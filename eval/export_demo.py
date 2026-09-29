@@ -85,6 +85,32 @@ def cluster_rows(store: Store) -> list[dict]:
     return rows
 
 
+def escalations(store: Store, rows: list[dict]) -> list[dict]:
+    """The clusters the gate refused to act on alone, each with the rule that
+    sent it to a person. This is the part of the pipeline worth showing: the
+    model supplies labels and confidence, and a table nobody can argue with
+    decides the consequence."""
+    from aiops.triage.gate import explain
+    from aiops.triage.schema import Verdict
+
+    out = []
+    for row in rows:
+        if row["tier"] != "escalate":
+            continue
+        verdict = Verdict(category=row["category"], severity=row["severity"],
+                          summary=row["summary"] or "",
+                          confidence=row["confidence"] or 0.0, evidence=[])
+        out.append({
+            "id": row["id"], "label": row["label"], "size": row["size"],
+            "category": row["category"], "severity": row["severity"],
+            "summary": row["summary"], "confidence": row["confidence"],
+            "why": explain(verdict),
+            "evidence": [{"title": e.title, "url": e.url}
+                         for e in store.events_in_cluster(row["id"], 2)],
+        })
+    return sorted(out, key=lambda e: e["size"], reverse=True)
+
+
 def stats_from(rows: list[dict], events: int) -> dict:
     triaged = [r for r in rows if r["category"]]
     tiers = Counter(r["tier"] for r in triaged)
@@ -136,6 +162,7 @@ def main(db_path: str, out_dir: str) -> None:
     rows = cluster_rows(store)
     written = {
         "clusters.json": rows,
+        "escalations.json": escalations(store, rows),
         "stats.json": stats_from(rows, store.count_events()),
         "scorecards.json": scorecards(),
         "replay.json": replay_from(store),

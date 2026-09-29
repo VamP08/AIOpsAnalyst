@@ -21,6 +21,7 @@
       <a href="#measured">what it scores</a>
       <a href="#live">still running</a>
       <a href="#tickets">what it filed</a>
+      <a href="#gate">who decided</a>
     </nav>
   </div>
 </header>
@@ -88,6 +89,20 @@
     <thead><tr><th>ticket</th><th>category</th><th>summary</th><th style="text-align:right">events</th></tr></thead>
     <tbody id="filed"></tbody>
   </table>
+</section>
+
+<section id="gate" class="wrap">
+  <h2>Where every cluster went, and who decided</h2>
+  <p class="note">
+    The model supplies a category, a severity and a confidence. A table decides
+    the consequence &mdash; the same table every time, in configuration, readable
+    by anyone. Nothing reaches a tracker or a person without crossing it.
+  </p>
+  <div class="tiers" id="tiers"></div>
+
+  <h3 class="sub-head">The ones it refused to handle alone</h3>
+  <p class="note" id="escalation-note"></p>
+  <div class="escalations" id="escalations"></div>
 </section>
 
 <footer class="wrap">

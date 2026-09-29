@@ -17,6 +17,25 @@ function tierTag(tier) {
   return el("span", TIERS.has(tier) ? `tag ${tier}` : "tag", text(tier));
 }
 
+function safeUrl(raw) {
+  try {
+    const url = new URL(raw, window.location.origin);
+    return /^https?:$/.test(url.protocol) ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function link(href, label) {
+  const url = safeUrl(href);
+  if (!url) return el("span", null, text(label));
+  const anchor = el("a", null, text(label));
+  anchor.href = url;
+  anchor.target = "_blank";
+  anchor.rel = "noopener noreferrer";
+  return anchor;
+}
+
 const load = (name) => fetch(`data/${name}.json`).then((r) => r.json());
 
 function renderCounters(stats) {
@@ -209,6 +228,62 @@ function renderScorecards(cards) {
   $("scorecards").replaceChildren(...out);
 }
 
+const TIER_MEANS = {
+  auto: "routed to its sink without asking",
+  suggest: "drafted, waiting for a person",
+  escalate: "a person is told, nothing is sent",
+  abstain: "recorded, no action taken",
+};
+
+function renderTiers(stats) {
+  const counts = stats.by_tier || {};
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+  const order = ["auto", "suggest", "escalate", "abstain"];
+  $("tiers").replaceChildren(...order.filter((t) => counts[t]).map((tier) => {
+    const row = el("div", "tier-row");
+    const bar = el("div", "bar");
+    const fill = el("span", tier);
+    fill.style.width = `${(counts[tier] / total) * 100}%`;
+    bar.append(fill);
+    row.append(el("div", null, tier), bar, el("div", "n", num(counts[tier])),
+      el("div", "what", TIER_MEANS[tier] ?? ""));
+    return row;
+  }));
+}
+
+function renderEscalations(escalations) {
+  if (!escalations?.length) return;
+  const critical = escalations.filter((e) => e.severity === "critical").length;
+  $("escalation-note").textContent =
+    `${escalations.length} of the clusters were held back from automatic `
+    + `action. ${critical} because the severity is critical, which escalates `
+    + `whatever the confidence says — a wrong automatic action during an `
+    + `outage costs more than waking someone. The rest because confidence fell `
+    + `below the threshold while the severity was still high.`;
+
+  $("escalations").replaceChildren(...escalations.map((e) => {
+    const card = el("div", "esc");
+    const head = el("div", "head");
+    head.append(el("span", "sev", text(e.severity)),
+      el("span", "conf", `confidence ${Number(e.confidence).toFixed(2)}`),
+      el("span", "conf", `${num(e.size)} event${e.size === 1 ? "" : "s"}`),
+      el("span", "conf", text(e.category)));
+    card.append(head, el("div", "why", `rule: ${text(e.why)}`),
+      el("div", "sum", text(e.summary)));
+    const evidence = el("div", "ev");
+    for (const sample of e.evidence.slice(0, 2)) {
+      const line = el("div");
+      line.append(document.createTextNode(text(sample.title)));
+      if (sample.url) {
+        line.append(document.createTextNode(" "), link(sample.url, "source"));
+      }
+      evidence.append(line);
+    }
+    card.append(evidence);
+    return card;
+  }));
+}
+
 function renderFiled(clusters, stats) {
   const filed = clusters.filter((c) => c.ticket);
   $("ticket-note").textContent =
@@ -241,10 +316,7 @@ function renderLive(live) {
   $("live-rows").replaceChildren(...live.entries.slice(0, 12).map((e) => {
     const tr = document.createElement("tr");
     const repo = document.createElement("td");
-    repo.append(e.url ? Object.assign(document.createElement("a"),
-      { href: /^https:\/\/github\.com\//.test(e.url ?? "") ? e.url : "#",
-        textContent: text(e.repo), target: "_blank", rel: "noopener noreferrer" })
-      : el("span", null, text(e.repo)));
+    repo.append(e.url ? link(e.url, e.repo) : el("span", null, text(e.repo)));
     const tier = el("td");
     tier.append(tierTag(e.tier));
     tr.append(repo, el("td", null, text(e.category)), tier,
@@ -254,9 +326,12 @@ function renderLive(live) {
 }
 
 Promise.all([load("stats"), load("clusters"), load("scorecards"), load("replay"),
-             load("live").catch(() => null)])
-  .then(([stats, clusters, cards, replay, live]) => {
+             load("live").catch(() => null),
+             load("escalations").catch(() => [])])
+  .then(([stats, clusters, cards, replay, live, escalations]) => {
     renderLive(live);
+    renderTiers(stats);
+    renderEscalations(escalations);
     renderCounters(stats);
     renderScorecards(cards);
     renderFiled(clusters, stats);

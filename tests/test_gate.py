@@ -1,7 +1,7 @@
 import pytest
 
-from aiops.triage.gate import decide_tier
-from aiops.triage.schema import Verdict
+from aiops.triage.gate import decide_tier, explain
+from aiops.triage.schema import SEVERITIES, Verdict
 
 
 def verdict(category="error", severity="medium", confidence=0.8):
@@ -29,3 +29,23 @@ def test_critical_always_escalates_even_at_high_confidence():
 def test_rules_are_deterministic_config_not_model_output():
     v = verdict(confidence=0.90)
     assert decide_tier(v) == decide_tier(v) == "auto"
+
+
+def test_explain_names_the_rule_that_decided_the_tier():
+    assert explain(verdict(severity="critical", confidence=0.99)) == (
+        "critical severity escalates whatever the confidence")
+    assert explain(verdict(confidence=0.95)) == (
+        "confidence 0.95 is at or above the 0.9 auto threshold")
+    assert explain(verdict(confidence=0.78)) == (
+        "confidence 0.78 is below the 0.9 auto threshold")
+    assert explain(verdict(severity="high", confidence=0.4)) == (
+        "confidence 0.40 is below 0.7 and the severity is high")
+    assert explain(verdict(severity="low", confidence=0.4)) == (
+        "confidence 0.40 is below 0.7 and nothing forces a human to look")
+
+
+def test_every_tier_has_an_explanation():
+    for severity in SEVERITIES:
+        for confidence in (0.99, 0.8, 0.5):
+            reason = explain(verdict(severity=severity, confidence=confidence))
+            assert reason and isinstance(reason, str)
