@@ -1,20 +1,21 @@
 {
  "questions": 20,
- "hit_at_1": 0.85,
+ "hit_at_1": 0.9,
  "hit_at_3": 0.9,
- "hit_at_5": 0.95,
+ "hit_at_5": 0.9,
  "routing_accuracy": 1.0,
  "misses": [
+  "what is failing on the web server",
   "what happened with the Tomcat connector"
  ],
  "lexical_only": {
   "questions": 20,
-  "hit_at_1": 0.85,
+  "hit_at_1": 0.9,
   "hit_at_3": 0.9,
   "hit_at_5": 0.9,
   "routing_accuracy": 1.0,
   "misses": [
-   "how many missing file errors did Apache report",
+   "what is failing on the web server",
    "what happened with the Tomcat connector"
   ]
  },
@@ -30,15 +31,15 @@
    "q": "how many failed password attempts are there",
    "expected_kind": "count",
    "kind": "count",
-   "rank": 2,
-   "answer": "839 events in 5 clusters."
+   "rank": 1,
+   "answer": "759 events in 5 clusters."
   },
   {
    "q": "what is failing on the web server",
    "expected_kind": "what",
    "kind": "what",
-   "rank": 1,
-   "answer": "5 matching clusters, strongest: Web server logs indicate requests for non-existent files, likely due to typos or automated scanning."
+   "rank": null,
+   "answer": "5 matching clusters, strongest: React Spring fails to render content on initial load in development server"
   },
   {
    "q": "when did the data TLB errors begin",
@@ -52,28 +53,28 @@
    "expected_kind": "count",
    "kind": "count",
    "rank": 1,
-   "answer": "804 events in 5 clusters."
+   "answer": "805 events in 5 clusters."
   },
   {
    "q": "are there any machine check errors",
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: Hardware machine check interrupts and enable messages indicate CPU or memory errors that may affect system stability."
+   "answer": "5 matching clusters, strongest: Machine check interrupts reported, indicating hardware error conditions"
   },
   {
    "q": "show me the directory listing refusals",
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: Routine Apache log entries indicating that directory listing is disabled for the web root, which is standard security configuration."
+   "answer": "5 matching clusters, strongest: Requests for directory listings are blocked by a rule, causing a forbidden response"
   },
   {
    "q": "how many missing file errors did Apache report",
    "expected_kind": "count",
    "kind": "count",
-   "rank": 4,
-   "answer": "848 events in 5 clusters."
+   "rank": 1,
+   "answer": "966 events in 5 clusters."
   },
   {
    "q": "when was the last mod_jk worker error",
@@ -87,14 +88,14 @@
    "expected_kind": "what",
    "kind": "what",
    "rank": null,
-   "answer": "5 matching clusters, strongest: Pods with long\u2011running postStart phases are not evicted when they exceed resource limits, causing potential resource exhaustion."
+   "answer": "5 matching clusters, strongest: Pods with long-running postStart lifecycle are not evicted even when they exceed resource limits"
   },
   {
    "q": "count the DDR memory errors",
    "expected_kind": "count",
    "kind": "count",
    "rank": 1,
-   "answer": "1,540 events in 5 clusters."
+   "answer": "811 events in 5 clusters."
   },
   {
    "q": "when did the CIOD login failures start",
@@ -108,28 +109,28 @@
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: Process fails to start due to missing or invalid program image"
+   "answer": "5 matching clusters, strongest: CIOD fails to load the RAPTOR program image because the file is missing"
   },
   {
    "q": "show the double hummer alignment exceptions",
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: Repeated double-hummer alignment exceptions logged, indicating a recurring operational failure in the alignment process."
+   "answer": "5 matching clusters, strongest: Repeated double-hummer alignment exception logs indicate recurring operation failures"
   },
   {
    "q": "how many instruction cache parity errors were corrected",
    "expected_kind": "count",
    "kind": "count",
    "rank": 1,
-   "answer": "6,209 events in 5 clusters."
+   "answer": "5,203 events in 5 clusters."
   },
   {
    "q": "which clusters look like brute force attempts",
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: Routine SSH authentication failures from external IPs, likely automated scanning or brute-force attempts, with no indication of service impact."
+   "answer": "5 matching clusters, strongest: Multiple SSH login failures indicating possible brute\u2011force attempts"
   },
   {
    "q": "when did the awstats CGI script errors happen",
@@ -143,21 +144,21 @@
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: Routine SSH client disconnections during the pre-authentication phase, indicating normal connection cleanup or failed login attempts without service impact."
+   "answer": "5 matching clusters, strongest: SSH connections are being disconnected during pre-authentication because no authentication methods are available"
   },
   {
    "q": "how many core generation messages are there",
    "expected_kind": "count",
    "kind": "count",
    "rank": 1,
-   "answer": "65,548 events in 5 clusters."
+   "answer": "70,414 events in 5 clusters."
   },
   {
    "q": "is anything wrong with the scoreboard",
    "expected_kind": "what",
    "kind": "what",
    "rank": 1,
-   "answer": "5 matching clusters, strongest: JK2 initialization fails to locate specific child processes in the scoreboard, indicating a potential state mismatch or race condition during startup."
+   "answer": "5 matching clusters, strongest: Informational log messages about child processes being found in scoreboard slots"
   }
  ]
 }

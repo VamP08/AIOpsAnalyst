@@ -24,3 +24,7 @@ eval/labeling.sqlite
 
 # local run config (credentials come from .env, but the store path is machine-specific)
 pipeline.yaml
+
+# sqlite side files: the store itself is ignored above, and these follow it
+*.sqlite-wal
+*.sqlite-shm
