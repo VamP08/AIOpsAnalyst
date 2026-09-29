@@ -1,0 +1,164 @@
+{
+ "questions": 20,
+ "hit_at_1": 0.9,
+ "hit_at_3": 0.9,
+ "hit_at_5": 0.9,
+ "routing_accuracy": 1.0,
+ "misses": [
+  "what is failing on the web server",
+  "what happened with the Tomcat connector"
+ ],
+ "lexical_only": {
+  "questions": 20,
+  "hit_at_1": 0.9,
+  "hit_at_3": 0.9,
+  "hit_at_5": 0.9,
+  "routing_accuracy": 1.0,
+  "misses": [
+   "what is failing on the web server",
+   "what happened with the Tomcat connector"
+  ]
+ },
+ "results": [
+  {
+   "q": "when did the SSH password failures start",
+   "expected_kind": "when",
+   "kind": "when",
+   "rank": 1,
+   "answer": "First seen None, last seen None, 676 events."
+  },
+  {
+   "q": "how many failed password attempts are there",
+   "expected_kind": "count",
+   "kind": "count",
+   "rank": 1,
+   "answer": "759 events in 5 clusters."
+  },
+  {
+   "q": "what is failing on the web server",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": null,
+   "answer": "5 matching clusters, strongest: React Spring fails to render content on initial load in development server"
+  },
+  {
+   "q": "when did the data TLB errors begin",
+   "expected_kind": "when",
+   "kind": "when",
+   "rank": 1,
+   "answer": "First seen 2005-06-05T00:08:13.410695, last seen 2005-06-05T08:32:04.014520, 474 events."
+  },
+  {
+   "q": "how many TLB error interrupts were logged",
+   "expected_kind": "count",
+   "kind": "count",
+   "rank": 1,
+   "answer": "805 events in 5 clusters."
+  },
+  {
+   "q": "are there any machine check errors",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: Machine check interrupts reported, indicating hardware error conditions"
+  },
+  {
+   "q": "show me the directory listing refusals",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: Requests for directory listings are blocked by a rule, causing a forbidden response"
+  },
+  {
+   "q": "how many missing file errors did Apache report",
+   "expected_kind": "count",
+   "kind": "count",
+   "rank": 1,
+   "answer": "966 events in 5 clusters."
+  },
+  {
+   "q": "when was the last mod_jk worker error",
+   "expected_kind": "when",
+   "kind": "when",
+   "rank": 1,
+   "answer": "First seen 2005-07-10T04:04:45, last seen 2006-01-08T08:46:28, 404 events."
+  },
+  {
+   "q": "what happened with the Tomcat connector",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": null,
+   "answer": "5 matching clusters, strongest: Pods with long-running postStart lifecycle are not evicted even when they exceed resource limits"
+  },
+  {
+   "q": "count the DDR memory errors",
+   "expected_kind": "count",
+   "kind": "count",
+   "rank": 1,
+   "answer": "811 events in 5 clusters."
+  },
+  {
+   "q": "when did the CIOD login failures start",
+   "expected_kind": "when",
+   "kind": "when",
+   "rank": 1,
+   "answer": "First seen 2005-06-04T00:24:31.560279, last seen 2005-06-05T05:10:22.465000, 200 events."
+  },
+  {
+   "q": "what is the RAPTOR program image problem",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: CIOD fails to load the RAPTOR program image because the file is missing"
+  },
+  {
+   "q": "show the double hummer alignment exceptions",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: Repeated double-hummer alignment exception logs indicate recurring operation failures"
+  },
+  {
+   "q": "how many instruction cache parity errors were corrected",
+   "expected_kind": "count",
+   "kind": "count",
+   "rank": 1,
+   "answer": "5,203 events in 5 clusters."
+  },
+  {
+   "q": "which clusters look like brute force attempts",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: Multiple SSH login failures indicating possible brute\u2011force attempts"
+  },
+  {
+   "q": "when did the awstats CGI script errors happen",
+   "expected_kind": "when",
+   "kind": "when",
+   "rank": 1,
+   "answer": "First seen 2005-06-11T03:03:03, last seen 2006-01-08T16:42:24, 118 events."
+  },
+  {
+   "q": "what are the pre-authentication disconnects",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: SSH connections are being disconnected during pre-authentication because no authentication methods are available"
+  },
+  {
+   "q": "how many core generation messages are there",
+   "expected_kind": "count",
+   "kind": "count",
+   "rank": 1,
+   "answer": "70,414 events in 5 clusters."
+  },
+  {
+   "q": "is anything wrong with the scoreboard",
+   "expected_kind": "what",
+   "kind": "what",
+   "rank": 1,
+   "answer": "5 matching clusters, strongest: Informational log messages about child processes being found in scoreboard slots"
+  }
+ ]
+}

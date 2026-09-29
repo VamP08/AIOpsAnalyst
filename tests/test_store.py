@@ -115,3 +115,55 @@ def test_concurrent_readers_do_not_corrupt_the_connection(tmp_path):
     for t in threads:
         t.join()
     assert errors == []
+
+
+def clustered(store, cluster_id, label, titles, times):
+    events = [Event(id=f"{cluster_id}-{i}", source="s",
+                    type="dev.aiops.log.line", title=t, time=when)
+              for i, (t, when) in enumerate(zip(titles, times))]
+    store.insert_events(events)
+    store.assign_clusters({e.id: cluster_id for e in events},
+                          {cluster_id: (label, "log")})
+    return events
+
+
+def test_search_finds_clusters_by_words_in_the_template(tmp_path):
+    store = Store(str(tmp_path / "t.sqlite"))
+    clustered(store, "log-a", "Failed password for <*> from <*>",
+              ["Failed password for root"], ["2026-09-01T10:00:00"])
+    clustered(store, "log-b", "Disk full on <*>",
+              ["Disk full on /dev/sda1"], ["2026-09-01T11:00:00"])
+    hits = store.search_clusters("password")
+    assert [h["id"] for h in hits] == ["log-a"]
+
+
+def test_search_also_matches_the_verdict_summary(tmp_path):
+    store = Store(str(tmp_path / "t.sqlite"))
+    clustered(store, "log-a", "Failed password for <*>", ["x"],
+              ["2026-09-01T10:00:00"])
+    store.upsert_verdict("log-a", {
+        "category": "error", "severity": "medium",
+        "summary": "Repeated SSH brute force attempts against root",
+        "confidence": 0.9, "evidence": [], "tier": "auto",
+        "model": "m", "promptversion": "1.1"})
+    assert [h["id"] for h in store.search_clusters("brute force")] == ["log-a"]
+
+
+def test_search_survives_punctuation_that_would_break_fts_syntax(tmp_path):
+    store = Store(str(tmp_path / "t.sqlite"))
+    clustered(store, "log-a", "Failed password for <*>", ["x"],
+              ["2026-09-01T10:00:00"])
+    assert store.search_clusters('when did "password" errors start?') != []
+    assert store.search_clusters("AND OR NOT") == []
+
+
+def test_timespan_reports_first_last_and_count(tmp_path):
+    store = Store(str(tmp_path / "t.sqlite"))
+    clustered(store, "log-a", "Failed password for <*>",
+              ["a", "b", "c"],
+              ["2026-09-01T10:00:00", "2026-09-03T08:00:00",
+               "2026-09-02T12:00:00"])
+    span = store.timespan("log-a")
+    assert span["first"] == "2026-09-01T10:00:00"
+    assert span["last"] == "2026-09-03T08:00:00"
+    assert span["events"] == 3

@@ -120,7 +120,8 @@ def replay_from(store: Store) -> dict:
 def scorecards() -> dict:
     out = {}
     for name, path in (("maintainer_labels", "eval/scorecard-external.json"),
-                       ("operator_labels", "eval/scorecard-bgl.json")):
+                       ("operator_labels", "eval/scorecard-bgl.json"),
+                       ("ask", "eval/scorecard-ask.json")):
         file = Path(path)
         if file.exists():
             out[name] = json.loads(file.read_text(encoding="utf-8"))

@@ -6,6 +6,7 @@ rows were actually new so callers can see dedup working. Cursors give stateless
 runs (a cron job, a re-run CLI) a saved position per source.
 """
 import json
+import re
 import sqlite3
 import threading
 
@@ -57,6 +58,15 @@ CREATE TABLE IF NOT EXISTS verdicts (
   promptversion TEXT NOT NULL,
   created TEXT NOT NULL DEFAULT (datetime('now'))
 );
+"""
+
+# FTS5 treats these as operators; a question that contains one is asking in
+# English, not in query syntax.
+_FTS_KEYWORDS = {"and", "or", "not", "near"}
+
+_SEARCH_SCHEMA = """
+CREATE VIRTUAL TABLE IF NOT EXISTS cluster_search
+USING fts5(clusterid UNINDEXED, label, summary, tokenize='porter unicode61');
 """
 
 _COLS = ("id", "source", "type", "time", "subject", "datacontenttype",
@@ -200,6 +210,43 @@ class Store:
         return {sink: ref for sink, ref in self.db.execute(
             "SELECT sink, ref FROM routed WHERE clusterid = ?",
             (cluster_id,)).fetchall()}
+
+    def search_clusters(self, question: str, limit: int = 8) -> list[dict]:
+        """Full-text search over cluster templates and their summaries.
+
+        The index is built on demand rather than kept in triggers: the corpus
+        changes in batches between runs, not per keystroke, and a rebuild of a
+        few hundred rows costs less than the machinery to keep it live.
+
+        A question is not an FTS expression - quotes, question marks and a bare
+        OR are all syntax to SQLite and all noise to a reader - so the query is
+        reduced to its words and joined with OR.
+        """
+        self.db.executescript(_SEARCH_SCHEMA)
+        self.db.execute("DELETE FROM cluster_search")
+        self.db.execute(
+            "INSERT INTO cluster_search (clusterid, label, summary) "
+            "SELECT c.id, c.label, COALESCE(v.summary, '') FROM clusters c "
+            "LEFT JOIN verdicts v ON v.clusterid = c.id")
+        self.db.commit()
+
+        words = [w for w in re.findall(r"[A-Za-z0-9_]+", question.lower())
+                 if w not in _FTS_KEYWORDS and len(w) > 1]
+        if not words:
+            return []
+        rows = self.db.execute(
+            "SELECT s.clusterid, c.label, c.tier, bm25(cluster_search) AS rank "
+            "FROM cluster_search s JOIN clusters c ON c.id = s.clusterid "
+            "WHERE cluster_search MATCH ? ORDER BY rank LIMIT ?",
+            (" OR ".join(words), limit)).fetchall()
+        return [{"id": r[0], "label": r[1], "tier": r[2], "rank": r[3]}
+                for r in rows]
+
+    def timespan(self, cluster_id: str) -> dict:
+        row = self.db.execute(
+            "SELECT MIN(time), MAX(time), COUNT(*) FROM events "
+            "WHERE clusterid = ?", (cluster_id,)).fetchone()
+        return {"first": row[0], "last": row[1], "events": row[2]}
 
     def routed_map(self) -> dict[str, dict[str, str]]:
         """Every cluster's sink references in one query, for list views that

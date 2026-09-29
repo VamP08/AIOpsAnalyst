@@ -117,6 +117,38 @@ embeddings for prose. No UMAP or HDBSCAN: they cluster prose better and they do
 not reproduce run to run, and a number that cannot be reproduced is not worth
 having.
 
+## Asking the corpus
+
+Three kinds of question arrive at a triage system and only one of them wants
+prose. "When did the data TLB errors begin" wants a timestamp, "how many missing
+file errors" wants a count, and SQL knows both exactly while a model would
+approximate them from whatever text it was shown. So retrieval finds the
+clusters, SQL answers the question, and every answer names the clusters and
+sample events behind it. `/api/ask` calls no model: triage already classified
+these clusters, and asking one to re-read its own output only adds a way to be
+wrong.
+
+Measured on 20 questions written against the corpus before the retriever was
+ever run, and not edited afterwards ([`eval/questions.yaml`](eval/questions.yaml),
+[`eval/scorecard-ask.json`](eval/scorecard-ask.json)):
+
+| | |
+|---|---|
+| hit@1 | **0.90** |
+| hit@3 | 0.90 |
+| routing accuracy | 1.00 |
+
+Both misses are the same failure: the question uses words the corpus never
+does. "What is failing on the web server" and "what happened with the Tomcat
+connector" are asking about templates that say `File does not exist` and
+`mod_jk`. A semantic pass over MiniLM embeddings was added for exactly that gap
+and **did not move the number** - the right cluster for the first question ranks
+third by similarity, just outside the two slots held for semantic hits, and for
+the second, the embedding model does not know `mod_jk` is Tomcat's connector.
+Widening that slot count to three would have scored 0.95 on this set, which is
+how a knob gets tuned against the test it is measured by, so it was left alone
+and the null result is reported instead.
+
 ## The model labels, the rules act
 
 Every verdict carries a confidence, and a deterministic table - not the model -
@@ -164,7 +196,7 @@ conda activate aiopsanalyst
 pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
-pytest                        # 158 tests
+pytest                        # 193 tests
 uvicorn server.app:app        # dashboard on http://127.0.0.1:8000
 ```
 

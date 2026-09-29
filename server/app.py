@@ -9,10 +9,11 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, field_validator
 
+from aiops.ask import answer
 from aiops.envelope import Event
 from aiops.envfile import load_env
 from aiops.store import Store
@@ -100,6 +101,16 @@ def create_app(store: Store, chat=None) -> FastAPI:
                 "routed": store.routed(cluster_id),
                 "events": [e.to_dict() | {"title": e.title}
                            for e in store.events_in_cluster(cluster_id, 10)]}
+
+    @app.get("/api/ask")
+    def ask(q: str = Query(min_length=1), limit: int = 5) -> dict:
+        """Counting and timing questions are answered from SQL, and every
+        answer names the clusters and events behind it. No model is called
+        here: triage already classified these clusters, and asking one to
+        re-read the result would only add a way to be wrong."""
+        if not q.strip():
+            raise HTTPException(422, "ask something")
+        return answer(store, q, limit=limit)
 
     @app.post("/api/triage")
     def triage_text(pasted: PastedEvent) -> dict:

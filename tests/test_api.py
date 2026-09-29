@@ -135,3 +135,23 @@ def test_stats_report_no_tracker_when_unconfigured(tmp_path, monkeypatch):
     monkeypatch.setenv("JIRA_BASE_URL", "")
     client = TestClient(create_app(seeded_store(tmp_path)))
     assert client.get("/api/stats").json()["jira_base"] == ""
+
+
+def test_ask_answers_a_when_question_from_the_store(tmp_path):
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    body = client.get("/api/ask", params={"q": "when did the password failures start"}).json()
+    assert body["kind"] == "when"
+    assert body["cluster"]["id"] == "log-aaa"
+    assert body["evidence"]
+
+
+def test_ask_reports_no_match_rather_than_inventing_one(tmp_path):
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    body = client.get("/api/ask", params={"q": "kafka consumer lag rebalancing"}).json()
+    assert body["kind"] == "none"
+    assert body["matches"] == []
+
+
+def test_ask_requires_a_question(tmp_path):
+    client = TestClient(create_app(seeded_store(tmp_path)))
+    assert client.get("/api/ask", params={"q": "  "}).status_code == 422

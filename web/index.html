@@ -40,6 +40,16 @@
 
 <div class="paste">
   <h2 style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 8px">
+    Ask the corpus
+  </h2>
+  <input id="ask" placeholder="when did the data TLB errors begin / how many missing file errors / what is failing"
+         style="width:100%;background:var(--panel);border:1px solid var(--line);color:var(--ink);font:12px var(--mono);padding:8px;border-radius:2px">
+  <button id="ask-run">ask</button>
+  <div class="out" id="ask-out"></div>
+</div>
+
+<div class="paste">
+  <h2 style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:0 0 8px">
     Triage your own event
   </h2>
   <textarea id="paste" placeholder="Paste a log line, stack trace, alert payload or issue body. It runs through the same prompt and the same confidence gate as the pipeline, and is not stored."></textarea>

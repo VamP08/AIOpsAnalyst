@@ -1,0 +1,73 @@
+# Fixed question set for the ask layer.
+#
+# Written against the corpus before the retriever was measured, and not edited
+# afterwards. Each question names a marker that must appear in the label or the
+# summary of a returned cluster; a question is a hit when that cluster is in
+# the top three. "kind" is the intent the router should pick, which is checked
+# separately from retrieval so a wrong route and a wrong cluster do not hide
+# each other.
+#
+# Questions phrased the way someone would actually ask, including the ones
+# whose vocabulary does not appear in the corpus at all - those are not
+# mistakes in the set, they are the cases worth knowing about.
+
+- q: when did the SSH password failures start
+  kind: when
+  marker: Failed password
+- q: how many failed password attempts are there
+  kind: count
+  marker: Failed password
+- q: what is failing on the web server
+  kind: what
+  marker: File does not exist
+- q: when did the data TLB errors begin
+  kind: when
+  marker: data TLB
+- q: how many TLB error interrupts were logged
+  kind: count
+  marker: data TLB
+- q: are there any machine check errors
+  kind: what
+  marker: machine check
+- q: show me the directory listing refusals
+  kind: what
+  marker: Directory index forbidden
+- q: how many missing file errors did Apache report
+  kind: count
+  marker: File does not exist
+- q: when was the last mod_jk worker error
+  kind: when
+  marker: mod_jk
+- q: what happened with the Tomcat connector
+  kind: what
+  marker: mod_jk
+- q: count the DDR memory errors
+  kind: count
+  marker: ddr error
+- q: when did the CIOD login failures start
+  kind: when
+  marker: ciod
+- q: what is the RAPTOR program image problem
+  kind: what
+  marker: ciod
+- q: show the double hummer alignment exceptions
+  kind: what
+  marker: double-hummer
+- q: how many instruction cache parity errors were corrected
+  kind: count
+  marker: instruction cache parity
+- q: which clusters look like brute force attempts
+  kind: what
+  marker: Failed password
+- q: when did the awstats CGI script errors happen
+  kind: when
+  marker: script not found
+- q: what are the pre-authentication disconnects
+  kind: what
+  marker: Received disconnect
+- q: how many core generation messages are there
+  kind: count
+  marker: generating
+- q: is anything wrong with the scoreboard
+  kind: what
+  marker: scoreboard

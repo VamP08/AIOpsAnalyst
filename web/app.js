@@ -221,6 +221,32 @@ async function triagePasted() {
   }
 }
 
+async function askCorpus() {
+  const question = $("ask").value.trim();
+  if (!question) return;
+  $("ask-run").disabled = true;
+  $("ask-out").textContent = "searching...";
+  try {
+    const r = await api(`/api/ask?q=${encodeURIComponent(question)}`);
+    const out = $("ask-out");
+    out.replaceChildren(el("strong", null, text(r.answer)));
+    for (const m of r.matches.slice(0, 3)) {
+      const row = el("div", null, `${text(m.label)} `);
+      row.style.cssText = "margin-top:4px;color:var(--dim)";
+      row.append(el("span", "faint", `${m.events} events, ${text(m.how)}`));
+      if (m.tier) row.append(document.createTextNode(" "), tierTag(m.tier));
+      out.append(row);
+    }
+    // counting and timing answers come from SQL, not from a model; say so
+    out.append(el("div", "faint",
+      "answered from the store, no model call"));
+  } catch (e) {
+    $("ask-out").textContent = `no answer: ${e.message}`;
+  } finally {
+    $("ask-run").disabled = false;
+  }
+}
+
 async function boot() {
   const [stats, rows] = await Promise.all([
     api("/api/stats"), api("/api/clusters?limit=2000"),
@@ -234,6 +260,10 @@ async function boot() {
   ["q", "category", "tier", "source", "routed-only"].forEach((id) =>
     $(id).addEventListener("input", renderRows));
   $("run").addEventListener("click", triagePasted);
+  $("ask-run").addEventListener("click", askCorpus);
+  $("ask").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") askCorpus();
+  });
 }
 
 boot().catch((e) => {

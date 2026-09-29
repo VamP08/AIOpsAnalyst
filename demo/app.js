@@ -191,6 +191,21 @@ function renderScorecards(cards) {
       + "routine events to operators who flag hardware and kernel incidents — "
       + "a taxonomy mismatch, reported rather than tuned away.", null));
   }
+  const ask = cards.ask;
+  if (ask) {
+    out.push(scorecard(
+      "Questions that reach the right cluster",
+      "20 questions written against the corpus before this was ever run, and not edited after",
+      null,
+      [["hit@1", ask.hit_at_1, true],
+       ["hit@3", ask.hit_at_3],
+       ["routing accuracy", ask.routing_accuracy],
+       ["questions", ask.questions]],
+      "Counting and timing questions are answered from SQL rather than by a "
+      + "model. A semantic pass was added afterwards for wording the corpus "
+      + "never uses; it did not move this number, and the reserved-slot knob "
+      + "was left where it was rather than tuned until it did.", null));
+  }
   $("scorecards").replaceChildren(...out);
 }
 
