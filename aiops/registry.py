@@ -7,7 +7,7 @@ decorator into a module dict; entry points would replace this if adapters ever
 ship as separate packages.
 """
 from abc import ABC, abstractmethod
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterator
 
 from aiops.envelope import Event
 

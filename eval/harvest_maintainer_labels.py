@@ -12,7 +12,6 @@ rather than guessed at.
 Usage: python eval/harvest_maintainer_labels.py eval/labeling.sqlite eval/external_labels.csv
 """
 import csv
-import json
 import sys
 from pathlib import Path
 

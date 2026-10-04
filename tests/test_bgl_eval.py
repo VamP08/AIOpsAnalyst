@@ -5,7 +5,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "eval"))
 
 from bgl_report import is_alert, surfaced, tally
 
-from aiops.envelope import Event
 
 
 def test_operator_label_dash_means_routine():

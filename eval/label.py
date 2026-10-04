@@ -56,9 +56,9 @@ def show(store: Store, cluster: dict, done: int, total: int,
             print()
             for line in block:
                 print(line)
-    print(f"\n  [1] crash   [2] error    [3] performance")
-    print(f"  [4] feature_request   [5] question   [6] noise"
-          f"        s=skip  q=quit")
+    print("\n  [1] crash   [2] error    [3] performance")
+    print("  [4] feature_request   [5] question   [6] noise"
+          "        s=skip  q=quit")
 
 
 def main(db_path: str, out_path: str, tier: str | None = None) -> None:

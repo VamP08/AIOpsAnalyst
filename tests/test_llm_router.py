@@ -1,5 +1,4 @@
 import httpx
-import pytest
 
 import aiops.triage.llm as llm
 

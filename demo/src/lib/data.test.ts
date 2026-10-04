@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { specimens, stats, policy } from "./data";
 import { OUTCOMES } from "./outcomes";
+import clusters from "../../public/data/clusters.json";
 
 describe("data", () => {
   it("outcomes partition the clusters", () => {
@@ -30,12 +31,9 @@ describe("outcomeOf", () => {
   });
 });
 
-import { readFileSync } from "node:fs";
-
 describe("clusters.json", () => {
   it("every row's outcome follows from its tier and category", () => {
-    const rows = JSON.parse(readFileSync(new URL("../../public/data/clusters.json", import.meta.url), "utf-8"));
-    for (const row of rows.filter((r: { tier?: string }) => r.tier))
+    for (const row of clusters.filter((r) => r.tier))
       expect(outcomeOf(row.tier, row.category, policy.routes)).toBe(row.outcome);
   });
 });
