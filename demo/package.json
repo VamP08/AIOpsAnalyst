@@ -10,5 +10,5 @@
     "test": "vitest run"
   },
   "dependencies": { "astro": "^7.3.5" },
-  "devDependencies": { "vitest": "^5.0.3", "typescript": "^5.9.0" }
+  "devDependencies": { "vitest": "^5.0.3", "typescript": "^7.0.2" }
 }
