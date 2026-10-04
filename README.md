@@ -257,7 +257,7 @@ conda activate aiopsanalyst
 pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
-pytest                        # 224 tests
+pytest                        # 225 tests
 uvicorn server.app:app        # API on http://127.0.0.1:8000
 ```
 
