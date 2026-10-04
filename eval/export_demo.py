@@ -5,14 +5,14 @@ about a minute to wake, and a minute of blank page is the whole visit. So the
 page ships precomputed results and loads instantly, and the live API is a
 progressive enhancement the first impression never depends on.
 
-Writes into web/public/data/:
+Writes into demo/public/data/:
   stats.json       headline counters
   clusters.json    every cluster with its verdict and any ticket it produced
   scorecards.json  both published evaluations, verbatim
   specimens.json   a few real events followed from input to what happened
   policy.json      the gate's rules and the routes, as the code runs them
 
-Usage: python eval/export_demo.py eval/labeling.sqlite web/public/data [pipeline.yaml]
+Usage: python eval/export_demo.py eval/labeling.sqlite demo/public/data [pipeline.yaml]
 """
 import json
 import sys
@@ -208,7 +208,7 @@ def scorecards() -> dict:
     return out
 
 
-def main(db_path: str, out_dir: str = "web/public/data",
+def main(db_path: str, out_dir: str = "demo/public/data",
          config: str = "pipeline.yaml") -> None:
     import yaml
 

@@ -29,7 +29,7 @@ const safe = (u: string) => (u.startsWith("https://") ? u : null);
       <ul class="tally" aria-label="What the rulebook would do with this run's issues">
         {tally.map((t) => <li class:list={{ none: t.count === 0 }}><OutcomeMark outcome={t.key} /><b>{n(t.count)}</b><span>{label(t.key)}</span></li>)}
       </ul>
-      <p class="stamp">Last run <time datetime={updated}>{day} at {time} UTC</time>, {n(entries.length)} issues. <a href="https://github.com/VamP08/AIOpsAnalyst/commits/main/web/public/data/live.json">Every run is in the commit history</a>.</p>
+      <p class="stamp">Last run <time datetime={updated}>{day} at {time} UTC</time>, {n(entries.length)} issues. <a href="https://github.com/VamP08/AIOpsAnalyst/commits/main/demo/public/data/live.json">Every run is in the commit history</a>.</p>
     </header>
 
     <ol class="feed">

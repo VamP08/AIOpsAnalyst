@@ -1,6 +1,6 @@
 """Read API over a triaged store, plus the one interactive endpoint.
 
-The public site is static (Astro, in web/); everything dynamic it needs is
+The public site is static (Astro, in demo/); everything dynamic it needs is
 here. /api/triage is the "paste your own event" box: it classifies one pasted
 event through the same prompt and gate as the pipeline, and stores nothing —
 visitors must not be able to write into the corpus the numbers are measured on.

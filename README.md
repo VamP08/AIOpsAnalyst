@@ -166,8 +166,8 @@ having.
 ![Where the 31,155 events went: five sources into 905 problems, five outcomes out, and the rulebook](media/site-routes.png)
 
 The API runs locally against a store with `uvicorn server.app:app`. The public site
-(Astro, in `web/`) is static and reads the exported corpus. To work on it:
-`cd web && npm install && npm run dev`.
+(Astro, in `demo/`) is static and reads the exported corpus. To work on it:
+`cd demo && npm install && npm run dev`.
 
 ## Asking the corpus
 

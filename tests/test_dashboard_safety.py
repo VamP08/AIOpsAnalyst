@@ -7,7 +7,7 @@ these tests fail if someone reaches for an HTML string again.
 """
 from pathlib import Path
 
-APP = (Path(__file__).resolve().parent.parent / "web" / "src" / "scripts"
+APP = (Path(__file__).resolve().parent.parent / "demo" / "src" / "scripts"
        / "explore.ts").read_text(encoding="utf-8")
 
 

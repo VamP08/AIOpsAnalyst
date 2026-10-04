@@ -18,7 +18,7 @@ dist/
 corpus/data/
 
 node_modules/
-web/dist/
+demo/dist/
 eval/_sample_*.log
 eval/labeling.sqlite
 
@@ -28,5 +28,5 @@ pipeline.yaml
 # sqlite side files: the store itself is ignored above, and these follow it
 *.sqlite-wal
 *.sqlite-shm
-web/node_modules/
-web/.astro/
+demo/node_modules/
+demo/.astro/
