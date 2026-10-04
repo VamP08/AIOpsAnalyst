@@ -160,3 +160,13 @@ def test_events_by_kind_counts_arrivals_per_source_kind(tmp_path):
         Event(id="b1", source="bgl://llnl/bluegene", type="dev.aiops.log.line", title="w"),
     ])
     assert events_by_kind(store) == {"issue": 1, "log": 2, "supercomputer": 1}
+
+
+def test_clip_cuts_on_a_word_and_marks_the_cut():
+    from export_demo import clip
+
+    assert clip("short body") == "short body"
+    text = "the dynamo cache suggests the issue is in Torch internals " * 10
+    out = clip(text, 300)
+    assert len(out) <= 300 and out.endswith("\u2026")
+    assert text.startswith(out[:-1]) and text[len(out) - 1] == " "   # whole words only

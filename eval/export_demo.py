@@ -66,6 +66,13 @@ def outcome(row: dict, policy) -> str:
     return "ticket" if policy._sinks_for(row) else "dropped"
 
 
+def clip(text: str, limit: int = 300) -> str:
+    """At most `limit` characters, cut at a word and marked as cut, so a page never stops mid-word."""
+    if len(text) <= limit:
+        return text
+    return text[:limit].rsplit(None, 1)[0].rstrip(" ,;:.") + "\u2026"
+
+
 def specimen(store: Store, cluster_id: str) -> dict:
     """One real event, followed through: what came in, what it was grouped
     with, what the model said, which rule decided, and what that caused."""
@@ -86,7 +93,7 @@ def specimen(store: Store, cluster_id: str) -> dict:
                   "kind": kind(first.type, first.source),
                   "subject": first.subject, "time": first.time,
                   "title": first.title, "url": first.url,
-                  "body": strip_boilerplate(first.body or first.raw or "")[:300]},
+                  "body": clip(strip_boilerplate(first.body or first.raw or ""))},
         "cluster": {"id": cluster_id, "label": cluster["label"],
                     "size": cluster["size"],
                     "siblings": [e.title for e in siblings]},
