@@ -103,9 +103,9 @@ function replayPlayer(replay, clusters) {
       const event = events[index];
       counts.set(event.cluster, (counts.get(event.cluster) ?? 0) + 1);
       if (event.alert) alerts += 1;
-      // flagged lines get priority but not the whole pane: 76 of these 4,097
-      // lines were flagged, and the ticker should look like that ratio rather
-      // than like an emergency
+      // flagged lines get priority but not the whole pane: they are a small
+      // fraction of the window, and the ticker should look like that ratio
+      // rather than like an emergency
       if (drawn < 6 || (event.alert && flagged < 2)) {
         if (event.alert) flagged += 1;
         const line = el("li", event.alert ? "alert" : null,
@@ -209,11 +209,11 @@ function renderScorecards(cards) {
        ["alerts missed", num(operator.alert_missed)],
        ["line-level suppression", `${Math.round((operator.noise_suppression ?? 0) * 100)}%`]],
       "The cluster figures hold across runs; the line figure does not. One "
-      + "cluster is 65,454 of the 80,000 lines and its text is \"generating "
+      + "cluster is 8,186 of the 10,000 lines and its text is \"generating "
       + "core.304\" — a crash as text, background to people running a machine "
       + "where jobs die constantly, who labelled all of it routine. The model "
-      + "has read it both ways, and line-level suppression follows it from 93% "
-      + "to 9%.", null));
+      + "has read it both ways, and line-level suppression has ranged from 9% "
+      + "to 93% across runs.", null));
   }
   const ask = cards.ask;
   if (ask) {

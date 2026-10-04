@@ -4,10 +4,10 @@
 incident replayed from its own timestamps, both scorecards, the tickets it filed,
 and what it triaged in the last day.
 
-[![The replay: 16,595 lines of a supercomputer log collapsing into 41 clusters](media/demo-replay.png)](https://ai-ops-analyst.vercel.app/)
+[![The replay: a supercomputer log collapsing into clusters as it arrives](media/demo-replay.png)](https://ai-ops-analyst.vercel.app/)
 
-One triage pipeline for every event stream. Server logs, GitHub issues and
-alerts go in; deduplicated clusters with a category, a severity, a confidence
+One triage pipeline for every event stream. Server logs, GitHub issues, failed
+CI runs and status-page incidents go in; deduplicated clusters with a category, a severity, a confidence
 and an evidence trail come out, and a policy table decides what happens to each
 one - a Jira ticket, a Slack message, or a human.
 
@@ -69,7 +69,7 @@ and the pipeline is not only issues:
 
 | | 1.1 | 1.2 |
 |---|---|---|
-| alert recall on the supercomputer log | 1.00, 3 of 3 incident types | 0.998, 2 of 3 |
+| alert recall on the supercomputer log (80,000 lines then) | 1.00, 3 of 3 incident types | 0.998, 2 of 3 |
 | questions reaching the right cluster | hit@1 0.90 | hit@1 0.80 |
 | clusters escalated to a human | 5, three of them critical | 0 |
 | verdicts using the critical severity | 3 | **0** |
@@ -90,32 +90,36 @@ carries about that much slack.
 
 **Against the alert labels that Lawrence Livermore's operations staff applied to
 their own supercomputer logs** (the BGL dataset, published with Oliner and
-Stearley, DSN 2007), 80,000 lines:
+Stearley, DSN 2007), 10,000 lines - every eighth line of the first 80,000:
 
 | | |
 |---|---|
-| clusters a responder reads | **22**, down from 80,000 lines |
-| incident types preserved | **3 of 3** clusters carrying operator alerts are surfaced |
-| alert recall | **1.00** &mdash; all 566 operator-flagged lines surfaced |
-| line-level precision | 0.008 |
-| line-level noise suppression | 9% in this corpus, 93% in two earlier runs |
+| clusters a responder reads | **14** of 40, down from 10,000 lines |
+| incident types preserved | **2 of 2** clusters carrying operator alerts are surfaced |
+| alert recall | **1.00** &mdash; all 66 operator-flagged lines surfaced |
+| line-level precision | 0.07 |
+| line-level noise suppression | 91% in this run; 9% to 93% across earlier runs |
 
 Full scorecard: [`eval/scorecard-bgl.json`](eval/scorecard-bgl.json).
 
+The sample is taken by position and never by label. Keeping every flagged line
+would have preserved a third incident type - `KERNMC`, a single line in the
+80,000 - and made the evaluation measure a corpus filtered on its own answer
+key, so the type was lost instead and is reported lost.
+
 The cluster numbers are the ones that hold. The line numbers move enormously
-between runs, and the reason is a single cluster: `generating <*>` is 65,454 of
-the 80,000 lines, and the lines read `RAS KERNEL INFO generating core.304`. That
+between runs, and the reason is a single cluster: `generating <*>` is 8,186 of
+the 10,000 lines, and the lines read `RAS KERNEL INFO generating core.304`. That
 is a core dump. As text it is a crash; to the people who ran a machine where
-jobs die constantly it is background, and they labelled all 65,454 lines
-routine. The model has landed on both sides across three runs, and because the
-cluster is 76% of the corpus, noise suppression follows it from 93% to 9%
+jobs die constantly it is background, and they labelled every one of those lines
+routine. The model has landed on both sides across runs, and because the
+cluster is 82% of the corpus, noise suppression follows it
 ([`eval/scorecard-runs.json`](eval/scorecard-runs.json)).
 
 That is worth more than a tidier number would be. A line-level metric on log
 data is hostage to whichever cluster happens to be biggest, which is exactly why
-the cluster view is reported first: 22 things to read instead of 80,000, with
-every incident type the operators flagged still among them, held across every
-run.
+the cluster view is reported first: 14 things to read instead of 10,000, with
+every incident type the operators flagged still among them.
 
 The label never reaches the model: the parser keeps it in the event's attributes
 and the prompt is built from the title and body, which a test asserts.
@@ -131,7 +135,8 @@ rather than averaged.
 flowchart LR
     L[log files] --> N
     G[GitHub issues] --> N
-    A[alert webhooks] --> N
+    CI[failed CI runs] --> N
+    SP[status-page incidents] --> N
     N[one event envelope<br>CloudEvents-shaped] --> C[cluster<br>deterministic]
     C --> T[LLM triage<br>one call per cluster]
     T --> GT[confidence gate<br>deterministic policy]
@@ -180,36 +185,38 @@ ever run, and not edited afterwards ([`eval/questions.yaml`](eval/questions.yaml
 
 | | |
 |---|---|
-| hit@1 | **0.85** |
+| hit@1 | **0.80** |
 | hit@3 | 0.90 |
 | routing accuracy | 1.00 |
 
-Three misses, and they are the same failure: the question uses words the corpus
-never does. "What is failing on the web server" and "what happened with the Tomcat
-connector" are asking about templates that say `File does not exist` and
-`mod_jk`. A semantic pass over MiniLM embeddings was added for exactly that gap
-and **did not move the number** - the right cluster for the first question ranks
-third by similarity, just outside the two slots held for semantic hits, and for
-the second, the embedding model does not know `mod_jk` is Tomcat's connector.
-Widening that slot count to three would have scored 0.95 on this set, which is
-how a knob gets tuned against the test it is measured by, so it was left alone
-and the null result is reported instead.
+The misses are the same failure: the question uses words the corpus never
+does. "What happened with the Tomcat connector" is asking about templates that
+say `mod_jk`, and the embedding model does not know `mod_jk` is Tomcat's
+connector. "What is failing on the web server" was a hit until the corpus grew:
+an OpenStack cluster about a VM terminating `httpd` now outranks the Apache
+`File does not exist` cluster, which drops to third. That is the cost of a
+larger corpus, not a regression in the retriever, and it is published as
+measured. A semantic pass over MiniLM embeddings was added for vocabulary gaps
+and did not move the number; widening its reserved slots would have, which is
+how a knob gets tuned against the test it is measured by, so it was left alone.
 
 ## The model labels, the rules act
 
 Every verdict carries a confidence, and a deterministic table - not the model -
 decides the consequence:
 
-| tier | when | what happens |
+| first rule that matches | tier | what happens |
 |---|---|---|
-| auto | confidence >= 0.9 | routed to its sink without asking |
-| suggest | confidence >= 0.7 | drafted, waits for a person |
-| escalate | low confidence, or any critical severity | a human is told |
-| abstain | neither | recorded, nothing sent |
+| severity is critical | escalate | a human is told |
+| confidence >= 0.9 | auto | routed to its sink without asking |
+| confidence >= 0.7 | suggest | drafted, waits for a person |
+| severity is high | escalate | a human is told |
+| anything else | abstain | recorded, nothing sent |
 
 Critical severity escalates regardless of confidence: paging someone is cheap,
-a wrong automatic action during an outage is not. Thresholds live in config, and
-the routing table is YAML (see [`pipeline.example.yaml`](pipeline.example.yaml)).
+a wrong automatic action during an outage is not. The rules are an ordered table
+in [`aiops/triage/gate.py`](aiops/triage/gate.py), exported verbatim for the demo,
+and the routing table is YAML (see [`pipeline.example.yaml`](pipeline.example.yaml)).
 
 Side effects are idempotent. A `(cluster, sink)` pair is recorded only after the
 sink reports success, so a sink that is down costs a retry, never a duplicate
@@ -242,7 +249,7 @@ conda activate aiopsanalyst
 pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
-pytest                        # 193 tests
+pytest                        # 226 tests
 uvicorn server.app:app        # dashboard on http://127.0.0.1:8000
 ```
 
@@ -257,5 +264,7 @@ monitoring, and has no agent loop. Those are deliberate omissions, not a roadmap
 slipping: every one of them needs a trust story this project has not earned yet,
 and the measured part is the point.
 
-Corpus: two log sources and six repositories. Nothing here is a claim about
-production systems in general.
+Corpus: six Loghub log datasets (OpenSSH, Apache, OpenStack, ZooKeeper, Linux,
+Blue Gene/L), issues from six repositories, failed CI runs from three, and
+incidents from four public status pages - 31,155 events in 905 clusters.
+Nothing here is a claim about production systems in general.

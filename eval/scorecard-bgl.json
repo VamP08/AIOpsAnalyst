@@ -1,23 +1,23 @@
 {
- "lines": 80000,
- "operator_alerts": 566,
- "operator_routine": 79434,
- "alert_surfaced": 566,
+ "lines": 10000,
+ "operator_alerts": 66,
+ "operator_routine": 9934,
+ "alert_surfaced": 66,
  "alert_missed": 0,
- "routine_surfaced": 72284,
- "routine_suppressed": 7150,
+ "routine_surfaced": 874,
+ "routine_suppressed": 9060,
  "alert_recall": 1.0,
- "alert_precision": 0.0078,
- "noise_suppression": 0.09,
- "cohens_kappa": 0.0014,
+ "alert_precision": 0.0702,
+ "noise_suppression": 0.912,
+ "cohens_kappa": 0.1204,
  "kappa_ci95": [
-  0.001,
-  0.002
+  0.093,
+  0.148
  ],
  "by_cluster": {
-  "clusters": 51,
-  "surfaced": 22,
-  "alert_bearing": 3,
-  "alert_bearing_surfaced": 3
+  "clusters": 40,
+  "surfaced": 14,
+  "alert_bearing": 2,
+  "alert_bearing_surfaced": 2
  }
 }
