@@ -13,7 +13,7 @@ const day = updated.slice(0, 10);
 const time = updated.slice(11, 16);
 const ended = (e: Entry): Outcome => outcomeOf(e.tier, e.category, policy.routes);
 // The live job routes nothing, so its "ticket" is what the rulebook would file.
-const label = (o: Outcome) => (o === "ticket" ? "Would be filed as a ticket" : OUTCOMES.find((x) => x.key === o)!.label);
+const label = (o: Outcome) => (o === "ticket" ? "Would become a ticket" : OUTCOMES.find((x) => x.key === o)!.label);
 const tally = OUTCOMES.map((o) => ({ ...o, count: entries.filter((e) => ended(e) === o.key).length }));
 const safe = (u: string) => (u.startsWith("https://") ? u : null);
 ---

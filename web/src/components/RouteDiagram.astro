@@ -121,7 +121,7 @@ const binItems = (o: Outcome) => {
           <li>{it.href ? <a href={it.href}>{it.text}</a> : <span>{it.text}</span>} <i>{n(it.size)} {it.size === 1 ? "event" : "events"}</i></li>
         ))}
       </ul>
-      {o.key === "ticket" && <p class="sample">The demo tracker holds a sample of {n(stats.tickets)} of these; the rulebook files every one.</p>}
+      {o.key === "ticket" && <p class="sample">The demo tracker holds a sample of {n(stats.tickets)} of these; the rulebook would file every one.</p>}
     </details>
   ))}
 </div>

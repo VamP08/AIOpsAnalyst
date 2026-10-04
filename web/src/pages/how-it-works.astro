@@ -60,7 +60,7 @@ const unsure = specimens.find((s) => s.outcome === "unsure")!;
     <section id="label" class="stage">
       <div class="say">
         <h2>The model reads each pile once</h2>
-        <p>A language model is shown a few samples from each pile and asked four things: what kind of problem it is, how bad, how sure it is, and to say it in one sentence. That is all it returns. It is asked {n(stats.clusters)} times for this corpus, not {n(stats.events)}.</p>
+        <p>A language model is shown a few samples from each pile and asked four things: what kind of problem it is, how bad, how sure it is, and to say it in one sentence. It also points at the sample events that support its answer, and that is all it returns. It is asked {n(stats.clusters)} times for this corpus, not {n(stats.events)}.</p>
         <p class="gloss"><b>Confidence:</b> the model's own estimate, from 0 to 1, that it named the kind of problem correctly. The rulebook reads it; it never acts on its own.</p>
       </div>
       <figure class="example">

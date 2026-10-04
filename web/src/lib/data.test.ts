@@ -29,3 +29,13 @@ describe("outcomeOf", () => {
     for (const s of specimens) expect(outcomeOf(s.route.tier, s.verdict.category, policy.routes)).toBe(s.outcome);
   });
 });
+
+import { readFileSync } from "node:fs";
+
+describe("clusters.json", () => {
+  it("every row's outcome follows from its tier and category", () => {
+    const rows = JSON.parse(readFileSync(new URL("../../public/data/clusters.json", import.meta.url), "utf-8"));
+    for (const row of rows.filter((r: { tier?: string }) => r.tier))
+      expect(outcomeOf(row.tier, row.category, policy.routes)).toBe(row.outcome);
+  });
+});

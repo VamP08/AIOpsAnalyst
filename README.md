@@ -251,7 +251,7 @@ pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
 pytest                        # 224 tests
-uvicorn server.app:app        # dashboard on http://127.0.0.1:8000
+uvicorn server.app:app        # API on http://127.0.0.1:8000
 ```
 
 `AIOPS_DB` points the API at a store. LLM providers are tried in order and any

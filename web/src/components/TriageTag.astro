@@ -3,7 +3,6 @@
 // decision, shown the way a triage tag shows one: every other outcome torn off,
 // the one that is left at the bottom.
 import type { Specimen } from "../lib/data";
-import { stats } from "../lib/data";
 import { KIND_LABEL, sourceLine } from "../lib/describe";
 import { n } from "../lib/format";
 import { OUTCOMES } from "../lib/outcomes";
@@ -11,18 +10,18 @@ import ConfidenceStrip from "./ConfidenceStrip.astro";
 import OutcomeMark from "./OutcomeMark.astro";
 import { policy } from "../lib/data";
 
-interface Props { s: Specimen; index?: number; headingLevel?: "h2" | "h3" }
-const { s, index = 1, headingLevel = "h3" } = Astro.props;
+interface Props { s: Specimen; headingLevel?: "h2" | "h3" }
+const { s, headingLevel = "h3" } = Astro.props;
 const Heading = headingLevel;
 const left = OUTCOMES.find((o) => o.key === s.outcome)!;
 const torn = OUTCOMES.filter((o) => o.key !== s.outcome);
 const rule = policy.gate[s.route.rule];
 ---
-<article class="tag" aria-label={`Triage tag: ${s.input.title}`}>
+<article class="tag" role="group" aria-label={`Triage tag: ${s.input.title}`}>
   <div class="head">
     <span class="name">Triage</span>
     <span class="hole" aria-hidden="true"></span>
-    <span class="no">tag {n(index)} of {n(stats.clusters)}</span>
+    <span class="no">{KIND_LABEL[s.input.kind]}</span>
   </div>
 
   <dl class="fields">
@@ -36,6 +35,7 @@ const rule = policy.gate[s.route.rule];
   </dl>
 
   <div class="torn" aria-label="Outcomes torn off">
+    <span class="sr-only">Not: </span>
     {torn.map((o) => <s>{o.label}</s>)}
   </div>
   <div class="left">

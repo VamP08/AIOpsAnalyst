@@ -85,6 +85,7 @@ function row(c: Cluster): HTMLElement {
     el("span", "cue cue-open", "Open"),
     el("span", "cue cue-close", "Close"),
   );
+  s.querySelectorAll(".cue").forEach((c) => c.setAttribute("aria-hidden", "true"));
   const body = el("div", "body");
   body.append(
     el("p", "sum", c.summary),

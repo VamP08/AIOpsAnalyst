@@ -50,7 +50,7 @@ const grouping =
           <h2>It arrived</h2>
           <p class="meta">{KIND_LABEL[s.input.kind]}{when && <>, <time datetime={s.input.time!}>{when} UTC</time></>}</p>
           <pre class="payload">{body}</pre>
-          {s.input.url && <p><a href={s.input.url}>Open the original</a></p>}
+          {s.input.url?.startsWith("https://") && <p><a href={s.input.url}>Open the original</a></p>}
         </li>
 
         <li id="grouped">
@@ -92,7 +92,7 @@ const grouping =
       </ol>
 
       <aside class="side" aria-label="The tag for this case">
-        <TriageTag s={s} index={i + 1} />
+        <TriageTag s={s} />
       </aside>
     </div>
 

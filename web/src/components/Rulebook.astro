@@ -2,6 +2,7 @@
 // The gate, as the code runs it: read top to bottom, the first rule that
 // matches decides. `lit` pulls the lever that decided one real event.
 import { policy } from "../lib/data";
+import { joinList } from "../lib/format";
 
 interface Props { lit?: number; litNote?: string; heading?: string }
 const { lit, litNote, heading = "The rulebook, read top to bottom. The first rule that matches decides." } = Astro.props;
@@ -12,6 +13,12 @@ const TIER_WORDS: Record<string, string> = {
   suggest: "drafts it for approval",
   abstain: "records it as unsure",
 };
+const CATEGORY_WORDS: Record<string, string> = {
+  crash: "crashes", error: "errors", performance: "slowdowns", feature_request: "feature requests",
+};
+const routed = joinList([...new Set(
+  policy.routes.filter((r) => r.tiers.includes("auto")).flatMap((r) => r.categories ?? []),
+)].map((c) => CATEGORY_WORDS[c] ?? c.replaceAll("_", " ")));
 ---
 <div class="rulebook" role="group" aria-label={heading}>
   <h3>{heading}</h3>
@@ -25,7 +32,7 @@ const TIER_WORDS: Record<string, string> = {
       </li>
     ))}
   </ol>
-  <p class="route-note">When it acts alone, a ticket is filed only for crashes, errors, slowdowns and feature requests. Anything else it is sure about is routine, and dropped.</p>
+  <p class="route-note">When it acts alone, it sends a ticket only for {routed}. Anything else it is sure about is routine, and dropped.</p>
 </div>
 
 <style>

@@ -1,6 +1,7 @@
 {
   "name": "aiopsanalyst-web",
   "private": true,
+  "engines": { "node": ">=22.12" },
   "type": "module",
   "scripts": {
     "dev": "astro dev",
