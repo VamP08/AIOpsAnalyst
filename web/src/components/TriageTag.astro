@@ -1,0 +1,95 @@
+---
+// One real event's tag: what came in, what the model wrote on it, and the
+// decision, shown the way a triage tag shows one: every other outcome torn off,
+// the one that is left at the bottom.
+import type { Specimen } from "../lib/data";
+import { stats } from "../lib/data";
+import { KIND_LABEL, sourceLine } from "../lib/describe";
+import { n } from "../lib/format";
+import { OUTCOMES } from "../lib/outcomes";
+import ConfidenceStrip from "./ConfidenceStrip.astro";
+import OutcomeMark from "./OutcomeMark.astro";
+import { policy } from "../lib/data";
+
+interface Props { s: Specimen; index?: number; headingLevel?: "h2" | "h3" }
+const { s, index = 1, headingLevel = "h3" } = Astro.props;
+const Heading = headingLevel;
+const left = OUTCOMES.find((o) => o.key === s.outcome)!;
+const torn = OUTCOMES.filter((o) => o.key !== s.outcome);
+const others = s.cluster.size - 1;
+const rule = policy.gate[s.route.rule];
+---
+<article class="tag" aria-label={`Triage tag: ${s.input.title}`}>
+  <div class="head">
+    <span class="name">Triage</span>
+    <span class="hole" aria-hidden="true"></span>
+    <span class="no">tag {n(index)} of {n(stats.clusters)}</span>
+  </div>
+
+  <dl class="fields">
+    <div class="f wide"><dt>Came from</dt><dd>{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</dd></div>
+    <div class="f wide what"><dt>What happened</dt><dd><Heading class="title">{s.input.title}</Heading></dd></div>
+    <div class="f"><dt>Kind</dt><dd>{s.verdict.category.replace("_", " ")}</dd></div>
+    <div class="f"><dt>How bad</dt><dd>{s.verdict.severity}</dd></div>
+    <div class="f"><dt>Others like it</dt><dd>{n(others)}</dd></div>
+    <div class="f wide"><dt>How sure</dt><dd><ConfidenceStrip value={s.verdict.confidence} /></dd></div>
+    <div class="f wide"><dt>Rule that decided</dt><dd>{s.route.rule + 1}. {rule.condition}</dd></div>
+  </dl>
+
+  <div class="torn" aria-label="Outcomes torn off">
+    {torn.map((o) => <s>{o.label}</s>)}
+  </div>
+  <div class="left">
+    <span class="kept"><OutcomeMark outcome={left.key} size={16} /> {left.label}</span>
+    {s.route.ticket
+      ? <span class="ref">{s.route.ticket.key} · {s.route.ticket.type}</span>
+      : <span class="ref">{s.route.why}</span>}
+  </div>
+</article>
+
+<style>
+  .tag {
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--ink);
+  }
+  .head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5) var(--space-3);
+    border-bottom: 1px solid var(--ink);
+  }
+  .hole { width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 4px solid var(--green); background: var(--tint); }
+  .name { font: 900 1.1rem/1 var(--font-display); letter-spacing: 0.04em; text-transform: uppercase; }
+  .no { justify-self: end; font: 400 var(--step--2)/1 var(--font-mono); color: var(--muted); }
+
+  .fields { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .f { padding: var(--space-3) var(--space-5); border-bottom: 1px solid var(--line); min-width: 0; }
+  .f:not(.wide) + .f:not(.wide) { border-left: 1px solid var(--line); }
+  .wide { grid-column: 1 / -1; }
+  dt { font: 400 var(--step--2)/1.2 var(--font-mono); color: var(--muted); margin-bottom: var(--space-1); }
+  dd { margin: 0; font: 400 0.88rem/1.45 var(--font-mono); overflow-wrap: anywhere; }
+  .title { font: 600 1.05rem/1.35 var(--font-body); letter-spacing: 0; text-wrap: pretty; }
+
+  .torn {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    padding: var(--space-2) var(--space-5);
+    border-top: 1px dashed var(--ink);
+    font: 400 var(--step--2)/1.4 var(--font-mono);
+    color: var(--muted);
+  }
+  .left {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-5) var(--space-5);
+    border-top: 2px dashed var(--ink);
+    background: var(--green);
+    color: var(--panel-ink);
+  }
+  .kept { display: flex; align-items: center; gap: var(--space-2); font: 700 var(--step-1)/1.2 var(--font-display); color: var(--mint); }
+  .ref { font: 400 0.85rem/1.45 var(--font-mono); }
+</style>

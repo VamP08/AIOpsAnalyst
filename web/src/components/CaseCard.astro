@@ -1,0 +1,77 @@
+---
+// One real event as a card on the home page. What it shows depends on what
+// kind of thing it was: an issue's opening lines, how often a CI step failed,
+// a log's raw line.
+import type { Specimen } from "../lib/data";
+import { KIND_LABEL, sourceLine } from "../lib/describe";
+import { n } from "../lib/format";
+import { OUTCOMES } from "../lib/outcomes";
+import OutcomeMark from "./OutcomeMark.astro";
+
+interface Props { s: Specimen }
+const { s } = Astro.props;
+const out = OUTCOMES.find((o) => o.key === s.outcome)!;
+const excerpt = s.input.body.replace(/<[^>]*>/g, "").replace(/[`#*>]/g, "").replace(/\s+/g, " ").trim();
+const short = excerpt.length > 150 ? `${excerpt.slice(0, 150).replace(/\s\S*$/, "")}...` : excerpt;
+const others = s.cluster.size - 1;
+---
+<article class:list={["card", s.input.kind, s.outcome]}>
+  <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
+  <h3><a href={`/case/${s.slug}/`}>{s.input.title}</a></h3>
+
+  {s.input.kind === "log"
+    ? <pre class="raw">{s.input.body}</pre>
+    : s.input.kind === "ci"
+      ? <p class="detail">The same step failed on {n(s.cluster.size)} different commits. One problem, not {n(s.cluster.size)}.</p>
+      : <p class="detail">{short}</p>}
+
+  {s.input.kind === "log" && <p class="detail">{n(others)} more lines like it, read as one problem.</p>}
+
+  <p class="end">
+    <span class="out"><OutcomeMark outcome={s.outcome} /> {out.label}</span>
+    {s.route.ticket && <span class="key">{s.route.ticket.key}</span>}
+  </p>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--ink);
+    background: var(--white);
+    min-width: 0;
+  }
+  .card:hover { background: var(--tint); }
+  .from { font: 400 var(--step--2)/1.4 var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+  h3 { font: 600 var(--step-1)/1.25 var(--font-body); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  h3 a { text-decoration: none; }
+  h3 a::after { content: ""; position: absolute; inset: 0; }
+  h3 a:focus-visible { outline: none; }
+  .card:has(a:focus-visible) { outline: 2px solid var(--green); outline-offset: 3px; }
+  .detail { color: var(--muted); font-size: var(--step--1); }
+  .raw {
+    margin: 0;
+    padding: var(--space-3);
+    background: var(--panel);
+    color: var(--panel-ink);
+    font: 400 0.78rem/1.5 var(--font-mono);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .end {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    font-weight: 600;
+  }
+  .out { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .key { font: 500 0.82rem/1 var(--font-mono); background: var(--green); color: var(--mint); padding: var(--space-2) var(--space-3); }
+  .person .end, .unsure .end { color: var(--green); }
+</style>

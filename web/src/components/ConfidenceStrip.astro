@@ -1,0 +1,39 @@
+---
+// How sure the model was, drawn against the thresholds that act on it, so the
+// number is always read next to the band that consumed it.
+import { policy } from "../lib/data";
+import { dec } from "../lib/format";
+
+interface Props { value: number; tone?: "light" | "dark" }
+const { value, tone = "light" } = Astro.props;
+const { suggest, auto } = policy.thresholds;
+const bands = [
+  { from: 0, to: suggest, label: "unsure" },
+  { from: suggest, to: auto, label: "draft" },
+  { from: auto, to: 1, label: "auto" },
+];
+const lit = bands.findIndex((b) => value >= b.from && (value < b.to || b.to === 1));
+---
+<div class={`strip ${tone}`} role="img" aria-label={`How sure: ${dec(value)}, in the ${bands[lit].label} band (draft from ${dec(suggest, 1)}, auto from ${dec(auto, 1)})`}>
+  <div class="bands">
+    {bands.map((b, i) => (
+      <span class:list={["band", { on: i === lit }]} style={`flex-grow:${Math.round((b.to - b.from) * 100)}`}>{b.label}</span>
+    ))}
+    <i class="tick" style={`left:${(value * 100).toFixed(1)}%`}></i>
+  </div>
+  <div class="scale" aria-hidden="true"><span>0</span><span style={`left:${suggest * 100}%`}>{dec(suggest, 1)}</span><span style={`left:${auto * 100}%`}>{dec(auto, 1)}</span><span>1</span></div>
+</div>
+
+<style>
+  .strip { font: 400 0.68rem/1 var(--font-mono); }
+  .bands { position: relative; display: flex; height: 1.4rem; border: 1px solid currentColor; }
+  .band { display: flex; align-items: center; padding-inline: 0.35rem; min-width: 0; overflow: hidden; white-space: nowrap; }
+  .band + .band { border-left: 1px solid currentColor; }
+  .band.on { background: var(--green); color: var(--mint); font-weight: 500; }
+  .dark .band.on { background: var(--mint); color: var(--green); }
+  .tick { position: absolute; top: -0.35rem; bottom: -0.35rem; width: 3px; margin-left: -1.5px; background: currentColor; }
+  .scale { position: relative; height: 1rem; margin-top: 0.3rem; opacity: 0.7; }
+  .scale span { position: absolute; top: 0; transform: translateX(-50%); }
+  .scale span:first-child { left: 0; transform: none; }
+  .scale span:last-child { right: 0; transform: none; }
+</style>

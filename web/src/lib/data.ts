@@ -11,7 +11,7 @@ export type Kind = "issue" | "ci" | "status" | "log" | "supercomputer";
 export interface Stats {
   events: number; clusters: number; compression: number; tickets: number;
   route_matched: number; outcomes: Record<Outcome, number>;
-  by_kind: Record<Kind, number>; by_tier: Record<string, number>; generated: string;
+  by_kind: Record<Kind, number>; events_by_kind: Record<Kind, number>; by_tier: Record<string, number>; generated: string;
 }
 export interface Specimen {
   slug: string; outcome: Outcome;

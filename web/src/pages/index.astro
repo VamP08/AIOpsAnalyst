@@ -1,1 +1,158 @@
-<h1>AIOpsAnalyst</h1>
+---
+import Site from "../layouts/Site.astro";
+import CaseCard from "../components/CaseCard.astro";
+import OutcomeMark from "../components/OutcomeMark.astro";
+import RouteDiagram from "../components/RouteDiagram.astro";
+import TriageTag from "../components/TriageTag.astro";
+import { live, scorecards, specimens, stats } from "../lib/data";
+import { dec, n, ratio } from "../lib/format";
+import { OUTCOMES } from "../lib/outcomes";
+
+const hero = specimens[0];
+const m = scorecards.maintainer_labels;
+const lastRun = String(live.updated).slice(0, 10);
+---
+<Site
+  title="AIOpsAnalyst: thirty thousand alerts in, a short list of decisions out"
+  description="AIOpsAnalyst groups logs, GitHub issues, failed CI runs and status-page incidents into problems, has a model label each one once, and lets a fixed rulebook decide what happens."
+  current="home"
+>
+  <section class="hero wrap">
+    <div class="pitch">
+      <h1>Thirty thousand alerts in. A short list of decisions out.</h1>
+      <p class="sub">AIOpsAnalyst reads logs, GitHub issues, failed CI runs and status-page outages, puts the ones that are the same problem together, has a model label each problem once, and lets a fixed rulebook, not the model, decide what happens to it.</p>
+      <div class="acts">
+        <a class="btn primary" href="#cases">See five real cases</a>
+        <a class="btn" href="/measured/">How it was measured</a>
+      </div>
+    </div>
+    <div class="hang">
+      <span class="string" aria-hidden="true"></span>
+      <TriageTag s={hero} index={1} headingLevel="h2" />
+      <p class="tag-note">A real issue from the pytorch repository, tagged and decided. <a href={`/case/${hero.slug}/`}>Follow it through</a></p>
+    </div>
+  </section>
+
+  <section class="receipt" aria-label="What happened to everything that came in">
+    <div class="wrap row">
+      <p class="in"><b>{n(stats.events)}</b> events came in</p>
+      <p class="arrow" aria-hidden="true">became</p>
+      <p class="in"><b>{n(stats.clusters)}</b> problems <span>{ratio(stats.events, stats.clusters)} fewer to read</span></p>
+      <p class="arrow" aria-hidden="true">and</p>
+      <ul class="outs">
+        {OUTCOMES.map((o) => (
+          <li><OutcomeMark outcome={o.key} /><b>{n(stats.outcomes[o.key])}</b><span>{o.label.toLowerCase()}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap block" id="routes" aria-labelledby="routes-h">
+    <div class="intro">
+      <h2 id="routes-h">Where the {n(stats.events)} went</h2>
+      <p>Events that are the same problem are grouped before any model sees them, so the model reads {n(stats.clusters)} problems, not {n(stats.events)} lines. It writes a label on each. Then the rulebook routes it, and the same input always takes the same route.</p>
+    </div>
+    <RouteDiagram />
+  </section>
+
+  <section class="wrap block" id="cases" aria-labelledby="cases-h">
+    <div class="intro">
+      <h2 id="cases-h">Five things that came in, and what happened to each</h2>
+      <p>Picked so that every ending shows up once, including the two where it chose not to act on its own.</p>
+    </div>
+    <div class="cases">
+      {specimens.map((s) => <CaseCard s={s} />)}
+    </div>
+  </section>
+
+  <section class="wrap block check" aria-labelledby="check-h">
+    <h2 id="check-h">Check it yourself</h2>
+    <div class="two">
+      <div>
+        <h3>It was measured against labels nobody here chose</h3>
+        <p>On {n(m.pairs)} issues, its labels agree with the ones each repository's own maintainers applied at Cohen's kappa {dec(m.cohens_kappa, 3)}. The failures and a rejected improvement are written up too.</p>
+        <a href="/measured/">How it was measured</a>
+      </div>
+      <div>
+        <h3>It is still running</h3>
+        <p>A scheduled job triages new GitHub issues every six hours and commits the result. The last run was on <time datetime={lastRun}>{lastRun}</time>.</p>
+        <a href="/live/">See the live feed</a>
+      </div>
+    </div>
+  </section>
+</Site>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: var(--space-7);
+    align-items: start;
+    padding-block: var(--space-7) var(--space-6);
+  }
+  .pitch { padding-top: var(--space-5); }
+  .pitch h1 { font-size: clamp(2.5rem, 1.6rem + 2.9vw, 4.1rem); }
+  .sub { margin-top: var(--space-5); font-size: var(--step-1); line-height: 1.5; max-width: 40ch; color: #26332c; }
+  .acts { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); }
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 1.15rem;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius-control);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+  .btn:hover { background: var(--tint); }
+  .btn.primary { background: var(--ink); color: var(--white); }
+  .btn.primary:hover { background: var(--green); color: var(--mint); }
+
+  .hang { position: relative; padding-top: var(--space-6); }
+  .string { position: absolute; top: 0; left: 50%; width: 1px; height: calc(var(--space-6) + 1.5rem); background: var(--ink); z-index: 1; }
+  .tag-note { margin-top: var(--space-3); font-size: var(--step--1); color: var(--muted); }
+
+  .receipt { border-block: 1px solid var(--ink); background: var(--tint); }
+  .receipt .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3) var(--space-5);
+    padding-block: var(--space-5);
+  }
+  .receipt .in b { font: 900 var(--step-3)/1 var(--font-display); letter-spacing: -0.02em; margin-right: var(--space-2); }
+  .receipt .in span { display: block; font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
+  .arrow { font: 400 var(--step--1)/1 var(--font-mono); color: var(--muted); }
+  .outs { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+  .outs li { display: flex; align-items: baseline; gap: var(--space-2); white-space: nowrap; }
+  .outs b { font: 700 var(--step-1)/1 var(--font-display); }
+  .outs span { font-size: var(--step--1); }
+
+  .block { padding-top: var(--space-8); }
+  .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-6); align-items: end; margin-bottom: var(--space-6); }
+  .intro p { color: #26332c; max-width: 54ch; }
+
+  .cases { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-4); }
+  .cases > :global(*) { grid-column: span 2; }
+  .cases > :global(*:nth-child(n + 4)) { grid-column: span 3; }
+
+  .check .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: var(--space-5); border-top: 2px solid var(--ink); }
+  .check .two > div { padding: var(--space-5) var(--space-5) 0 0; display: grid; gap: var(--space-3); align-content: start; }
+  .check .two > div + div { padding-left: var(--space-5); border-left: 1px solid var(--line); }
+  .check p { max-width: 52ch; color: #26332c; }
+  .check a { font-weight: 600; }
+
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; gap: var(--space-6); padding-top: var(--space-6); }
+    .hang { max-width: 34rem; }
+    .intro { grid-template-columns: 1fr; gap: var(--space-3); }
+    .cases { grid-template-columns: 1fr 1fr; }
+    .cases > :global(*), .cases > :global(*:nth-child(n + 4)) { grid-column: span 1; }
+  }
+  @media (max-width: 640px) {
+    .cases { grid-template-columns: 1fr; }
+    .check .two { grid-template-columns: 1fr; }
+    .check .two > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); margin-top: var(--space-5); }
+    .receipt .row { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+    .outs { flex-direction: column; }
+  }
+</style>

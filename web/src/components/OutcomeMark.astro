@@ -1,0 +1,19 @@
+---
+// One drawn mark per outcome, so the five are told apart by shape as well as
+// by their words, never by colour alone.
+import type { Outcome } from "../lib/outcomes";
+
+interface Props { outcome: Outcome; size?: number }
+const { outcome, size = 14 } = Astro.props;
+---
+<svg class="mark" width={size} height={size} viewBox="0 0 14 14" aria-hidden="true" focusable="false">
+  {outcome === "ticket" && <rect x="1.5" y="1.5" width="11" height="11" fill="currentColor" />}
+  {outcome === "person" && <path d="M7 1.5 12.8 12.5H1.2Z" fill="currentColor" />}
+  {outcome === "draft" && <path d="M7 1 13 7 7 13 1 7Z" fill="none" stroke="currentColor" stroke-width="1.6" />}
+  {outcome === "dropped" && <rect x="1.5" y="6" width="11" height="2" fill="currentColor" />}
+  {outcome === "unsure" && <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.2 1.8" />}
+</svg>
+
+<style>
+  .mark { flex: none; display: inline-block; vertical-align: -0.1em; }
+</style>

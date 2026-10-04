@@ -1,0 +1,45 @@
+/*
+  A product page at the standard of the best developer-tool sites: white paper,
+  near-black ink, hard 1px rules and square corners. The greens belong to the
+  machine: deep green holds diagrams, payloads and the decided part of a tag;
+  mint appears only where something is lit or decided. Three faces, one job
+  each: Unbounded speaks, Familjen Grotesk explains, Martian Mono quotes data.
+*/
+:root {
+  --white: #ffffff;
+  --ink: #0a0f0c;
+  --mint: #7be0a3;
+  --green: #052414;
+  --panel: #052414;
+  --panel-ink: #c9f5da;
+  --tint: #f2faf5;
+  --line: #dfe7e2;
+  --line-strong: #0a0f0c;
+  --muted: #4b5a52;
+
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-body: "Familjen Grotesk", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, monospace;
+
+  --step--2: 0.75rem;
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.12rem + 0.4vw, 1.45rem);
+  --step-2: clamp(1.55rem, 1.35rem + 0.9vw, 2.1rem);
+  --step-3: clamp(2.1rem, 1.7rem + 1.9vw, 3.2rem);
+  --step-4: clamp(2.6rem, 1.9rem + 3.4vw, 5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.5rem;
+  --space-7: 4rem;
+  --space-8: 6.5rem;
+
+  --measure: 66ch;
+  --wrap: min(1240px, 100% - 2 * var(--space-5));
+  --radius-control: 2px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}

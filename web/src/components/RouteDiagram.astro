@@ -1,0 +1,229 @@
+---
+// The whole corpus as a route diagram: five kinds of source run into one
+// junction where events become problems, and five routes leave it. One dot is
+// a hundred events; on first view they gather into the junction. The levers are
+// the rulebook, in the order it is read, with the one that decided the lit
+// route pulled.
+import clustersJson from "../../public/data/clusters.json";
+import { policy, specimens, stats, type Kind } from "../lib/data";
+import { KIND_PLURAL, sourceLine } from "../lib/describe";
+import { n, ratio } from "../lib/format";
+import { OUTCOMES, type Outcome } from "../lib/outcomes";
+import OutcomeMark from "./OutcomeMark.astro";
+
+const KINDS: Kind[] = ["issue", "ci", "status", "log", "supercomputer"];
+const lit = specimens[0];
+const litKind = lit.input.kind;
+const litOutcome = lit.outcome;
+
+// geometry, in viewBox units
+const W = 1300, H = 380, MID = 190;
+const laneY = KINDS.map((_, i) => 50 + i * 70);
+const outY = OUTCOMES.map((_, i) => 50 + i * 70);
+const J = { x: 540, y: 105, w: 290, h: 170 };
+
+// dots: one per hundred events, placed by a fixed generator so every build
+// draws the same picture
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const dots: { cx: number; cy: number; dx: number; dy: number; i: number }[] = [];
+const COLS = 32, GAP = 7.8;
+KINDS.forEach((k, li) => {
+  const count = Math.round(stats.events_by_kind[k] / 100);
+  for (let c = 0; c < count; c++) {
+    const i = dots.length;
+    const ex = J.x + 18 + (i % COLS) * GAP;
+    const ey = J.y + 96 + Math.floor(i / COLS) * 6.4;
+    const sx = 200 + rand() * 270;
+    const sy = laneY[li] + (rand() - 0.5) * 16;
+    dots.push({ cx: ex, cy: ey, dx: +(sx - ex).toFixed(1), dy: +(sy - ey).toFixed(1), i });
+  }
+});
+
+const inPath = (y: number) => `M190 ${y} H470 C515 ${y} 515 ${MID} ${J.x} ${MID}`;
+const outPath = (y: number) => `M${J.x + J.w} ${MID} C${J.x + J.w + 45} ${MID} ${J.x + J.w + 45} ${y} ${J.x + J.w + 90} ${y} H990`;
+
+// rulebook in words a recruiter can read
+const TIER_WORDS: Record<string, string> = {
+  escalate: "a person looks first",
+  auto: "acts on it alone",
+  suggest: "drafts it for approval",
+  abstain: "records it as unsure",
+};
+
+// real items per bin: specimens first, then the largest piles
+type Row = { id: string; label: string; size: number; outcome: Outcome | null; samples: { url: string | null }[] };
+const rows = clustersJson as unknown as Row[];
+const binItems = (o: Outcome) => {
+  const cases = specimens.filter((s) => s.outcome === o)
+    .map((s) => ({ text: s.input.title, size: s.cluster.size, href: `/case/${s.slug}/` }));
+  const piles = rows.filter((r) => r.outcome === o && !specimens.some((s) => s.cluster.id === r.id))
+    .sort((a, b) => b.size - a.size).slice(0, 3 - Math.min(cases.length, 2))
+    .map((r) => {
+      const url = r.samples.find((x) => x.url?.startsWith("https://"))?.url ?? null;
+      return { text: r.label, size: r.size, href: url };
+    });
+  return [...cases.slice(0, 2), ...piles];
+};
+---
+<figure class="routes" data-routes>
+  <svg class="map" viewBox={`0 0 ${W} ${H}`} role="img"
+    aria-label={`${n(stats.events)} events from five kinds of source enter one junction and become ${n(stats.clusters)} problems. Five routes leave it: ${OUTCOMES.map((o) => `${n(stats.outcomes[o.key])} ${o.label.toLowerCase()}`).join(", ")}.`}>
+    <g class="lanes">
+      {KINDS.map((k, i) => <path d={inPath(laneY[i])} class:list={{ lit: k === litKind }} />)}
+      {OUTCOMES.map((o, i) => <path d={outPath(outY[i])} class:list={{ lit: o.key === litOutcome }} />)}
+    </g>
+    <g class="src">
+      {KINDS.map((k, i) => (
+        <g>
+          <text x="0" y={laneY[i] - 4} class="name">{KIND_PLURAL[k]}</text>
+          <text x="0" y={laneY[i] + 13} class="num">{n(stats.events_by_kind[k])}</text>
+        </g>
+      ))}
+    </g>
+    <rect class="junction" x={J.x} y={J.y} width={J.w} height={J.h} />
+    <text x={J.x + 18} y={J.y + 40} class="jnum">{n(stats.clusters)}</text>
+    <text x={J.x + 18} y={J.y + 62} class="jlabel">problems</text>
+    <text x={J.x + 18} y={J.y + 80} class="jlabel">one model read each</text>
+    <g class="dots">
+      {dots.map((d) => <circle cx={d.cx} cy={d.cy} r="2.1" style={`--dx:${d.dx}px;--dy:${d.dy}px;--i:${d.i}`} />)}
+    </g>
+    <g class="dest">
+      {OUTCOMES.map((o, i) => (
+        <g class:list={{ lit: o.key === litOutcome }}>
+          <circle cx="1010" cy={outY[i]} r="10" class="lamp" />
+          <text x="1032" y={outY[i] - 3} class="name">{o.label}</text>
+          <text x="1032" y={outY[i] + 14} class="num">{n(stats.outcomes[o.key])}</text>
+        </g>
+      ))}
+    </g>
+    <text x="850" y="28" class="litnote">{sourceLine(lit.input.source, lit.input.kind, lit.input.subject)}{lit.route.ticket ? ` → ${lit.route.ticket.key}` : ""}</text>
+  </svg>
+
+  <div class="stack">
+    <ol class="in">
+      {KINDS.map((k) => <li><span>{KIND_PLURAL[k]}</span><b>{n(stats.events_by_kind[k])}</b></li>)}
+    </ol>
+    <p class="hub"><b>{n(stats.clusters)}</b> problems, {ratio(stats.events, stats.clusters)} fewer things to read</p>
+  </div>
+
+  <figcaption class="key">One dot is a hundred events. The lit route is the pytorch crash on the tag above.</figcaption>
+</figure>
+
+<div class="levers" aria-labelledby="rulebook-h">
+  <h3 id="rulebook-h">The rulebook, read top to bottom. The first rule that matches decides.</h3>
+  <ol>
+    {policy.gate.map((g, i) => (
+      <li class:list={{ pulled: i === lit.route.rule }}>
+        <span class="lv" aria-hidden="true">{i + 1}</span>
+        <span class="if">{g.condition}</span>
+        <span class="then">{TIER_WORDS[g.tier]}</span>
+        {i === lit.route.rule && <span class="sr-only">(the rule that decided the pytorch crash)</span>}
+      </li>
+    ))}
+  </ol>
+  <p class="route-note">When it acts alone, a ticket is filed only for crashes, errors, slowdowns and feature requests. Anything else it is sure about is routine, and dropped.</p>
+</div>
+
+<div class="bins">
+  {OUTCOMES.map((o) => (
+    <details class:list={["bin", { lit: o.key === litOutcome }]}>
+      <summary>
+        <span class="bt"><OutcomeMark outcome={o.key} /> {o.label}</span>
+        <b>{n(stats.outcomes[o.key])}</b>
+      </summary>
+      <p>{o.sentence}</p>
+      <ul>
+        {binItems(o.key).map((it) => (
+          <li>{it.href ? <a href={it.href}>{it.text}</a> : <span>{it.text}</span>} <i>{n(it.size)} {it.size === 1 ? "event" : "events"}</i></li>
+        ))}
+      </ul>
+      {o.key === "ticket" && <p class="sample">The demo tracker holds a sample of {n(stats.tickets)} of these; the rulebook files every one.</p>}
+    </details>
+  ))}
+</div>
+
+<script is:inline>
+  (function () {
+    var fig = document.querySelector("[data-routes]");
+    if (!fig || !("IntersectionObserver" in window)) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    fig.classList.add("armed");
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].intersectionRatio > 0.45) { fig.classList.add("run"); io.disconnect(); }
+    }, { threshold: [0, 0.45, 1] });
+    io.observe(fig);
+  })();
+</script>
+
+<style>
+  .routes { margin: 0; border: 1px solid var(--ink); background: var(--panel); color: var(--panel-ink); padding: var(--space-6) var(--space-5) var(--space-5); }
+  .map { width: 100%; height: auto; font-family: var(--font-mono); }
+  .lanes path { fill: none; stroke: #23603f; stroke-width: 3; }
+  .lanes path.lit { stroke: var(--mint); stroke-width: 6; }
+  .src .name, .dest .name { font-size: 14px; fill: var(--panel-ink); }
+  .src .num, .dest .num { font-size: 14px; fill: var(--mint); }
+  .junction { fill: var(--green); stroke: var(--mint); stroke-width: 2; }
+  .jnum { font: 900 38px var(--font-display); fill: var(--mint); }
+  .jlabel { font-size: 13px; fill: var(--panel-ink); }
+  .dots circle { fill: var(--mint); }
+  .lamp { fill: none; stroke: var(--mint); stroke-width: 2; }
+  .dest .lit .lamp { fill: var(--mint); }
+  .dest .lit .name { fill: var(--mint); font-weight: 500; }
+  .litnote { font-size: 12px; fill: var(--mint); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .armed .dots circle { transform: translate(var(--dx), var(--dy)); }
+    .run .dots circle { transform: none; transition: transform 1.3s var(--ease-out) calc(var(--i) * 3ms); }
+  }
+
+  .stack { display: none; }
+  .key { margin-top: var(--space-4); font: 400 var(--step--1)/1.5 var(--font-body); color: var(--panel-ink); }
+
+  .levers { margin-top: var(--space-6); }
+  .levers h3 { font-size: var(--step-1); max-width: 40ch; }
+  .levers ol { list-style: none; padding: 0; margin-top: var(--space-4); display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--ink); }
+  .levers li { display: grid; gap: var(--space-1); align-content: start; padding: var(--space-4); min-width: 0; }
+  .levers li + li { border-left: 1px solid var(--ink); }
+  .lv { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--ink); font: 500 0.8rem/1 var(--font-mono); }
+  .if { font: 400 0.86rem/1.45 var(--font-mono); }
+  .then { font-weight: 600; }
+  .pulled { background: var(--green); color: var(--panel-ink); }
+  .pulled .lv { background: var(--mint); color: var(--green); border-color: var(--mint); }
+  .pulled .then { color: var(--mint); }
+  .route-note { margin-top: var(--space-3); color: var(--muted); max-width: var(--measure); }
+
+  .bins { margin-top: var(--space-6); display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 2px solid var(--ink); }
+  .bin { border-bottom: 1px solid var(--line); padding: var(--space-4) var(--space-4) var(--space-4) 0; min-width: 0; }
+  .bin + .bin { padding-left: var(--space-4); border-left: 1px solid var(--line); }
+  .bin summary { list-style: none; cursor: pointer; display: grid; gap: var(--space-1); }
+  .bin summary::-webkit-details-marker { display: none; }
+  .bt { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+  .bin summary b { font: 700 var(--step-2)/1 var(--font-display); }
+  .bin summary::after { content: "Show what is in it"; font: 400 var(--step--1)/1.4 var(--font-body); text-decoration: underline; text-underline-offset: 0.22em; color: var(--muted); }
+  .bin[open] summary::after { content: "Hide"; }
+  .bin.lit summary b { color: var(--green); }
+  .bin p { margin-top: var(--space-3); font-size: var(--step--1); color: var(--muted); }
+  .bin ul { list-style: none; padding: 0; margin-top: var(--space-3); display: grid; gap: var(--space-3); font-size: var(--step--1); }
+  .bin li { overflow-wrap: anywhere; }
+  .bin li i { display: block; font: normal 400 var(--step--2)/1.4 var(--font-mono); color: var(--muted); }
+  .bin .sample { font-family: var(--font-body); }
+
+  @media (max-width: 900px) {
+    .levers ol { grid-template-columns: 1fr; }
+    .levers li + li { border-left: 0; border-top: 1px solid var(--ink); }
+    .levers li { grid-template-columns: auto 1fr; align-items: baseline; column-gap: var(--space-3); }
+    .levers li .then { grid-column: 2; }
+    .bins { grid-template-columns: 1fr; }
+    .bin, .bin + .bin { padding: var(--space-4) 0; border-left: 0; }
+  }
+  @media (max-width: 700px) {
+    .map, .litnote { display: none; }
+    .stack { display: block; }
+    .stack .in { list-style: none; padding: 0; border-top: 1px solid #23603f; }
+    .stack .in li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid #23603f; font: 400 var(--step--1)/1.4 var(--font-mono); }
+    .stack .in b { color: var(--mint); font-weight: 500; }
+    .stack .hub { margin-top: var(--space-4); padding: var(--space-4); border: 2px solid var(--mint); }
+    .stack .hub b { display: block; font: 900 var(--step-3)/1 var(--font-display); color: var(--mint); }
+  }
+</style>

@@ -1,0 +1,129 @@
+---
+import "../styles/tokens.css";
+import "../styles/base.css";
+import { stats } from "../lib/data";
+
+interface Props {
+  title: string;
+  description: string;
+  current?: "home" | "how" | "measured" | "explore" | "live";
+}
+const { title, description, current } = Astro.props;
+
+const nav = [
+  { key: "how", href: "/how-it-works/", label: "How it works" },
+  { key: "measured", href: "/measured/", label: "Measured" },
+  { key: "explore", href: "/explore/", label: "Explore" },
+  { key: "live", href: "/live/", label: "Live" },
+] as const;
+
+const generated = stats.generated.slice(0, 10);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{current === "home" ? title : `${title} · AIOpsAnalyst`}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Familjen+Grotesk:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap"
+  />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap bar">
+      <a class="word" href="/" aria-current={current === "home" ? "page" : undefined}>AIOpsAnalyst</a>
+      <nav aria-label="Site">
+        <ul>
+          {nav.map((item) => (
+            <li><a href={item.href} aria-current={current === item.key ? "page" : undefined}>{item.label}</a></li>
+          ))}
+          <li><a class="gh" href="https://github.com/VamP08/AIOpsAnalyst">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="foot">
+    <div class="wrap cols">
+      <p class="word">AIOpsAnalyst</p>
+      <p>Every number on this site comes from the exported corpus in <a href="/data/stats.json">/data</a>, generated <time datetime={generated}>{generated}</time>.</p>
+      <ul>
+        <li><a href="https://github.com/VamP08/AIOpsAnalyst">Source on GitHub</a></li>
+        <li><a href="/measured/">How it was measured</a></li>
+        <li><a href="/explore/">Every pile</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
+
+<style>
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: color-mix(in oklab, var(--white) 94%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: 4rem;
+  }
+  .word {
+    font: 700 1.05rem/1 var(--font-display);
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+  nav a {
+    font-weight: 500;
+    text-decoration: none;
+    padding-block: var(--space-2);
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { border-bottom-color: var(--line); }
+  nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+
+  .foot {
+    margin-top: var(--space-8);
+    background: var(--panel);
+    color: var(--panel-ink);
+    padding-block: var(--space-7);
+  }
+  .foot .cols {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .foot .word { color: var(--mint); }
+  .foot p { max-width: 46ch; }
+  .foot ul { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+  .foot a { color: var(--panel-ink); }
+  .foot :focus-visible { outline-color: var(--mint); }
+
+  @media (max-width: 760px) {
+    .bar { flex-direction: column; align-items: flex-start; padding-block: var(--space-3); gap: var(--space-2); }
+    .top { position: static; }
+    .foot .cols { grid-template-columns: 1fr; }
+  }
+</style>
