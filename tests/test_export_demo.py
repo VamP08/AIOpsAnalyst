@@ -152,10 +152,51 @@ def test_stats_separate_what_the_policy_matched_from_tickets_filed():
 
     routes = [{"tiers": ["auto"], "categories": ["crash"], "sink": "tickets"}]
     rows = [
-        {"category": "crash", "tier": "auto", "ticket": "AIOPS-1", "source": "prose"},
-        {"category": "crash", "tier": "auto", "ticket": None, "source": "prose"},
-        {"category": "crash", "tier": "suggest", "ticket": None, "source": "log"},
+        {"category": "crash", "tier": "auto", "ticket": "AIOPS-1", "source": "prose", "kind": "issue"},
+        {"category": "crash", "tier": "auto", "ticket": None, "source": "prose", "kind": "issue"},
+        {"category": "crash", "tier": "suggest", "ticket": None, "source": "log", "kind": "issue"},
     ]
     stats = stats_from(rows, events=10, routes=routes)
     assert stats["route_matched"] == 2
     assert stats["tickets"] == 1
+
+
+def test_kind_names_the_source_a_reader_would_recognise():
+    from export_demo import kind
+
+    assert kind("com.github.issue", "github://a/b") == "issue"
+    assert kind("com.github.workflow_run", "github://a/b/actions") == "ci"
+    assert kind("com.statuspage.incident", "statuspage://x") == "status"
+    assert kind("dev.aiops.log.line", "bgl://llnl/bluegene") == "supercomputer"
+    assert kind("dev.aiops.log.line", "syslog://combo") == "log"
+
+
+def test_outcome_partitions_every_tier():
+    from export_demo import outcome
+    from aiops.pipeline import Pipeline
+
+    policy = Pipeline(store=None, sources=[], routes=[
+        {"tiers": ["auto"], "categories": ["crash"], "sink": "tickets"}])
+    assert outcome({"tier": "auto", "category": "crash"}, policy) == "ticket"
+    assert outcome({"tier": "auto", "category": "noise"}, policy) == "dropped"
+    assert outcome({"tier": "escalate", "category": "crash"}, policy) == "person"
+    assert outcome({"tier": "suggest", "category": "crash"}, policy) == "draft"
+    assert outcome({"tier": "abstain", "category": "crash"}, policy) == "unsure"
+
+
+def test_stats_outcomes_sum_to_the_clusters():
+    from export_demo import stats_from
+
+    routes = [{"tiers": ["auto"], "categories": ["crash"], "sink": "tickets"}]
+    rows = [
+        {"category": "crash", "tier": "auto", "ticket": None, "source": "prose", "kind": "issue"},
+        {"category": "noise", "tier": "auto", "ticket": None, "source": "log", "kind": "log"},
+        {"category": "crash", "tier": "escalate", "ticket": None, "source": "log", "kind": "log"},
+        {"category": "error", "tier": "suggest", "ticket": None, "source": "prose", "kind": "ci"},
+        {"category": "error", "tier": "abstain", "ticket": None, "source": "prose", "kind": "status"},
+    ]
+    stats = stats_from(rows, events=50, routes=routes)
+    assert stats["outcomes"] == {"ticket": 1, "dropped": 1, "person": 1,
+                                 "draft": 1, "unsure": 1}
+    assert sum(stats["outcomes"].values()) == stats["clusters"]
+    assert stats["by_kind"] == {"issue": 1, "log": 2, "ci": 1, "status": 1}

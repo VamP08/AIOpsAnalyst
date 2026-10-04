@@ -5,7 +5,7 @@ about a minute to wake, and a minute of blank page is the whole visit. So the
 page ships precomputed results and loads instantly, and the live API is a
 progressive enhancement the first impression never depends on.
 
-Writes into demo/data/:
+Writes into web/public/data/:
   stats.json       headline counters
   clusters.json    every cluster with its verdict and any ticket it produced
   scorecards.json  both published evaluations, verbatim
@@ -13,7 +13,7 @@ Writes into demo/data/:
   specimens.json   a few real events followed from input to what happened
   policy.json      the gate's rules and the routes, as the code runs them
 
-Usage: python eval/export_demo.py eval/labeling.sqlite demo/data [pipeline.yaml]
+Usage: python eval/export_demo.py eval/labeling.sqlite web/public/data [pipeline.yaml]
 """
 import json
 import sys
@@ -44,6 +44,28 @@ SPECIMENS = [
 ]
 
 
+_KIND = {"com.github.issue": "issue", "com.github.workflow_run": "ci",
+         "com.statuspage.incident": "status"}
+
+
+def kind(event_type: str, source: str) -> str:
+    """What a reader would call the source, not what the envelope calls it."""
+    if event_type in _KIND:
+        return _KIND[event_type]
+    return "supercomputer" if source.startswith("bgl://") else "log"
+
+
+_TIER_OUTCOME = {"escalate": "person", "suggest": "draft", "abstain": "unsure"}
+
+
+def outcome(row: dict, policy) -> str:
+    """Which of the five bins a cluster ends in. Only auto-tier verdicts are
+    routed, so the tier decides everything except ticket versus dropped."""
+    if row["tier"] in _TIER_OUTCOME:
+        return _TIER_OUTCOME[row["tier"]]
+    return "ticket" if policy._sinks_for(row) else "dropped"
+
+
 def specimen(store: Store, cluster_id: str) -> dict:
     """One real event, followed through: what came in, what it was grouped
     with, what the model said, which rule decided, and what that caused."""
@@ -61,6 +83,7 @@ def specimen(store: Store, cluster_id: str) -> dict:
     key = store.routed(cluster_id).get("tickets") or None
     return {
         "input": {"source": first.source, "type": first.type,
+                  "kind": kind(first.type, first.source),
                   "subject": first.subject, "time": first.time,
                   "title": first.title, "url": first.url,
                   "body": strip_boilerplate(first.body or first.raw or "")[:300]},
@@ -127,14 +150,16 @@ def cluster_rows(store: Store, samples: int = 5) -> list[dict]:
     for cluster in store.list_clusters():
         verdict = store.get_verdict(cluster["id"]) or {}
         span = store.timespan(cluster["id"])
+        events = store.events_in_cluster(cluster["id"], samples)
         rows.append({
             "first": span["first"],
             "last": span["last"],
             "samples": [{"title": e.title, "url": e.url, "time": e.time}
-                        for e in store.events_in_cluster(cluster["id"], samples)],
+                        for e in events],
             "id": cluster["id"],
             "label": cluster["label"],
             "source": cluster["tier"],
+            "kind": kind(events[0].type, events[0].source),
             "size": cluster["size"],
             "category": verdict.get("category"),
             "severity": verdict.get("severity"),
@@ -184,6 +209,7 @@ def stats_from(rows: list[dict], events: int,
     policy = Pipeline(store=None, sources=[], routes=routes or [])
     triaged = [r for r in rows if r["category"]]
     tiers = Counter(r["tier"] for r in triaged)
+    bins = Counter(outcome(r, policy) for r in triaged)
     return {
         "events": events,
         "clusters": len(rows),
@@ -191,6 +217,9 @@ def stats_from(rows: list[dict], events: int,
         "compression": round(events / len(rows), 1) if rows else 0,
         "by_tier": dict(tiers),
         "by_category": dict(Counter(r["category"] for r in triaged)),
+        "outcomes": {b: bins.get(b, 0) for b in
+                     ("ticket", "person", "draft", "dropped", "unsure")},
+        "by_kind": dict(Counter(r["kind"] for r in rows)),
         "by_source": dict(Counter(r["source"] for r in rows)),
         "tickets": len([r for r in rows if r["ticket"]]),
         "route_matched": len([r for r in triaged if policy._sinks_for(r)]),
@@ -218,14 +247,15 @@ def scorecards() -> dict:
     out = {}
     for name, path in (("maintainer_labels", "eval/scorecard-external.json"),
                        ("operator_labels", "eval/scorecard-bgl.json"),
-                       ("ask", "eval/scorecard-ask.json")):
+                       ("ask", "eval/scorecard-ask.json"),
+                       ("runs", "eval/scorecard-runs.json")):
         file = Path(path)
         if file.exists():
             out[name] = json.loads(file.read_text(encoding="utf-8"))
     return out
 
 
-def main(db_path: str, out_dir: str = "demo/data",
+def main(db_path: str, out_dir: str = "web/public/data",
          config: str = "pipeline.yaml") -> None:
     import yaml
 
@@ -235,14 +265,23 @@ def main(db_path: str, out_dir: str = "demo/data",
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
+    from aiops.pipeline import Pipeline
+
+    policy = Pipeline(store=None, sources=[], routes=routes)
     rows = cluster_rows(store)
+    for row in rows:
+        row["outcome"] = outcome(row, policy) if row["tier"] else None
+    specimens = [specimen(store, c) for c in SPECIMENS]
+    for s in specimens:
+        s["outcome"] = outcome({"tier": s["route"]["tier"],
+                                "category": s["verdict"]["category"]}, policy)
     written = {
         "clusters.json": rows,
         "escalations.json": escalations(store, rows),
         "stats.json": stats_from(rows, store.count_events(), routes),
         "scorecards.json": scorecards(),
         "replay.json": replay_from(store),
-        "specimens.json": [specimen(store, c) for c in SPECIMENS],
+        "specimens.json": specimens,
         "policy.json": policy_export(routes),
     }
     for name, payload in written.items():
