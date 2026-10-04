@@ -28,3 +28,5 @@ pipeline.yaml
 # sqlite side files: the store itself is ignored above, and these follow it
 *.sqlite-wal
 *.sqlite-shm
+web/node_modules/
+web/.astro/
