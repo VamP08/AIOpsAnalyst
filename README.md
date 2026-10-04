@@ -5,7 +5,9 @@
   </picture>
 </h1>
 
-**[ai-ops-analyst.vercel.app](https://ai-ops-analyst.vercel.app/)** &mdash; the five
+[![ci](https://github.com/VamP08/AIOpsAnalyst/actions/workflows/ci.yml/badge.svg)](https://github.com/VamP08/AIOpsAnalyst/actions/workflows/ci.yml)
+
+**[ai-ops-analyst.vercel.app](https://ai-ops-analyst.vercel.app/)**: the five
 outcomes, real cases followed from event to decision, how it was measured, every
 pile it sorted into, and the live feed.
 
@@ -101,7 +103,7 @@ Stearley, DSN 2007), 10,000 lines - every eighth line of the first 80,000:
 |---|---|
 | clusters a responder reads | **14** of 40, down from 10,000 lines |
 | incident types preserved | **2 of 2** clusters carrying operator alerts are surfaced |
-| alert recall | **1.00** &mdash; all 66 operator-flagged lines surfaced |
+| alert recall | **1.00**, all 66 operator-flagged lines surfaced |
 | line-level precision | 0.07 |
 | line-level noise suppression | 91% in this run; 9% to 93% across earlier runs |
 
@@ -270,7 +272,15 @@ monitoring, and has no agent loop. Those are deliberate omissions, not a roadmap
 slipping: every one of them needs a trust story this project has not earned yet,
 and the measured part is the point.
 
+One known gap: multi-line events are not stitched together. A kernel stack trace
+arrives one line at a time, so 13 of the 18 piles escalated to a person are single
+stack frames rather than whole traces.
+
 Corpus: six Loghub log datasets (OpenSSH, Apache, OpenStack, ZooKeeper, Linux,
 Blue Gene/L), issues from six repositories, failed CI runs from three, and
 incidents from four public status pages - 31,155 events in 905 clusters.
 Nothing here is a claim about production systems in general.
+
+## Licence
+
+MIT, see [LICENSE](LICENSE).

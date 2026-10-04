@@ -1,0 +1,17 @@
+---
+import Site from "../layouts/Site.astro";
+---
+<Site title="Nothing here" description="There is no page at this address.">
+  <div class="wrap page">
+    <header class="head">
+      <h1>Nothing at this address</h1>
+      <p class="lede">The page may have moved when the site was rebuilt. <a href="/">Start from the home page</a>, or <a href="/explore/">look through every pile</a>.</p>
+    </header>
+  </div>
+</Site>
+
+<style>
+  .page { padding-top: var(--space-7); padding-bottom: var(--space-8); }
+  .head { max-width: 60rem; display: grid; gap: var(--space-4); }
+  .lede { font-size: var(--step-1); line-height: 1.5; color: var(--soft-ink); max-width: 52ch; }
+</style>
