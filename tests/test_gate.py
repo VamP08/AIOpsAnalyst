@@ -49,3 +49,21 @@ def test_every_tier_has_an_explanation():
         for confidence in (0.99, 0.8, 0.5):
             reason = explain(verdict(severity=severity, confidence=confidence))
             assert reason and isinstance(reason, str)
+
+
+def test_policy_lists_the_rules_in_the_order_the_gate_applies_them():
+    from aiops.triage.gate import policy
+    rows = policy()
+    assert [r["tier"] for r in rows] == [
+        "escalate", "auto", "suggest", "escalate", "abstain"]
+    assert rows[0]["condition"] == "severity is critical"
+    assert rows[1]["condition"] == "confidence at or above 0.9"
+
+
+def test_policy_row_that_matches_first_is_the_tier_decided():
+    from aiops.triage.gate import matching_rule, policy
+    rows = policy()
+    for severity in SEVERITIES:
+        for confidence in (0.99, 0.9, 0.8, 0.7, 0.5):
+            v = verdict(severity=severity, confidence=confidence)
+            assert rows[matching_rule(v)]["tier"] == decide_tier(v)

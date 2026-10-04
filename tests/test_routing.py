@@ -122,3 +122,14 @@ def test_route_without_a_limit_emits_everything_matching(tmp_path):
         seed(pipe.store, cluster_id=f'log-{n}')
     tickets = DryRunSink()
     assert pipe.route({'tickets': tickets}) == {'tickets': 4}
+
+
+def test_route_only_named_clusters_still_obeys_the_policy(tmp_path):
+    pipe = make_pipeline(tmp_path)
+    seed(pipe.store, cluster_id="log-a")
+    seed(pipe.store, cluster_id="log-b")
+    seed(pipe.store, cluster_id="log-c", tier="suggest")
+    tickets = DryRunSink()
+    assert pipe.route({"tickets": tickets, "chat": DryRunSink()},
+                      only={"log-b", "log-c"}) == {"tickets": 1}
+    assert [d.cluster_id for d in tickets.sent] == ["log-b"]

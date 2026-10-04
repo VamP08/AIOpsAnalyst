@@ -79,3 +79,83 @@ def test_cluster_rows_carry_timing_and_samples_for_a_static_dashboard(tmp_path):
     assert row["last"] == "2026-09-03T10:00:00"
     assert len(row["samples"]) == 3
     assert row["samples"][0]["title"] == "Failed password 0"
+
+
+def _triaged_store(tmp_path, tier="auto", severity="high", confidence=0.95,
+                   category="crash", ticket="AIOPS-7"):
+    from aiops.store import Store
+
+    store = Store(str(tmp_path / "db.sqlite"))
+    events = [Event(id=f"i{i}", source="github://acme/widget",
+                    type="com.github.issue", subject=str(40 + i),
+                    title=f"App crashes on start {i}", body="Traceback " * 80,
+                    url=f"https://github.com/acme/widget/issues/{40 + i}",
+                    time=f"2026-09-0{i + 1}T10:00:00Z")
+              for i in range(5)]
+    store.insert_events(events)
+    store.assign_clusters({e.id: "prose-a" for e in events},
+                          {"prose-a": ("App crashes on start 0", "prose")})
+    store.upsert_verdict("prose-a", {
+        "category": category, "severity": severity, "summary": "It crashes.",
+        "confidence": confidence, "evidence": [], "tier": tier, "model": "m",
+        "promptversion": "1.1"})
+    if ticket:
+        store.record_routed("prose-a", "tickets", ticket)
+    return store
+
+
+def test_specimen_follows_one_event_from_input_to_ticket(tmp_path):
+    from export_demo import specimen
+
+    s = specimen(_triaged_store(tmp_path), "prose-a")
+    assert s["input"]["title"] == "App crashes on start 0"
+    assert s["input"]["url"] == "https://github.com/acme/widget/issues/40"
+    assert s["input"]["type"] == "com.github.issue"
+    assert len(s["input"]["body"]) <= 300
+    assert s["cluster"]["size"] == 5
+    assert s["cluster"]["siblings"] == ["App crashes on start 1",
+                                        "App crashes on start 2",
+                                        "App crashes on start 3"]
+    assert s["verdict"] == {"category": "crash", "severity": "high",
+                            "confidence": 0.95, "summary": "It crashes."}
+    assert s["route"]["tier"] == "auto"
+    assert s["route"]["rule"] == 1          # row of policy.json that matched
+    assert "0.95" in s["route"]["why"]
+    assert s["route"]["ticket"] == {"key": "AIOPS-7", "type": "Bug",
+                                    "summary": "[crash] It crashes."}
+
+
+def test_specimen_that_escalates_has_no_ticket(tmp_path):
+    from export_demo import specimen
+
+    store = _triaged_store(tmp_path, tier="escalate", severity="critical",
+                           ticket=None)
+    s = specimen(store, "prose-a")
+    assert s["route"]["tier"] == "escalate"
+    assert s["route"]["rule"] == 0
+    assert s["route"]["ticket"] is None
+
+
+def test_policy_export_carries_gate_rules_and_routes():
+    from export_demo import policy_export
+
+    routes = [{"tiers": ["auto"], "categories": ["crash"], "sink": "tickets"}]
+    p = policy_export(routes)
+    assert p["gate"][0] == {"condition": "severity is critical",
+                            "tier": "escalate"}
+    assert p["routes"] == routes
+    assert p["thresholds"] == {"auto": 0.9, "suggest": 0.7}
+
+
+def test_stats_separate_what_the_policy_matched_from_tickets_filed():
+    from export_demo import stats_from
+
+    routes = [{"tiers": ["auto"], "categories": ["crash"], "sink": "tickets"}]
+    rows = [
+        {"category": "crash", "tier": "auto", "ticket": "AIOPS-1", "source": "prose"},
+        {"category": "crash", "tier": "auto", "ticket": None, "source": "prose"},
+        {"category": "crash", "tier": "suggest", "ticket": None, "source": "log"},
+    ]
+    stats = stats_from(rows, events=10, routes=routes)
+    assert stats["route_matched"] == 2
+    assert stats["tickets"] == 1

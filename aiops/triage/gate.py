@@ -34,13 +34,30 @@ def explain(verdict: Verdict, thresholds: Thresholds = Thresholds()) -> str:
             f"{thresholds.suggest} and nothing forces a human to look")
 
 
+def _rules(t: Thresholds) -> list[tuple[str, object, str]]:
+    """First match wins. Held as a table so the demo can print the rules the
+    gate actually runs rather than a hand-copied description of them."""
+    return [
+        ("severity is critical", lambda v: v.severity == "critical",
+         "escalate"),
+        (f"confidence at or above {t.auto}", lambda v: v.confidence >= t.auto,
+         "auto"),
+        (f"confidence at or above {t.suggest}",
+         lambda v: v.confidence >= t.suggest, "suggest"),
+        ("severity is high", lambda v: v.severity == "high", "escalate"),
+        ("anything else", lambda v: True, "abstain"),
+    ]
+
+
+def policy(thresholds: Thresholds = Thresholds()) -> list[dict]:
+    return [{"condition": condition, "tier": tier}
+            for condition, _, tier in _rules(thresholds)]
+
+
+def matching_rule(verdict: Verdict, thresholds: Thresholds = Thresholds()) -> int:
+    return next(i for i, (_, when, _) in enumerate(_rules(thresholds))
+                if when(verdict))
+
+
 def decide_tier(verdict: Verdict, thresholds: Thresholds = Thresholds()) -> str:
-    if verdict.severity == "critical":
-        return "escalate"
-    if verdict.confidence >= thresholds.auto:
-        return "auto"
-    if verdict.confidence >= thresholds.suggest:
-        return "suggest"
-    if verdict.severity == "high":
-        return "escalate"
-    return "abstain"
+    return _rules(thresholds)[matching_rule(verdict, thresholds)][2]

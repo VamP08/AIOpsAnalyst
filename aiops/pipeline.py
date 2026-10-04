@@ -9,8 +9,10 @@ import yaml
 import aiops.sinks.dryrun  # noqa: F401
 import aiops.sinks.jira  # noqa: F401
 import aiops.sinks.slack  # noqa: F401
+import aiops.sources.github_actions  # noqa: F401
 import aiops.sources.github_issues  # noqa: F401  (registers adapter)
 import aiops.sources.log_file  # noqa: F401
+import aiops.sources.statuspage  # noqa: F401
 from aiops.registry import create
 from aiops.store import Store
 
@@ -58,7 +60,8 @@ class Pipeline:
 
         events = self.store.all_events()
         log_events = [e for e in events if e.type == "dev.aiops.log.line"]
-        prose_events = [e for e in events if e.type == "com.github.issue"]
+        # anything a person or a status page wrote, rather than a program
+        prose_events = [e for e in events if e.type != "dev.aiops.log.line"]
 
         counts: dict[str, int] = {}
         assignment: dict[str, str] = {}
@@ -81,6 +84,7 @@ class Pipeline:
             counts["prose"] = len(prose_events)
 
         self.store.assign_clusters(assignment, clusters)
+        self.store.prune_clusters(clusters)
         return counts
 
     def triage(self, chat=None, samples_per_cluster: int = 5,
@@ -134,7 +138,8 @@ class Pipeline:
                                                      [verdict["category"]])]
 
     def route(self, sinks: dict | None = None, samples_per_cluster: int = 3,
-              limit: int | None = None) -> dict[str, int | str]:
+              limit: int | None = None,
+              only: set[str] | None = None) -> dict[str, int | str]:
         """Emit every verdict that a route matches and that has not already
         been emitted to that sink. Side effects are recorded only on success,
         so a sink that is down costs a retry rather than a duplicate ticket.
@@ -143,6 +148,9 @@ class Pipeline:
         first run against a real tracker, and what stops a backfill of a large
         corpus from opening hundreds of tickets at once. The rest follow on the
         next run, because what was sent is recorded.
+
+        only restricts the run to the named clusters - the policy still
+        decides whether each of them is emitted at all.
         """
         from aiops.decision import Decision
 
@@ -150,6 +158,8 @@ class Pipeline:
         sent: dict[str, int] = {}
         failed: dict[str, int] = {}
         for cluster in self.store.list_clusters():
+            if only is not None and cluster["id"] not in only:
+                continue
             verdict = self.store.get_verdict(cluster["id"])
             if not verdict:
                 continue

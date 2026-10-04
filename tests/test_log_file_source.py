@@ -164,3 +164,59 @@ def test_bgl_operator_label_is_captured_but_kept_out_of_the_text(tmp_path):
     # the label is ground truth; it must not appear in anything the model reads
     assert "KERNDTLB" not in alert.title
     assert "KERNDTLB" not in (alert.body or "")
+
+
+OPENSTACK = (
+    "nova-compute.log.1.2017-05-16_13:55:31 2017-05-16 03:19:45.356 2931 ERROR "
+    "oslo_service.periodic_task [req-addc1839-2ed5-4778-b57e-5854eb7b8b09 - - - - -] "
+    "Error during ComputeManager._run_image_cache_manager_pass\n"
+)
+
+
+def test_openstack_line_drops_request_context_from_the_title(tmp_path):
+    src = LogFileSource(path=write(tmp_path, "nova.log", OPENSTACK),
+                        format="openstack", source="openstack://nova")
+    [e] = list(src.fetch())
+    assert e.title == "Error during ComputeManager._run_image_cache_manager_pass"
+    assert e.severitytext == "ERROR"
+    assert e.severitynumber == 17
+    assert e.time == "2017-05-16T03:19:45.356000"
+    assert e.attributes["service"] == "nova-compute"
+    assert e.attributes["component"] == "oslo_service.periodic_task"
+
+
+ZOOKEEPER = (
+    "2015-07-29 19:14:14,322 - WARN  [RecvWorker:188978561024:"
+    "QuorumCnxManager$RecvWorker@765] - Interrupting SendWorker\n"
+)
+
+
+def test_zookeeper_line_parses_level_thread_and_class(tmp_path):
+    src = LogFileSource(path=write(tmp_path, "zk.log", ZOOKEEPER),
+                        format="zookeeper", source="zookeeper://quorum")
+    [e] = list(src.fetch())
+    assert e.title == "Interrupting SendWorker"
+    assert e.severitytext == "WARN"
+    assert e.severitynumber == 13
+    assert e.time == "2015-07-29T19:14:14.322000"
+    assert e.attributes["component"] == "QuorumCnxManager$RecvWorker"
+
+
+def test_syslog_process_with_facility_in_parentheses(tmp_path):
+    line = ("Jun  9 06:06:46 combo su(pam_unix)[2077]: "
+            "session opened for user htt by (uid=0)\n")
+    src = LogFileSource(path=write(tmp_path, "messages", line),
+                        format="syslog", source="syslog://combo")
+    [e] = list(src.fetch())
+    assert e.attributes["proc"] == "su(pam_unix)"
+    assert e.title == "session opened for user htt by (uid=0)"
+
+
+def test_zookeeper_thread_names_may_nest_brackets(tmp_path):
+    line = ("2015-07-29 17:41:41,719 - INFO  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:"
+            "2181:FastLeaderElection@740] - New election. My id =  1\n")
+    src = LogFileSource(path=write(tmp_path, "zk.log", line),
+                        format="zookeeper", source="zookeeper://quorum")
+    [e] = list(src.fetch())
+    assert e.attributes["component"] == "FastLeaderElection"
+    assert e.title == "New election. My id =  1"

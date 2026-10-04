@@ -148,6 +148,23 @@ class Store:
             [(cid, label, tier) for cid, (label, tier) in clusters.items()])
         self.db.commit()
 
+    def prune_clusters(self, keep) -> int:
+        """Drop every cluster not in `keep`, with its verdict. For a whole-
+        corpus recluster only: a cluster it did not produce has no events left,
+        and its verdict would otherwise keep counting. Routed rows stay - they
+        record side effects that really happened."""
+        self.db.execute("CREATE TEMP TABLE IF NOT EXISTS keep_ids (id TEXT)")
+        self.db.execute("DELETE FROM keep_ids")
+        self.db.executemany("INSERT INTO keep_ids VALUES (?)",
+                            [(cid,) for cid in keep])
+        dropped = self.db.execute(
+            "DELETE FROM clusters WHERE id NOT IN (SELECT id FROM keep_ids)"
+        ).rowcount
+        self.db.execute("DELETE FROM verdicts WHERE clusterid NOT IN "
+                        "(SELECT id FROM keep_ids)")
+        self.db.commit()
+        return dropped
+
     def list_clusters(self) -> list[dict]:
         rows = self.db.execute(
             "SELECT c.id, c.label, c.tier, COUNT(e.id) "

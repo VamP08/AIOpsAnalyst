@@ -1,4 +1,4 @@
-"""File-based log source: nginx access/error, Apache, syslog, JSON-lines, BGL.
+"""File-based log source: nginx, Apache, syslog, JSON-lines, BGL, OpenStack, ZooKeeper.
 
 Event ids hash (source, line number, raw line): re-ingesting the same file
 yields the same ids — the store's primary key makes ingestion idempotent —
@@ -36,7 +36,17 @@ BGL_RE = re.compile(
 )
 SYSLOG_RE = re.compile(
     r'\w{3}\s+\d+ \d{2}:\d{2}:\d{2} (?P<host>\S+) '
-    r'(?P<proc>[\w./-]+)(?:\[\d+\])?: ?(?P<msg>.*)'
+    r'(?P<proc>[\w./()-]+)(?:\[\d+\])?: ?(?P<msg>.*)'
+)
+# Loghub's OpenStack lines lead with the file they came from; the request
+# context in brackets varies per line and says nothing about what happened.
+OPENSTACK_RE = re.compile(
+    r'(?P<service>[\w-]+)\.log\S* (?P<time>\S+ \S+) \d+ (?P<level>\w+) '
+    r'(?P<component>\S+) (?:\[[^\]]*\] )?(?P<msg>.*)'
+)
+ZOOKEEPER_RE = re.compile(
+    r'(?P<time>\S+ \S+) - (?P<level>\w+)\s+\[.*?(?P<component>[\w$.]+)@\d+\] '
+    r'- (?P<msg>.*)'
 )
 
 
@@ -125,6 +135,28 @@ def _parse_bgl(raw: str) -> dict:
     return fields
 
 
+def _parse_openstack(raw: str) -> dict:
+    m = OPENSTACK_RE.match(raw)
+    if not m:
+        return {}
+    return {"title": m["msg"], "severitytext": m["level"],
+            "severitynumber": severity_number(m["level"]),
+            "time": datetime.fromisoformat(m["time"]).isoformat(),
+            "attributes": {"service": m["service"],
+                           "component": m["component"]}}
+
+
+def _parse_zookeeper(raw: str) -> dict:
+    m = ZOOKEEPER_RE.match(raw)
+    if not m:
+        return {}
+    return {"title": m["msg"], "severitytext": m["level"],
+            "severitynumber": severity_number(m["level"]),
+            "time": datetime.strptime(m["time"],
+                                      "%Y-%m-%d %H:%M:%S,%f").isoformat(),
+            "attributes": {"component": m["component"]}}
+
+
 _PARSERS = {
     "nginx_access": _parse_nginx_access,
     "nginx_error": _parse_nginx_error,
@@ -132,6 +164,8 @@ _PARSERS = {
     "syslog": _parse_syslog,
     "jsonl": _parse_jsonl,
     "bgl": _parse_bgl,
+    "openstack": _parse_openstack,
+    "zookeeper": _parse_zookeeper,
 }
 
 

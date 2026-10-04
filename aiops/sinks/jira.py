@@ -18,6 +18,10 @@ from aiops.registry import Sink, register
 ISSUE_TYPES = {"crash": "Bug", "error": "Bug", "feature_request": "Story"}
 
 
+def summary_line(category: str, summary: str) -> str:
+    return f"[{category}] {summary}"[:250]
+
+
 @register("jira")
 class JiraSink(Sink):
     def __init__(self, base_url: str | None = None, project: str | None = None,
@@ -59,7 +63,7 @@ class JiraSink(Sink):
             json={"fields": {
                 "project": {"key": self.project},
                 "issuetype": {"name": self._issue_type(decision.category)},
-                "summary": f"[{decision.category}] {decision.summary}"[:250],
+                "summary": summary_line(decision.category, decision.summary),
                 "description": self._description(decision),
             }},
         )

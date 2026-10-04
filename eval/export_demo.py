@@ -10,8 +10,10 @@ Writes into demo/data/:
   clusters.json    every cluster with its verdict and any ticket it produced
   scorecards.json  both published evaluations, verbatim
   replay.json      one real incident, event by event, for the replay player
+  specimens.json   a few real events followed from input to what happened
+  policy.json      the gate's rules and the routes, as the code runs them
 
-Usage: python eval/export_demo.py eval/labeling.sqlite demo/data
+Usage: python eval/export_demo.py eval/labeling.sqlite demo/data [pipeline.yaml]
 """
 import json
 import sys
@@ -29,6 +31,59 @@ from aiops.store import Store
 REPLAY_SOURCE = "bgl://llnl/bluegene"
 REPLAY_FROM = "2005-06-05T00:00"
 REPLAY_TO = "2005-06-05T02:00"
+
+
+# Chosen by hand after triage, one per kind of source and chosen so that they
+# end differently: a ticket, a person told, a deliberate abstention.
+SPECIMENS = [
+    "prose-6d0df478cbdd",   # pytorch issue, torch.compile crash -> ticket
+    "prose-9b77d6d34138",   # vscode CI, 17 failed runs of one step -> ticket
+    "prose-8fef10e7acc9",   # Cloudflare incident, Durable Objects -> ticket
+    "log-128241b27e0d",     # Linux OOM killer, critical -> a person
+    "prose-4f2e9cb03091",   # vscode issue titled "NA" -> abstain
+]
+
+
+def specimen(store: Store, cluster_id: str) -> dict:
+    """One real event, followed through: what came in, what it was grouped
+    with, what the model said, which rule decided, and what that caused."""
+    from aiops.sinks.jira import ISSUE_TYPES, summary_line
+    from aiops.textclean import strip_boilerplate
+    from aiops.triage.gate import explain, matching_rule
+    from aiops.triage.schema import Verdict
+
+    cluster = next(c for c in store.list_clusters() if c["id"] == cluster_id)
+    first, *siblings = store.events_in_cluster(cluster_id, 4)
+    v = store.get_verdict(cluster_id)
+    verdict = Verdict(category=v["category"], severity=v["severity"],
+                      summary=v["summary"], confidence=v["confidence"],
+                      evidence=[])
+    key = store.routed(cluster_id).get("tickets") or None
+    return {
+        "input": {"source": first.source, "type": first.type,
+                  "subject": first.subject, "time": first.time,
+                  "title": first.title, "url": first.url,
+                  "body": strip_boilerplate(first.body or first.raw or "")[:300]},
+        "cluster": {"id": cluster_id, "label": cluster["label"],
+                    "size": cluster["size"],
+                    "siblings": [e.title for e in siblings]},
+        "verdict": {"category": v["category"], "severity": v["severity"],
+                    "confidence": v["confidence"], "summary": v["summary"]},
+        "route": {"tier": v["tier"], "rule": matching_rule(verdict),
+                  "why": explain(verdict),
+                  "ticket": key and {
+                      "key": key,
+                      "type": ISSUE_TYPES.get(v["category"], "Task"),
+                      "summary": summary_line(v["category"], v["summary"])}},
+    }
+
+
+def policy_export(routes: list[dict]) -> dict:
+    from aiops.triage.gate import Thresholds, policy
+
+    t = Thresholds()
+    return {"thresholds": {"auto": t.auto, "suggest": t.suggest},
+            "gate": policy(), "routes": routes}
 
 
 def replay_window(events: list[Event], start: str, end: str) -> list[Event]:
@@ -119,7 +174,14 @@ def escalations(store: Store, rows: list[dict]) -> list[dict]:
     return sorted(out, key=lambda e: e["size"], reverse=True)
 
 
-def stats_from(rows: list[dict], events: int) -> dict:
+def stats_from(rows: list[dict], events: int,
+               routes: list[dict] | None = None) -> dict:
+    """`tickets` counts what was actually filed; `route_matched` counts what
+    the policy would file. They differ because the demo tracker holds a sample,
+    and a page that shows one as the other is overclaiming."""
+    from aiops.pipeline import Pipeline
+
+    policy = Pipeline(store=None, sources=[], routes=routes or [])
     triaged = [r for r in rows if r["category"]]
     tiers = Counter(r["tier"] for r in triaged)
     return {
@@ -131,6 +193,7 @@ def stats_from(rows: list[dict], events: int) -> dict:
         "by_category": dict(Counter(r["category"] for r in triaged)),
         "by_source": dict(Counter(r["source"] for r in rows)),
         "tickets": len([r for r in rows if r["ticket"]]),
+        "route_matched": len([r for r in triaged if policy._sinks_for(r)]),
         "generated": datetime.now().strftime("%Y-%m-%d %H:%M UTC%z") or
         datetime.now().isoformat(timespec="minutes"),
     }
@@ -162,8 +225,13 @@ def scorecards() -> dict:
     return out
 
 
-def main(db_path: str, out_dir: str) -> None:
+def main(db_path: str, out_dir: str = "demo/data",
+         config: str = "pipeline.yaml") -> None:
+    import yaml
+
     store = Store(db_path)
+    with open(config, encoding="utf-8") as f:
+        routes = yaml.safe_load(f).get("routes", [])
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -171,9 +239,11 @@ def main(db_path: str, out_dir: str) -> None:
     written = {
         "clusters.json": rows,
         "escalations.json": escalations(store, rows),
-        "stats.json": stats_from(rows, store.count_events()),
+        "stats.json": stats_from(rows, store.count_events(), routes),
         "scorecards.json": scorecards(),
         "replay.json": replay_from(store),
+        "specimens.json": [specimen(store, c) for c in SPECIMENS],
+        "policy.json": policy_export(routes),
     }
     for name, payload in written.items():
         target = out / name
@@ -183,4 +253,4 @@ def main(db_path: str, out_dir: str) -> None:
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "demo/data")
+    main(*sys.argv[1:4])

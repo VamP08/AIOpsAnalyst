@@ -63,3 +63,33 @@ def test_recluster_is_idempotent(tmp_path):
              for e in ("l1", "l2", "i1", "i2", "i3")}
     assert first == second
     assert before == after
+
+
+def test_every_non_log_event_type_is_clustered_as_prose(tmp_path):
+    from aiops.envelope import Event
+    pipe = make_pipeline(tmp_path)
+    pipe.store.insert_events([
+        Event(id="s1", source="statuspage://x", type="com.statuspage.incident",
+              title="Elevated error rates in Europe"),
+        Event(id="r1", source="github://a/b/actions",
+              type="com.github.workflow_run", title="CI failed on main: test"),
+    ])
+    assert pipe.cluster(prose_encoder=fake_encoder) == {"prose": 2}
+    assert all(pipe.store.get_event(i).clusterid for i in ("s1", "r1"))
+
+
+def test_recluster_drops_clusters_left_without_events(tmp_path):
+    pipe = make_pipeline(tmp_path)
+    seed(pipe.store)
+    pipe.cluster(prose_encoder=fake_encoder)
+    dark_mode = pipe.store.get_event("i3").clusterid
+    pipe.store.upsert_verdict(dark_mode, {
+        "category": "feature_request", "severity": "low", "summary": "s",
+        "confidence": 0.9, "evidence": [], "tier": "auto", "model": "m",
+        "promptversion": "1.1"})
+    pipe.store.db.execute("DELETE FROM events WHERE id = 'i3'")
+    pipe.store.db.commit()
+
+    pipe.cluster(prose_encoder=fake_encoder)
+    assert dark_mode not in {c["id"] for c in pipe.store.list_clusters()}
+    assert pipe.store.get_verdict(dark_mode) is None
