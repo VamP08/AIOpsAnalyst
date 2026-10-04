@@ -62,8 +62,10 @@ function row(c: Cluster): HTMLElement {
     label,
     el("span", "meta", KIND_LABEL[c.kind] ?? c.kind),
     el("span", "meta", OUTCOMES.find((o) => o.key === c.outcome)?.label ?? c.outcome),
-    el("span", "meta", c.category.replace("_", " ")),
+    el("span", "meta", c.category.replaceAll("_", " ")),
     el("span", "size", `${n(c.size)} events`),
+    el("span", "cue cue-open", "Open"),
+    el("span", "cue cue-close", "Close"),
   );
   const body = el("div", "body");
   body.append(
@@ -106,7 +108,7 @@ export async function mount(root: HTMLElement): Promise<void> {
 
   const outcome = select(OUTCOMES.map((o) => [o.key, o.label]), "All outcomes");
   const kind = select((Object.keys(KIND_LABEL) as Kind[]).map((k) => [k, KIND_LABEL[k]]), "All sources");
-  const category = select([...new Set(rows.map((r) => r.category))].sort().map((c) => [c, c.replace("_", " ")]), "All categories");
+  const category = select([...new Set(rows.map((r) => r.category))].sort().map((c) => [c, c.replaceAll("_", " ")]), "All categories");
   const q = el("input");
   q.type = "search";
   const filters = el("div", "filters");
@@ -125,7 +127,9 @@ export async function mount(root: HTMLElement): Promise<void> {
     list.append(...next.map(row));
     shown += next.length;
     more.hidden = shown >= matches.length;
-    count.textContent = `Showing ${n(shown)} of ${n(matches.length)} piles`;
+    count.textContent = matches.length === rows.length
+      ? `Showing ${n(shown)} of ${n(rows.length)} piles`
+      : `Showing ${n(shown)} of ${n(matches.length)} matching piles (${n(rows.length)} total)`;
   };
   const apply = () => {
     matches = filterClusters(rows, {
@@ -140,7 +144,12 @@ export async function mount(root: HTMLElement): Promise<void> {
   };
   for (const c of [outcome, kind, category]) c.addEventListener("change", apply);
   q.addEventListener("input", apply);
-  more.addEventListener("click", draw);
+  more.addEventListener("click", () => {
+    const from = shown;
+    draw();
+    // keep keyboard focus when the button hides itself after the last page
+    if (more.hidden) list.children[from]?.querySelector("summary")?.focus();
+  });
 
   root.replaceChildren(filters, count, list, more);
   apply();
