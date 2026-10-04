@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS events (
   url TEXT,
   raw TEXT
 );
+CREATE INDEX IF NOT EXISTS events_clusterid ON events(clusterid);
 CREATE TABLE IF NOT EXISTS cursors (
   source TEXT PRIMARY KEY,
   cursor TEXT NOT NULL

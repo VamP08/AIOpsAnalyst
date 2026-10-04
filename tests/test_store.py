@@ -167,3 +167,9 @@ def test_timespan_reports_first_last_and_count(tmp_path):
     assert span["first"] == "2026-09-01T10:00:00"
     assert span["last"] == "2026-09-03T08:00:00"
     assert span["events"] == 3
+
+
+def test_events_are_indexed_by_cluster(tmp_path):
+    store = Store(str(tmp_path / "s.sqlite"))
+    names = [r[1] for r in store.db.execute("PRAGMA index_list(events)")]
+    assert "events_clusterid" in names

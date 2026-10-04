@@ -159,7 +159,7 @@ def cluster_rows(store: Store, samples: int = 5) -> list[dict]:
             "id": cluster["id"],
             "label": cluster["label"],
             "source": cluster["tier"],
-            "kind": kind(events[0].type, events[0].source),
+            "kind": kind(events[0].type, events[0].source) if events else None,
             "size": cluster["size"],
             "category": verdict.get("category"),
             "severity": verdict.get("severity"),
@@ -209,7 +209,7 @@ def stats_from(rows: list[dict], events: int,
     policy = Pipeline(store=None, sources=[], routes=routes or [])
     triaged = [r for r in rows if r["category"]]
     tiers = Counter(r["tier"] for r in triaged)
-    bins = Counter(outcome(r, policy) for r in triaged)
+    bins = Counter(outcome(r, policy) for r in rows if r["tier"])
     return {
         "events": events,
         "clusters": len(rows),
