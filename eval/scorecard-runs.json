@@ -55,5 +55,31 @@
    "incident_types_preserved": "2 or 3 of 3",
    "alert_recall": "0.998 to 1.00"
   }
+ },
+ "why_1.2_was_rejected": {
+  "what": "Measured 2026-09-29 on the corpus as it was then (80,000-line BGL slice). 1.2 won its held-out half and cost these elsewhere.",
+  "rows": [
+   {
+    "measure": "alert recall on the supercomputer log",
+    "prompt_1.1": "1.00, 3 of 3 incident types",
+    "prompt_1.2": "0.998, 2 of 3"
+   },
+   {
+    "measure": "questions reaching the right cluster, hit@1",
+    "prompt_1.1": "0.90",
+    "prompt_1.2": "0.80"
+   },
+   {
+    "measure": "clusters escalated to a person",
+    "prompt_1.1": "5, three of them critical",
+    "prompt_1.2": "0"
+   },
+   {
+    "measure": "verdicts using the critical severity",
+    "prompt_1.1": "3",
+    "prompt_1.2": "0"
+   }
+  ],
+  "decided_by": "The last row. Without critical, the one rule that escalates whatever the confidence never fires."
  }
 }

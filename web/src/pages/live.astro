@@ -1,0 +1,58 @@
+---
+import Site from "../layouts/Site.astro";
+import { live } from "../lib/data";
+import { dec, n } from "../lib/format";
+
+type Entry = { id: string; seen: string; repo: string; url: string; title: string; summary: string;
+  category: string; severity: string; confidence: number; tier: string };
+const entries = (live.entries as Entry[]).slice().sort((a, b) => b.seen.localeCompare(a.seen));
+const updated = String(live.updated);
+const day = updated.slice(0, 10);
+const time = updated.slice(11, 16);
+const TIER: Record<string, string> = {
+  auto: "handled on its own",
+  suggest: "drafted, waits for approval",
+  escalate: "a person looks first",
+  abstain: "not sure, recorded",
+};
+const safe = (u: string) => (u.startsWith("https://") ? u : null);
+---
+<Site
+  title="It is still running"
+  description="A scheduled job triages new GitHub issues every six hours and commits the result, so the history shows it was not staged."
+  current="live"
+>
+  <div class="wrap page">
+    <header class="head">
+      <h1>It is still running</h1>
+      <p class="lede">Every six hours a scheduled job reads the newest issues from {live.repos.join(", ")}, groups and labels them the same way, and commits the result. The numbers elsewhere on this site come from a frozen corpus so they stay checkable; this page is the part that moves.</p>
+      <p class="stamp">Last run <time datetime={updated}>{day} at {time} UTC</time>, {n(entries.length)} issues. <a href="https://github.com/VamP08/AIOpsAnalyst/commits/main/web/public/data/live.json">Every run is in the commit history</a>.</p>
+    </header>
+
+    <ol class="feed">
+      {entries.map((e) => (
+        <li>
+          <p class="src">{e.repo} · <time datetime={e.seen}>{e.seen.slice(0, 10)}</time></p>
+          <h2>{safe(e.url) ? <a href={safe(e.url)!}>{e.title}</a> : e.title}</h2>
+          <p class="sum">{e.summary}</p>
+          <p class="lab"><span>{e.category.replace("_", " ")}</span><span>{e.severity}</span><span>{dec(e.confidence)} sure</span><span class="tier">{TIER[e.tier] ?? e.tier}</span></p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Site>
+
+<style>
+  .page { padding-top: var(--space-7); }
+  .head { max-width: 60rem; display: grid; gap: var(--space-4); }
+  .lede { font-size: var(--step-1); line-height: 1.5; color: #26332c; max-width: 52ch; }
+  .stamp { font: 400 var(--step--1)/1.5 var(--font-mono); padding: var(--space-3) var(--space-4); border: 1px solid var(--ink); background: var(--tint); }
+  .feed { list-style: none; padding: 0; margin-top: var(--space-7); border-top: 2px solid var(--ink); }
+  .feed li { display: grid; gap: var(--space-2); padding: var(--space-5) 0; border-bottom: 1px solid var(--line); max-width: 60rem; }
+  .src { font: 400 var(--step--2)/1.4 var(--font-mono); color: var(--muted); }
+  .feed h2 { font: 600 var(--step-1)/1.3 var(--font-body); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  .feed h2 a { text-decoration-color: var(--line); }
+  .sum { color: #26332c; max-width: var(--measure); }
+  .lab { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
+  .lab .tier { color: var(--green); font-weight: 500; }
+</style>
