@@ -100,7 +100,7 @@ const binItems = (o: Outcome) => {
     <p class="hub"><b>{n(stats.clusters)}</b> problems, {ratio(stats.events, stats.clusters)} fewer things to read</p>
   </div>
 
-  <figcaption class="key">One dot is a hundred events. The lit route is the pytorch crash on the tag above.</figcaption>
+  <figcaption class="key"><span class="wide-only">One dot is a hundred events. The lit route is the pytorch crash on the tag above.</span><span class="narrow-only">Events in, by kind of source, and the problems they became.</span></figcaption>
 </figure>
 
 <div class="levers"><Rulebook lit={lit.route.rule} litNote="the rule that decided the pytorch crash" /></div>
@@ -158,6 +158,7 @@ const binItems = (o: Outcome) => {
   }
 
   .stack { display: none; }
+  .narrow-only { display: none; }
   .key { margin-top: var(--space-4); font: 400 var(--step--1)/1.5 var(--font-body); color: var(--panel-ink); }
 
   .levers { margin-top: var(--space-6); }
@@ -182,7 +183,8 @@ const binItems = (o: Outcome) => {
     .bin, .bin + .bin { padding: var(--space-4) 0; border-left: 0; }
   }
   @media (max-width: 700px) {
-    .map, .litnote { display: none; }
+    .map, .litnote, .wide-only { display: none; }
+    .narrow-only { display: inline; }
     .stack { display: block; }
     .stack .in { list-style: none; padding: 0; border-top: 1px solid #23603f; }
     .stack .in li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid #23603f; font: 400 var(--step--1)/1.4 var(--font-mono); }
