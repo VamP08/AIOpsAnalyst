@@ -1,0 +1,50 @@
+---
+// The gate, as the code runs it: read top to bottom, the first rule that
+// matches decides. `lit` pulls the lever that decided one real event.
+import { policy } from "../lib/data";
+
+interface Props { lit?: number; litNote?: string; heading?: string }
+const { lit, litNote, heading = "The rulebook, read top to bottom. The first rule that matches decides." } = Astro.props;
+
+const TIER_WORDS: Record<string, string> = {
+  escalate: "a person looks first",
+  auto: "acts on it alone",
+  suggest: "drafts it for approval",
+  abstain: "records it as unsure",
+};
+---
+<div class="rulebook" role="group" aria-label={heading}>
+  <h3>{heading}</h3>
+  <ol>
+    {policy.gate.map((g, i) => (
+      <li class:list={{ pulled: i === lit }} aria-current={i === lit ? "true" : undefined}>
+        <span class="lv" aria-hidden="true">{i + 1}</span>
+        <span class="if">{g.condition}</span>
+        <span class="then">{TIER_WORDS[g.tier]}</span>
+        {i === lit && litNote && <span class="sr-only">({litNote})</span>}
+      </li>
+    ))}
+  </ol>
+  <p class="route-note">When it acts alone, a ticket is filed only for crashes, errors, slowdowns and feature requests. Anything else it is sure about is routine, and dropped.</p>
+</div>
+
+<style>
+  h3 { font-size: var(--step-1); max-width: 40ch; }
+  ol { list-style: none; padding: 0; margin-top: var(--space-4); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--ink); }
+  li { display: grid; gap: var(--space-1); align-content: start; padding: var(--space-4); min-width: 0; }
+  li + li { border-left: 1px solid var(--ink); }
+  .lv { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--ink); font: 500 0.8rem/1 var(--font-mono); }
+  .if { font: 400 0.86rem/1.45 var(--font-mono); }
+  .then { font-weight: 600; }
+  .pulled { background: var(--green); color: var(--panel-ink); }
+  .pulled .lv { background: var(--mint); color: var(--green); border-color: var(--mint); }
+  .pulled .then { color: var(--mint); }
+  .route-note { margin-top: var(--space-3); color: var(--muted); max-width: var(--measure); }
+
+  @media (max-width: 900px) {
+    ol { grid-template-columns: 1fr; }
+    li + li { border-left: 0; border-top: 1px solid var(--ink); }
+    li { grid-template-columns: auto 1fr; align-items: baseline; column-gap: var(--space-3); }
+    li .then { grid-column: 2; }
+  }
+</style>

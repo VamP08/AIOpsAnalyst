@@ -5,11 +5,12 @@
 // the rulebook, in the order it is read, with the one that decided the lit
 // route pulled.
 import clustersJson from "../../public/data/clusters.json";
-import { policy, specimens, stats, type Kind } from "../lib/data";
+import { specimens, stats, type Kind } from "../lib/data";
 import { KIND_PLURAL, sourceLine } from "../lib/describe";
 import { n, ratio } from "../lib/format";
 import { OUTCOMES, type Outcome } from "../lib/outcomes";
 import OutcomeMark from "./OutcomeMark.astro";
+import Rulebook from "./Rulebook.astro";
 
 const KINDS: Kind[] = ["issue", "ci", "status", "log", "supercomputer"];
 const lit = specimens[0];
@@ -42,14 +43,6 @@ KINDS.forEach((k, li) => {
 
 const inPath = (y: number) => `M190 ${y} H470 C515 ${y} 515 ${MID} ${J.x} ${MID}`;
 const outPath = (y: number) => `M${J.x + J.w} ${MID} C${J.x + J.w + 45} ${MID} ${J.x + J.w + 45} ${y} ${J.x + J.w + 90} ${y} H990`;
-
-// rulebook in words a recruiter can read
-const TIER_WORDS: Record<string, string> = {
-  escalate: "a person looks first",
-  auto: "acts on it alone",
-  suggest: "drafts it for approval",
-  abstain: "records it as unsure",
-};
 
 // real items per bin: specimens first, then the largest piles
 type Row = { id: string; label: string; size: number; outcome: Outcome | null; samples: { url: string | null }[] };
@@ -110,20 +103,7 @@ const binItems = (o: Outcome) => {
   <figcaption class="key">One dot is a hundred events. The lit route is the pytorch crash on the tag above.</figcaption>
 </figure>
 
-<div class="levers" aria-labelledby="rulebook-h">
-  <h3 id="rulebook-h">The rulebook, read top to bottom. The first rule that matches decides.</h3>
-  <ol>
-    {policy.gate.map((g, i) => (
-      <li class:list={{ pulled: i === lit.route.rule }}>
-        <span class="lv" aria-hidden="true">{i + 1}</span>
-        <span class="if">{g.condition}</span>
-        <span class="then">{TIER_WORDS[g.tier]}</span>
-        {i === lit.route.rule && <span class="sr-only">(the rule that decided the pytorch crash)</span>}
-      </li>
-    ))}
-  </ol>
-  <p class="route-note">When it acts alone, a ticket is filed only for crashes, errors, slowdowns and feature requests. Anything else it is sure about is routine, and dropped.</p>
-</div>
+<div class="levers"><Rulebook lit={lit.route.rule} litNote="the rule that decided the pytorch crash" /></div>
 
 <div class="bins">
   {OUTCOMES.map((o) => (
@@ -181,18 +161,6 @@ const binItems = (o: Outcome) => {
   .key { margin-top: var(--space-4); font: 400 var(--step--1)/1.5 var(--font-body); color: var(--panel-ink); }
 
   .levers { margin-top: var(--space-6); }
-  .levers h3 { font-size: var(--step-1); max-width: 40ch; }
-  .levers ol { list-style: none; padding: 0; margin-top: var(--space-4); display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--ink); }
-  .levers li { display: grid; gap: var(--space-1); align-content: start; padding: var(--space-4); min-width: 0; }
-  .levers li + li { border-left: 1px solid var(--ink); }
-  .lv { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--ink); font: 500 0.8rem/1 var(--font-mono); }
-  .if { font: 400 0.86rem/1.45 var(--font-mono); }
-  .then { font-weight: 600; }
-  .pulled { background: var(--green); color: var(--panel-ink); }
-  .pulled .lv { background: var(--mint); color: var(--green); border-color: var(--mint); }
-  .pulled .then { color: var(--mint); }
-  .route-note { margin-top: var(--space-3); color: var(--muted); max-width: var(--measure); }
-
   .bins { margin-top: var(--space-6); display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border-top: 2px solid var(--ink); }
   .bin { border-bottom: 1px solid var(--line); padding: var(--space-4) var(--space-4) var(--space-4) 0; min-width: 0; }
   .bin + .bin { padding-left: var(--space-4); border-left: 1px solid var(--line); }
@@ -210,10 +178,6 @@ const binItems = (o: Outcome) => {
   .bin .sample { font-family: var(--font-body); }
 
   @media (max-width: 900px) {
-    .levers ol { grid-template-columns: 1fr; }
-    .levers li + li { border-left: 0; border-top: 1px solid var(--ink); }
-    .levers li { grid-template-columns: auto 1fr; align-items: baseline; column-gap: var(--space-3); }
-    .levers li .then { grid-column: 2; }
     .bins { grid-template-columns: 1fr; }
     .bin, .bin + .bin { padding: var(--space-4) 0; border-left: 0; }
   }

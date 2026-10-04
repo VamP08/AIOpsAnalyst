@@ -1,0 +1,158 @@
+---
+// One real event followed from arrival to decision, at four stations. The tag
+// on the right is the same tag the home page shows, filled in as you read.
+import Site from "../../layouts/Site.astro";
+import ConfidenceStrip from "../../components/ConfidenceStrip.astro";
+import OutcomeMark from "../../components/OutcomeMark.astro";
+import Rulebook from "../../components/Rulebook.astro";
+import TriageTag from "../../components/TriageTag.astro";
+import { specimens, stats, type Specimen } from "../../lib/data";
+import { KIND_LABEL, sourceLine } from "../../lib/describe";
+import { n } from "../../lib/format";
+import { OUTCOMES } from "../../lib/outcomes";
+
+export function getStaticPaths() {
+  return specimens.map((s, i) => ({ params: { id: s.slug }, props: { s, i } }));
+}
+
+interface Props { s: Specimen; i: number }
+const { s, i } = Astro.props;
+const prev = specimens[i - 1];
+const next = specimens[i + 1];
+const out = OUTCOMES.find((o) => o.key === s.outcome)!;
+const others = s.cluster.size - 1;
+const when = s.input.time ? s.input.time.slice(0, 16).replace("T", " ") : null;
+const body = s.input.body.replace(/<[^>]*>/g, "").trim();
+const grouping =
+  s.input.kind === "log" || s.input.kind === "supercomputer"
+    ? "Log lines are grouped by the sentence they share: the numbers and names in each line change, the template does not."
+    : "Written reports are grouped when their wording is close enough, first by shared words, then by meaning.";
+---
+<Site
+  title={s.input.title}
+  description={`A real ${KIND_LABEL[s.input.kind].toLowerCase()}, followed from arrival to decision: ${out.label.toLowerCase()}.`}
+>
+  <div class="wrap page">
+    <nav class="crumbs" aria-label="Cases">
+      <a href="/#cases">Five real cases</a>
+      <span>Case {i + 1} of {specimens.length}</span>
+    </nav>
+
+    <header class="head">
+      <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
+      <h1>{s.input.title}</h1>
+      <p class="end"><OutcomeMark outcome={s.outcome} size={18} /> {out.label}{s.route.ticket ? `, ${s.route.ticket.key}` : ""}</p>
+    </header>
+
+    <div class="grid">
+      <ol class="stations">
+        <li id="arrived">
+          <h2>It arrived</h2>
+          <p class="meta">{KIND_LABEL[s.input.kind]}{when && <>, <time datetime={s.input.time!}>{when} UTC</time></>}</p>
+          <pre class="payload">{body}</pre>
+          {s.input.url && <p><a href={s.input.url}>Open the original</a></p>}
+        </li>
+
+        <li id="grouped">
+          <h2>{others > 0 ? `It was grouped with ${n(others)} others like it` : "Nothing else looked like it"}</h2>
+          <p>{grouping} {others > 0 ? "The model reads the group once, not each line." : "It became a problem of its own, and the model read it on its own."}</p>
+          <p class="meta">Group label: <code>{s.cluster.label}</code></p>
+          {s.cluster.siblings.length > 0 && (
+            <details>
+              <summary>Show {s.cluster.siblings.length} of the others</summary>
+              <ul class="sibs">{s.cluster.siblings.map((t) => <li><code>{t}</code></li>)}</ul>
+            </details>
+          )}
+        </li>
+
+        <li id="labelled">
+          <h2>A model labelled it, once</h2>
+          <p>Everything the model returns is below. It does not decide what happens next.</p>
+          <dl class="verdict">
+            <div><dt>Kind of problem</dt><dd>{s.verdict.category.replace("_", " ")}</dd></div>
+            <div><dt>How bad</dt><dd>{s.verdict.severity}</dd></div>
+            <div class="wide"><dt>How sure</dt><dd><ConfidenceStrip value={s.verdict.confidence} /></dd></div>
+            <div class="wide"><dt>In one sentence</dt><dd><q>{s.verdict.summary}</q></dd></div>
+          </dl>
+        </li>
+
+        <li id="decided">
+          <h2>The rulebook decided</h2>
+          <Rulebook lit={s.route.rule} litNote="the rule that decided this case" heading="Read top to bottom; the lit rule matched first." />
+          <p class="why">Rule {s.route.rule + 1} matched: {s.route.why}.</p>
+          <div class="result">
+            <p class="kept"><OutcomeMark outcome={s.outcome} size={18} /> {out.label}</p>
+            <p>{out.sentence}</p>
+            {s.route.ticket && (
+              <p class="ticket"><span class="key">{s.route.ticket.key}</span> {s.route.ticket.type}: {s.route.ticket.summary}</p>
+            )}
+            {s.route.ticket && <p class="note">The demo tracker holds a sample of {n(stats.tickets)} tickets; the rulebook would file every match.</p>}
+          </div>
+        </li>
+      </ol>
+
+      <aside class="side" aria-label="The tag for this case">
+        <TriageTag s={s} index={i + 1} />
+      </aside>
+    </div>
+
+    <nav class="pager" aria-label="More cases">
+      {prev ? <a href={`/case/${prev.slug}/`}><span>Previous case</span>{prev.input.title}</a> : <span></span>}
+      {next ? <a class="nx" href={`/case/${next.slug}/`}><span>Next case</span>{next.input.title}</a> : <a class="nx" href="/measured/"><span>Next</span>How it was measured</a>}
+    </nav>
+  </div>
+</Site>
+
+<style>
+  .page { padding-top: var(--space-6); }
+  .crumbs { display: flex; gap: var(--space-4); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
+  .head { margin-top: var(--space-5); max-width: 62rem; }
+  .from { font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
+  .head h1 { font-size: var(--step-3); margin-top: var(--space-3); overflow-wrap: anywhere; }
+  .head .end { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-4); font: 700 var(--step-1)/1.2 var(--font-display); }
+
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: var(--space-7); margin-top: var(--space-6); align-items: start; }
+  .side { position: sticky; top: 5.5rem; }
+
+  .stations { list-style: none; padding: 0; counter-reset: st; display: grid; gap: var(--space-7); }
+  .stations > li { counter-increment: st; border-top: 2px solid var(--ink); padding-top: var(--space-4); display: grid; gap: var(--space-4); }
+  .stations > li > h2 { font-size: var(--step-2); display: flex; gap: var(--space-3); align-items: baseline; }
+  .stations > li > h2::before { content: counter(st); font: 500 var(--step--1)/1 var(--font-mono); border: 1px solid var(--ink); padding: 0.3rem 0.45rem; }
+  .stations p { max-width: var(--measure); color: #26332c; }
+  .meta { font: 400 var(--step--1)/1.5 var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+  .payload { margin: 0; padding: var(--space-4); background: var(--panel); color: var(--panel-ink); font: 400 0.82rem/1.6 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 22rem; overflow: auto; }
+  details summary { cursor: pointer; font-weight: 600; text-decoration: underline; text-underline-offset: 0.22em; }
+  .sibs { margin-top: var(--space-3); padding-left: var(--space-5); display: grid; gap: var(--space-2); font-size: var(--step--1); overflow-wrap: anywhere; }
+
+  .verdict { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--ink); }
+  .verdict > div { padding: var(--space-4); border-bottom: 1px solid var(--line); min-width: 0; }
+  .verdict > div:not(.wide) + div:not(.wide) { border-left: 1px solid var(--line); }
+  .verdict .wide { grid-column: 1 / -1; }
+  .verdict > div:last-child { border-bottom: 0; }
+  .verdict dt { font: 400 var(--step--2)/1.3 var(--font-mono); color: var(--muted); margin-bottom: var(--space-2); }
+  .verdict dd { margin: 0; font-weight: 600; }
+  .verdict q { font-weight: 400; }
+
+  .why { font-family: var(--font-mono); font-size: var(--step--1); }
+  .result { border: 1px solid var(--ink); padding: var(--space-5); display: grid; gap: var(--space-3); background: var(--tint); }
+  .kept { display: flex; align-items: center; gap: var(--space-2); font: 700 var(--step-2)/1.1 var(--font-display); color: var(--green); }
+  .ticket { font-family: var(--font-mono); font-size: var(--step--1); }
+  .key { background: var(--green); color: var(--mint); padding: 0.2rem 0.5rem; margin-right: var(--space-2); }
+  .note { font-size: var(--step--1); color: var(--muted); }
+
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); margin-top: var(--space-8); border-top: 1px solid var(--ink); padding-top: var(--space-5); }
+  .pager a { display: grid; gap: var(--space-1); text-decoration: none; font-weight: 600; overflow-wrap: anywhere; }
+  .pager a span { font: 400 var(--step--1)/1.3 var(--font-mono); color: var(--muted); }
+  .pager .nx { text-align: right; }
+
+  @media (max-width: 980px) {
+    .grid { grid-template-columns: 1fr; }
+    .side { position: static; order: -1; max-width: 30rem; }
+  }
+  @media (max-width: 600px) {
+    .verdict { grid-template-columns: 1fr; }
+    .verdict > div:not(.wide) + div:not(.wide) { border-left: 0; }
+    .pager { grid-template-columns: 1fr; }
+    .pager .nx { text-align: left; }
+  }
+</style>
