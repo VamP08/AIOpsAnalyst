@@ -170,7 +170,7 @@ embeddings for prose. No UMAP or HDBSCAN: they cluster prose better and they do
 not reproduce run to run, and a number that cannot be reproduced is not worth
 having.
 
-![Where the 31,155 events went: five sources into 905 problems, five outcomes out, and the rulebook](media/site-routes.png)
+![Where the 31,155 events went: they gather into 905 problems, and each takes one of five outcomes](media/routes.gif)
 
 The API runs locally against a store with `uvicorn server.app:app`. The public site
 (Astro, in `demo/`) is static and reads the exported corpus. To work on it:
