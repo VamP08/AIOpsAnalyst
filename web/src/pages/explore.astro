@@ -1,0 +1,75 @@
+---
+import Site from "../layouts/Site.astro";
+import { stats } from "../lib/data";
+import { n } from "../lib/format";
+---
+<Site
+  title="Explore every pile"
+  description="Every group the triage engine formed from the corpus, with the outcome it chose, filterable by outcome, source and category."
+  current="explore"
+>
+  <div class="wrap page">
+    <header class="head">
+      <h1>Explore every pile</h1>
+      <p class="lede">The engine sorts events into piles of the same problem and gives each pile one outcome. This is the full list, nothing sampled. Open a pile to see what the engine said about it and some of the events inside.</p>
+    </header>
+
+    <div id="explore" class="explore">
+      <noscript>
+        <p class="nojs">The list needs JavaScript to filter and render {n(stats.clusters)} piles. The raw data is at <a href="/data/clusters.json">/data/clusters.json</a>.</p>
+      </noscript>
+    </div>
+  </div>
+</Site>
+
+<script>
+  import { mount } from "../scripts/explore";
+  const root = document.getElementById("explore");
+  if (root) mount(root);
+</script>
+
+<style>
+  .page { padding-top: var(--space-7); padding-bottom: var(--space-8); }
+  .head { max-width: 60rem; display: grid; gap: var(--space-4); }
+  .lede { font-size: var(--step-1); line-height: 1.5; color: #26332c; max-width: 52ch; }
+  .explore { margin-top: var(--space-7); }
+  .nojs { padding: var(--space-4); border: 1px solid var(--ink); max-width: var(--measure); }
+</style>
+
+<style is:global>
+  #explore .filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+  #explore .field { display: grid; gap: var(--space-1); min-width: 0; }
+  #explore label { font: 500 var(--step--1)/1.3 var(--font-body); }
+  #explore select, #explore input[type="search"] {
+    font: 400 var(--step-0)/1.3 var(--font-body); color: var(--ink); background: var(--white);
+    border: 1px solid var(--ink); border-radius: var(--radius-control); padding: var(--space-2) var(--space-3);
+    width: 100%; min-width: 0;
+  }
+  #explore .count { margin: var(--space-5) 0 var(--space-3); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
+  #explore .list { border-top: 2px solid var(--ink); }
+  #explore .row { border-bottom: 1px solid var(--line); }
+  #explore summary {
+    display: grid; grid-template-columns: minmax(0, 2fr) 1fr 1.2fr 1fr auto; gap: var(--space-2) var(--space-4);
+    padding: var(--space-3) 0; cursor: pointer; align-items: baseline;
+  }
+  #explore .row[open] summary, #explore summary:hover { background: var(--tint); }
+  #explore .label { font: 400 var(--step--1)/1.4 var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  #explore .meta { font-size: var(--step--1); color: var(--muted); }
+  #explore .size { font: 400 var(--step--1)/1.4 var(--font-mono); text-align: right; }
+  #explore .body { display: grid; gap: var(--space-2); padding: var(--space-3) 0 var(--space-5); max-width: var(--measure); }
+  #explore .conf { font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--green); }
+  #explore .samples { padding-left: var(--space-4); display: grid; gap: var(--space-1); font-size: var(--step--1); }
+  #explore .samples li { overflow-wrap: anywhere; }
+  #explore .more {
+    margin-top: var(--space-5); font: 500 var(--step-0)/1.3 var(--font-body); color: var(--ink); background: var(--white);
+    border: 1px solid var(--ink); border-radius: var(--radius-control); padding: var(--space-2) var(--space-4); cursor: pointer;
+  }
+  #explore .more:hover { background: var(--mint); }
+  @media (max-width: 52rem) {
+    #explore .filters { grid-template-columns: 1fr 1fr; }
+    #explore summary { grid-template-columns: 1fr 1fr; }
+    #explore .label { grid-column: 1 / -1; white-space: normal; overflow-wrap: anywhere; }
+    #explore .size { text-align: left; }
+  }
+  @media (max-width: 30rem) { #explore .filters { grid-template-columns: 1fr; } }
+</style>
