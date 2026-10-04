@@ -116,8 +116,8 @@ const lastRun = String(live.updated).slice(0, 10);
     transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
   }
   .btn:hover { background: var(--tint); }
-  .btn.primary { background: var(--ink); color: var(--white); }
-  .btn.primary:hover { background: var(--green); color: var(--mint); }
+  .btn.primary { background: var(--green); color: var(--mint); border-color: var(--green); }
+  .btn.primary:hover { background: var(--ink); color: var(--white); }
 
   .hang { position: relative; padding-top: var(--space-5); }
   .string { position: absolute; top: 0; left: 50%; width: 1px; height: calc(var(--space-5) + 1.5rem); background: var(--ink); z-index: 1; }
@@ -148,7 +148,7 @@ const lastRun = String(live.updated).slice(0, 10);
   .cases > :global(*) { grid-column: span 2; }
   .cases > :global(*:nth-child(n + 4)) { grid-column: span 3; }
 
-  .check .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: var(--space-5); border-top: 2px solid var(--ink); }
+  .check .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: var(--space-5); border-top: 2px solid var(--ink); background: var(--tint); padding: 0 var(--space-5) var(--space-5); }
   .check .two > div { padding: var(--space-5) var(--space-5) 0 0; display: grid; gap: var(--space-3); align-content: start; }
   .check .two > div + div { padding-left: var(--space-5); border-left: 1px solid var(--line); }
   .check p { max-width: 52ch; color: var(--soft-ink); }
@@ -165,6 +165,7 @@ const lastRun = String(live.updated).slice(0, 10);
     .cases { grid-template-columns: 1fr; }
     .check .two { grid-template-columns: 1fr; }
     .check .two > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); margin-top: var(--space-5); }
+    .check .two { padding-inline: var(--space-4); }
     .receipt .row { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
     .outs { flex-direction: column; }
   }

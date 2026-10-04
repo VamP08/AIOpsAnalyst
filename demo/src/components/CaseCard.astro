@@ -61,8 +61,9 @@ const short = excerpt.length > 150 ? `${excerpt.slice(0, 150).replace(/\s\S*$/, 
     overflow-wrap: anywhere;
   }
   .end {
-    margin-top: auto;
-    padding-top: var(--space-3);
+    margin: auto calc(-1 * var(--space-5)) calc(-1 * var(--space-5));
+    padding: var(--space-3) var(--space-5);
+    background: var(--tint);
     border-top: 1px dashed var(--ink);
     display: flex;
     justify-content: space-between;

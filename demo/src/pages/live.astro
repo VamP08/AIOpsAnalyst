@@ -58,7 +58,7 @@ const safe = (u: string) => (u.startsWith("https://") ? u : null);
   .sum { color: var(--soft-ink); max-width: var(--measure); }
   .lab { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
   .lab .tier { color: var(--green); font-weight: 500; display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); }
-  .tally { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); border-block: 1px solid var(--ink); padding-block: var(--space-4); }
+  .tally { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); border-block: 1px solid var(--ink); padding: var(--space-4); background: var(--tint); }
   .tally li { display: flex; align-items: baseline; gap: var(--space-2); }
   .tally b { font: 500 var(--step-1)/1 var(--font-mono); }
   .tally span { font-size: var(--step--1); }

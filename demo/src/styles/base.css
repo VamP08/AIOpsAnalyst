@@ -38,9 +38,10 @@ a {
   color: inherit;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.22em;
-  text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
+  text-decoration-color: var(--mint);
+  text-decoration-thickness: 2px;
 }
-a:hover { text-decoration-color: currentColor; }
+a:hover { color: var(--green); text-decoration-color: var(--green); }
 
 :focus-visible {
   outline: 2px solid var(--green);

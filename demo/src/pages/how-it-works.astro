@@ -111,13 +111,13 @@ const unsure = specimens.find((s) => s.outcome === "unsure")!;
   .say { display: grid; gap: var(--space-4); }
   .say h2 { font-size: var(--step-3); }
   .say p { max-width: var(--measure); color: var(--soft-ink); }
-  .gloss { padding-left: var(--space-4); border-left: 1px solid var(--ink); font-size: var(--step--1); }
+  .gloss { padding: var(--space-3) var(--space-4); border-left: 1px solid var(--green); background: var(--tint); font-size: var(--step--1); }
 
   .kinds { list-style: none; padding: 0; border-top: 1px solid var(--ink); }
   .kinds li { display: flex; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
   .kinds b { font: 500 var(--step-0)/1.4 var(--font-mono); font-variant-numeric: tabular-nums; }
   .kinds .total { border-bottom: 2px solid var(--ink); font-weight: 600; }
-  .kinds .total b { font: 700 var(--step-2)/1 var(--font-display); }
+  .kinds .total b { font: 700 var(--step-2)/1 var(--font-display); text-decoration: underline; text-decoration-color: var(--mint); text-decoration-thickness: 0.14em; text-underline-offset: 0.12em; text-decoration-skip-ink: none; }
 
   .example { margin: 0; border: 1px solid var(--ink); }
   .example figcaption { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--ink); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
