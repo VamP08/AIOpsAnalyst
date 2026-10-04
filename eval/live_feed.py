@@ -3,14 +3,14 @@
 The corpus behind the published numbers is frozen on purpose: a scorecard that
 moves whenever a stranger opens an issue is not a measurement. This is the
 other half - a small rolling feed that shows the pipeline still runs, written to
-demo/data/live.json and committed by the scheduled workflow, so the page can say
+web/public/data/live.json and committed by the scheduled workflow, so the page can say
 when it last saw something and the commit history shows it was not staged.
 
 Each run works in a throwaway store: fetch recent issues, cluster them, triage
 the clusters, and merge the results into the feed. Nothing here touches the
 evaluation corpus.
 
-Usage: python eval/live_feed.py demo/data/live.json [--repos a/b,c/d] [--per-repo 8]
+Usage: python eval/live_feed.py web/public/data/live.json [--repos a/b,c/d] [--per-repo 8]
 """
 import itertools
 import json
@@ -136,4 +136,4 @@ if __name__ == "__main__":
              if "--repos" in argv else REPOS)
     per_repo = (int(argv[argv.index("--per-repo") + 1])
                 if "--per-repo" in argv else PER_REPO)
-    main(argv[0] if argv else "demo/data/live.json", repos, per_repo)
+    main(argv[0] if argv else "web/public/data/live.json", repos, per_repo)

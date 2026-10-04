@@ -1,6 +1,6 @@
-"""Freeze the store into the JSON the demo page reads.
+"""Freeze the store into the JSON the site reads.
 
-The demo front door is static on purpose: a free web service that sleeps takes
+The site is static on purpose: a free web service that sleeps takes
 about a minute to wake, and a minute of blank page is the whole visit. So the
 page ships precomputed results and loads instantly, and the live API is a
 progressive enhancement the first impression never depends on.
@@ -9,7 +9,6 @@ Writes into web/public/data/:
   stats.json       headline counters
   clusters.json    every cluster with its verdict and any ticket it produced
   scorecards.json  both published evaluations, verbatim
-  replay.json      one real incident, event by event, for the replay player
   specimens.json   a few real events followed from input to what happened
   policy.json      the gate's rules and the routes, as the code runs them
 
@@ -23,15 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from aiops.envelope import Event
 from aiops.store import Store
-
-# A three minute burst on the Blue Gene/L machine: 4,096 lines and 76 of them
-# flagged by the operators. Real timestamps, replayed at speed.
-REPLAY_SOURCE = "bgl://llnl/bluegene"
-REPLAY_FROM = "2005-06-05T00:00"
-REPLAY_TO = "2005-06-05T02:00"
-
 
 # Chosen by hand after triage, one per kind of source and chosen so that they
 # end differently: a ticket, a person told, a deliberate abstention.
@@ -116,38 +107,6 @@ def policy_export(routes: list[dict]) -> dict:
     t = Thresholds()
     return {"thresholds": {"auto": t.auto, "suggest": t.suggest},
             "gate": policy(), "routes": routes}
-
-
-def replay_window(events: list[Event], start: str, end: str) -> list[Event]:
-    inside = [e for e in events if e.time and start <= e.time < end]
-    return sorted(inside, key=lambda e: e.time)
-
-
-def offsets_ms(events: list[Event]) -> list[int]:
-    if not events:
-        return []
-    stamps = [datetime.fromisoformat(e.time) for e in events]
-    return [int((s - stamps[0]).total_seconds() * 1000) for s in stamps]
-
-
-def compact(stream: list[dict], samples: int = 3) -> list[dict]:
-    """Drop repeated line text, keep every event.
-
-    A two hour window is sixteen thousand lines and most of them are the same
-    sentence with different numbers. The first few of each cluster and every
-    operator-flagged line keep their text; the rest are counted and timed
-    exactly as before, and the player shows the cluster template for them. No
-    event is sampled away, because the counter racing past sixteen thousand is
-    the point of the replay.
-    """
-    seen: Counter = Counter()
-    out = []
-    for event in stream:
-        seen[event["cluster"]] += 1
-        keep = event["alert"] or seen[event["cluster"]] <= samples
-        out.append(event if keep else {k: v for k, v in event.items()
-                                       if k != "line"})
-    return out
 
 
 def cluster_rows(store: Store, samples: int = 5) -> list[dict]:
@@ -237,21 +196,6 @@ def stats_from(rows: list[dict], events: int,
     }
 
 
-def replay_from(store: Store) -> dict:
-    events = [e for e in store.all_events() if e.source == REPLAY_SOURCE]
-    window = replay_window(events, REPLAY_FROM, REPLAY_TO)
-    return {
-        "source": REPLAY_SOURCE,
-        "from": REPLAY_FROM,
-        "to": REPLAY_TO,
-        "note": "Blue Gene/L supercomputer log, replayed from its own timestamps",
-        "events": compact([{"ms": ms, "cluster": e.clusterid,
-                            "line": e.title[:110],
-                            "alert": e.attributes.get("bgl_label", "-") != "-"}
-                           for ms, e in zip(offsets_ms(window), window)]),
-    }
-
-
 def scorecards() -> dict:
     out = {}
     for name, path in (("maintainer_labels", "eval/scorecard-external.json"),
@@ -290,7 +234,6 @@ def main(db_path: str, out_dir: str = "web/public/data",
         "stats.json": {**stats_from(rows, store.count_events(), routes),
                        "events_by_kind": events_by_kind(store)},
         "scorecards.json": scorecards(),
-        "replay.json": replay_from(store),
         "specimens.json": specimens,
         "policy.json": policy_export(routes),
     }

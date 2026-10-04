@@ -1,10 +1,10 @@
 # AIOpsAnalyst
 
-**[ai-ops-analyst.vercel.app](https://ai-ops-analyst.vercel.app/)** &mdash; a real
-incident replayed from its own timestamps, both scorecards, the tickets it filed,
-and what it triaged in the last day.
+**[ai-ops-analyst.vercel.app](https://ai-ops-analyst.vercel.app/)** &mdash; the five
+outcomes, real cases followed from event to decision, how it was measured, every
+pile it sorted into, and the live feed.
 
-[![The replay: a supercomputer log collapsing into clusters as it arrives](media/demo-replay.png)](https://ai-ops-analyst.vercel.app/)
+[![The home page: thirty thousand events in, a short list of decisions out](media/site-home.png)](https://ai-ops-analyst.vercel.app/)
 
 One triage pipeline for every event stream. Server logs, GitHub issues, failed
 CI runs and status-page incidents go in; deduplicated clusters with a category, a severity, a confidence
@@ -163,10 +163,11 @@ embeddings for prose. No UMAP or HDBSCAN: they cluster prose better and they do
 not reproduce run to run, and a number that cannot be reproduced is not worth
 having.
 
-![The dashboard: filterable clusters, tier badges, linked tickets, and the evidence behind one verdict](media/dashboard.png)
+![Where the 31,155 events went: five sources into 905 problems, five outcomes out, and the rulebook](media/site-routes.png)
 
-The dashboard runs locally against a store (`uvicorn server.app:app`, which serves `demo/dashboard/`); the page
-above is the static demo, which is what the public URL serves.
+The API runs locally against a store with `uvicorn server.app:app`. The public site
+(Astro, in `web/`) is static and reads the exported corpus. To work on it:
+`cd web && npm install && npm run dev`.
 
 ## Asking the corpus
 
@@ -215,7 +216,7 @@ decides the consequence:
 
 Critical severity escalates regardless of confidence: paging someone is cheap,
 a wrong automatic action during an outage is not. The rules are an ordered table
-in [`aiops/triage/gate.py`](aiops/triage/gate.py), exported verbatim for the demo,
+in [`aiops/triage/gate.py`](aiops/triage/gate.py), exported verbatim for the site,
 and the routing table is YAML (see [`pipeline.example.yaml`](pipeline.example.yaml)).
 
 Side effects are idempotent. A `(cluster, sink)` pair is recorded only after the
@@ -249,7 +250,7 @@ conda activate aiopsanalyst
 pip install -e ".[dev,cluster,embeddings,server]"
 cp .env.example .env          # GROQ_API_KEY and GITHUB_TOKEN are enough to start
 cp pipeline.example.yaml pipeline.yaml
-pytest                        # 226 tests
+pytest                        # 224 tests
 uvicorn server.app:app        # dashboard on http://127.0.0.1:8000
 ```
 

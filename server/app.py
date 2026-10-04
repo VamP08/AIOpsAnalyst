@@ -1,16 +1,14 @@
 """Read API over a triaged store, plus the one interactive endpoint.
 
-The dashboard and the demo page are static; everything dynamic they need is
+The public site is static (Astro, in web/); everything dynamic it needs is
 here. /api/triage is the "paste your own event" box: it classifies one pasted
 event through the same prompt and gate as the pipeline, and stores nothing —
 visitors must not be able to write into the corpus the numbers are measured on.
 """
 import os
 from collections import Counter
-from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, field_validator
 
 from aiops.ask import answer
@@ -126,10 +124,6 @@ def create_app(store: Store, chat=None) -> FastAPI:
         return {**verdict.model_dump(), "tier": decide_tier(verdict),
                 "model": reply.model, "prompt_version": PROMPT_VERSION}
 
-    dashboard = Path(__file__).resolve().parent.parent / "demo" / "dashboard"
-    if dashboard.is_dir():          # mounted last so /api keeps precedence
-        app.mount("/", StaticFiles(directory=dashboard, html=True),
-                  name="dashboard")
     return app
 
 

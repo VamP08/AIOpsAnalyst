@@ -117,14 +117,6 @@ def test_unrouted_cluster_reports_no_references(tmp_path):
     assert client.get("/api/clusters").json()[0]["routed"] == {}
 
 
-def test_dashboard_is_served_at_the_root(tmp_path):
-    client = TestClient(create_app(seeded_store(tmp_path)))
-    page = client.get("/")
-    assert page.status_code == 200
-    assert "AIOpsAnalyst" in page.text
-    assert client.get("/app.js").status_code == 200
-
-
 def test_stats_expose_the_tracker_base_url_for_ticket_links(tmp_path, monkeypatch):
     monkeypatch.setenv("JIRA_BASE_URL", "https://acme.atlassian.net")
     client = TestClient(create_app(seeded_store(tmp_path)))
