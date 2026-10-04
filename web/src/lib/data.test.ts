@@ -14,3 +14,18 @@ describe("data", () => {
   });
   it("the gate has five ordered rules", () => expect(policy.gate).toHaveLength(5));
 });
+
+import { outcomeOf } from "./outcomes";
+
+describe("outcomeOf", () => {
+  it("maps tiers the way the export does", () => {
+    expect(outcomeOf("escalate", "crash", policy.routes)).toBe("person");
+    expect(outcomeOf("suggest", "crash", policy.routes)).toBe("draft");
+    expect(outcomeOf("abstain", "error", policy.routes)).toBe("unsure");
+    expect(outcomeOf("auto", "crash", policy.routes)).toBe("ticket");
+    expect(outcomeOf("auto", "question", policy.routes)).toBe("dropped");
+  });
+  it("agrees with the exported outcome for every specimen", () => {
+    for (const s of specimens) expect(outcomeOf(s.route.tier, s.verdict.category, policy.routes)).toBe(s.outcome);
+  });
+});

@@ -98,6 +98,9 @@ const binItems = (o: Outcome) => {
       {KINDS.map((k) => <li><span>{KIND_PLURAL[k]}</span><b>{n(stats.events_by_kind[k])}</b></li>)}
     </ol>
     <p class="hub"><b>{n(stats.clusters)}</b> problems, {ratio(stats.events, stats.clusters)} fewer things to read</p>
+    <ol class="out">
+      {OUTCOMES.map((o) => <li class:list={{ lit: o.key === litOutcome }}><span><OutcomeMark outcome={o.key} /> {o.label}</span><b>{n(stats.outcomes[o.key])}</b></li>)}
+    </ol>
   </div>
 
   <figcaption class="key"><span class="wide-only">One dot is a hundred events. The lit route is the pytorch crash on the tag above.</span><span class="narrow-only">Events in, by kind of source, and the problems they became.</span></figcaption>
@@ -110,7 +113,7 @@ const binItems = (o: Outcome) => {
     <details class:list={["bin", { lit: o.key === litOutcome }]}>
       <summary>
         <span class="bt"><OutcomeMark outcome={o.key} /> {o.label}</span>
-        <b>{n(stats.outcomes[o.key])}</b>
+        <span class="cue"><span class="c-open">What is in it</span><span class="c-close">Hide</span></span>
       </summary>
       <p>{o.sentence}</p>
       <ul>
@@ -167,11 +170,10 @@ const binItems = (o: Outcome) => {
   .bin + .bin { padding-left: var(--space-4); border-left: 1px solid var(--line); }
   .bin summary { list-style: none; cursor: pointer; display: grid; gap: var(--space-1); }
   .bin summary::-webkit-details-marker { display: none; }
-  .bt { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
-  .bin summary b { font: 700 var(--step-2)/1 var(--font-display); }
-  .bin summary::after { content: "Show what is in it"; font: 400 var(--step--1)/1.4 var(--font-body); text-decoration: underline; text-underline-offset: 0.22em; color: var(--muted); }
-  .bin[open] summary::after { content: "Hide"; }
-  .bin.lit summary b { color: var(--green); }
+  .bt { display: flex; align-items: baseline; gap: var(--space-2); font-weight: 600; }
+  .cue { font-size: var(--step--1); color: var(--muted); text-decoration: underline; text-underline-offset: 0.22em; }
+  .c-close, .bin[open] .c-open { display: none; }
+  .bin[open] .c-close { display: inline; }
   .bin p { margin-top: var(--space-3); font-size: var(--step--1); color: var(--muted); }
   .bin ul { list-style: none; padding: 0; margin-top: var(--space-3); display: grid; gap: var(--space-3); font-size: var(--step--1); }
   .bin li { overflow-wrap: anywhere; }
@@ -191,5 +193,10 @@ const binItems = (o: Outcome) => {
     .stack .in b { color: var(--mint); font-weight: 500; }
     .stack .hub { margin-top: var(--space-4); padding: var(--space-4); border: 2px solid var(--mint); }
     .stack .hub b { display: block; font: 900 var(--step-3)/1 var(--font-display); color: var(--mint); }
+    .stack .out { list-style: none; padding: 0; margin-top: var(--space-4); border-top: 1px solid #23603f; }
+    .stack .out li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid #23603f; font-size: var(--step--1); }
+    .stack .out li span { display: inline-flex; align-items: center; gap: var(--space-2); }
+    .stack .out b { color: var(--mint); font: 500 var(--step--1)/1.4 var(--font-mono); }
+    .stack .out .lit { color: var(--mint); }
   }
 </style>

@@ -20,12 +20,30 @@ export function filterClusters(rows: Cluster[], f: Filters): Cluster[] {
 }
 
 const PAGE = 100;
-const TIER: Record<string, string> = {
-  auto: "handled on its own",
-  suggest: "drafted, waits for approval",
-  escalate: "a person looks first",
-  abstain: "not sure, recorded",
-};
+const SVG = "http://www.w3.org/2000/svg";
+
+/** The same five drawn marks as OutcomeMark.astro, built in the browser. */
+function mark(o: Outcome): SVGSVGElement {
+  const svg = document.createElementNS(SVG, "svg");
+  svg.setAttribute("viewBox", "0 0 14 14");
+  svg.setAttribute("width", "13");
+  svg.setAttribute("height", "13");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("class", "mark");
+  const shape = (tag: string, attrs: Record<string, string>) => {
+    const e = document.createElementNS(SVG, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    svg.append(e);
+  };
+  if (o === "ticket") shape("rect", { x: "1.5", y: "1.5", width: "11", height: "11", fill: "currentColor" });
+  if (o === "person") shape("path", { d: "M7 1.5 12.8 12.5H1.2Z", fill: "currentColor" });
+  if (o === "draft") shape("path", { d: "M7 1 13 7 7 13 1 7Z", fill: "none", stroke: "currentColor", "stroke-width": "1.6" });
+  if (o === "dropped") shape("rect", { x: "1.5", y: "6", width: "11", height: "2", fill: "currentColor" });
+  if (o === "unsure") shape("circle", { cx: "7", cy: "7", r: "5.2", fill: "none", stroke: "currentColor", "stroke-width": "1.6", "stroke-dasharray": "2.2 1.8" });
+  return svg;
+}
+
+const outcomeLabel = (o: Outcome) => OUTCOMES.find((x) => x.key === o)?.label ?? o;
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
   const e = document.createElement(tag);
@@ -61,16 +79,16 @@ function row(c: Cluster): HTMLElement {
   s.append(
     label,
     el("span", "meta", KIND_LABEL[c.kind] ?? c.kind),
-    el("span", "meta", OUTCOMES.find((o) => o.key === c.outcome)?.label ?? c.outcome),
+    (() => { const sp = el("span", "meta out"); sp.append(mark(c.outcome), document.createTextNode(outcomeLabel(c.outcome))); return sp; })(),
     el("span", "meta", c.category.replaceAll("_", " ")),
-    el("span", "size", `${n(c.size)} events`),
+    el("span", "size", n(c.size)),
     el("span", "cue cue-open", "Open"),
     el("span", "cue cue-close", "Close"),
   );
   const body = el("div", "body");
   body.append(
     el("p", "sum", c.summary),
-    el("p", "conf", `${TIER[c.tier] ?? c.tier} · ${dec(c.confidence)} sure`),
+    el("p", "conf", `${outcomeLabel(c.outcome)} · ${dec(c.confidence)} sure`),
   );
   if (c.ticket) body.append(el("p", "conf", `Ticket ${c.ticket}`));
   if (c.samples.length) {
@@ -151,6 +169,9 @@ export async function mount(root: HTMLElement): Promise<void> {
     if (more.hidden) list.children[from]?.querySelector("summary")?.focus();
   });
 
-  root.replaceChildren(filters, count, list, more);
+  const head = el("div", "headrow");
+  head.setAttribute("aria-hidden", "true");
+  for (const t of ["Pile", "Source", "Outcome", "Category", "Events", ""]) head.append(el("span", undefined, t));
+  root.replaceChildren(filters, count, head, list, more);
   apply();
 }

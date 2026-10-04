@@ -91,4 +91,9 @@ const rule = policy.gate[s.route.rule];
   }
   .kept { display: flex; align-items: center; gap: var(--space-2); font: 700 var(--step-1)/1.2 var(--font-display); color: var(--mint); }
   .ref { font: 400 0.85rem/1.45 var(--font-mono); }
+
+  @media (max-width: 460px) {
+    .fields { grid-template-columns: 1fr 1fr; }
+    .f:not(.wide):nth-child(5) { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+  }
 </style>

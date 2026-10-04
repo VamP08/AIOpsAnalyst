@@ -39,8 +39,8 @@ const grouping =
     </nav>
 
     <header class="head">
-      <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
       <h1>{s.input.title}</h1>
+      <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
       <p class="end"><OutcomeMark outcome={s.outcome} size={18} /> {out.label}{s.route.ticket ? `, ${s.route.ticket.key}` : ""}</p>
     </header>
 
@@ -59,7 +59,7 @@ const grouping =
           <p class="meta">Group label: <code>{s.cluster.label}</code></p>
           {s.cluster.siblings.length > 0 && (
             <details>
-              <summary>Show {s.cluster.siblings.length} of the others</summary>
+              <summary><span class="pm" aria-hidden="true"></span>Show {s.cluster.siblings.length} of the others</summary>
               <ul class="sibs">{s.cluster.siblings.map((t) => <li><code>{t}</code></li>)}</ul>
             </details>
           )}
@@ -108,7 +108,8 @@ const grouping =
   .crumbs { display: flex; gap: var(--space-4); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
   .head { margin-top: var(--space-5); max-width: 62rem; }
   .from { font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
-  .head h1 { font-size: var(--step-3); margin-top: var(--space-3); overflow-wrap: anywhere; }
+  .head h1 { font-size: var(--step-3); overflow-wrap: anywhere; }
+  .head .from { margin-top: var(--space-3); }
   .head .end { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-4); font: 700 var(--step-1)/1.2 var(--font-display); }
 
   .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); gap: var(--space-7); margin-top: var(--space-6); align-items: start; }
@@ -121,7 +122,13 @@ const grouping =
   .stations p { max-width: var(--measure); color: #26332c; }
   .meta { font: 400 var(--step--1)/1.5 var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
   .payload { margin: 0; padding: var(--space-4); background: var(--panel); color: var(--panel-ink); font: 400 0.82rem/1.6 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; max-height: 22rem; overflow: auto; }
-  details summary { cursor: pointer; font-weight: 600; text-decoration: underline; text-underline-offset: 0.22em; }
+  details summary { cursor: pointer; font-weight: 600; list-style: none; display: inline-flex; align-items: center; gap: var(--space-2); }
+  details summary::-webkit-details-marker { display: none; }
+  .pm { position: relative; width: 0.8rem; height: 0.8rem; border: 1px solid var(--ink); }
+  .pm::before, .pm::after { content: ""; position: absolute; left: 50%; top: 50%; background: var(--ink); transform: translate(-50%, -50%); }
+  .pm::before { width: 0.45rem; height: 1px; }
+  .pm::after { width: 1px; height: 0.45rem; }
+  details[open] .pm::after { display: none; }
   .sibs { margin-top: var(--space-3); padding-left: var(--space-5); display: grid; gap: var(--space-2); font-size: var(--step--1); overflow-wrap: anywhere; }
 
   .verdict { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--ink); }

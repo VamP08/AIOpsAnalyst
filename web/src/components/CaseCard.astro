@@ -15,8 +15,8 @@ const excerpt = s.input.body.replace(/<[^>]*>/g, "").replace(/[`#*>]/g, "").repl
 const short = excerpt.length > 150 ? `${excerpt.slice(0, 150).replace(/\s\S*$/, "")}...` : excerpt;
 ---
 <article class:list={["card", s.input.kind, s.outcome]}>
-  <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
   <h3><a href={`/case/${s.slug}/`}>{s.input.title}</a></h3>
+  <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
 
   {s.input.kind === "log"
     ? <pre class="raw">{s.input.body}</pre>

@@ -1,7 +1,9 @@
 ---
 import Site from "../layouts/Site.astro";
-import { live } from "../lib/data";
+import OutcomeMark from "../components/OutcomeMark.astro";
+import { live, policy } from "../lib/data";
 import { dec, n } from "../lib/format";
+import { OUTCOMES, outcomeOf, type Outcome } from "../lib/outcomes";
 
 type Entry = { id: string; seen: string; repo: string; url: string; title: string; summary: string;
   category: string; severity: string; confidence: number; tier: string };
@@ -9,12 +11,10 @@ const entries = (live.entries as Entry[]).slice().sort((a, b) => b.seen.localeCo
 const updated = String(live.updated);
 const day = updated.slice(0, 10);
 const time = updated.slice(11, 16);
-const TIER: Record<string, string> = {
-  auto: "handled on its own",
-  suggest: "drafted, waits for approval",
-  escalate: "a person looks first",
-  abstain: "not sure, recorded",
-};
+const ended = (e: Entry): Outcome => outcomeOf(e.tier, e.category, policy.routes);
+// The live job routes nothing, so its "ticket" is what the rulebook would file.
+const label = (o: Outcome) => (o === "ticket" ? "Would be filed as a ticket" : OUTCOMES.find((x) => x.key === o)!.label);
+const tally = OUTCOMES.map((o) => ({ ...o, count: entries.filter((e) => ended(e) === o.key).length }));
 const safe = (u: string) => (u.startsWith("https://") ? u : null);
 ---
 <Site
@@ -25,17 +25,20 @@ const safe = (u: string) => (u.startsWith("https://") ? u : null);
   <div class="wrap page">
     <header class="head">
       <h1>It is still running</h1>
-      <p class="lede">Every six hours a scheduled job reads the newest issues from {live.repos.join(", ")}, groups and labels them the same way, and commits the result. The numbers elsewhere on this site come from a frozen corpus so they stay checkable; this page is the part that moves.</p>
+      <p class="lede">Every six hours a scheduled job reads the newest issues from {live.repos.join(", ")}, groups and labels them the same way, runs the same rulebook, and commits the result. It decides but files nothing: below is what the rulebook would do with each issue. The numbers elsewhere on this site come from a frozen corpus so they stay checkable; this page is the part that moves.</p>
+      <ul class="tally" aria-label="What the rulebook would do with this run's issues">
+        {tally.map((t) => <li class:list={{ none: t.count === 0 }}><OutcomeMark outcome={t.key} /><b>{n(t.count)}</b><span>{label(t.key)}</span></li>)}
+      </ul>
       <p class="stamp">Last run <time datetime={updated}>{day} at {time} UTC</time>, {n(entries.length)} issues. <a href="https://github.com/VamP08/AIOpsAnalyst/commits/main/web/public/data/live.json">Every run is in the commit history</a>.</p>
     </header>
 
     <ol class="feed">
       {entries.map((e) => (
         <li>
-          <p class="src">{e.repo} · <time datetime={e.seen}>{e.seen.slice(0, 10)}</time></p>
           <h2>{safe(e.url) ? <a href={safe(e.url)!}>{e.title}</a> : e.title}</h2>
+          <p class="src">{e.repo} · <time datetime={e.seen}>{e.seen.slice(0, 10)}</time></p>
           <p class="sum">{e.summary}</p>
-          <p class="lab"><span>{e.category.replace("_", " ")}</span><span>{e.severity}</span><span>{dec(e.confidence)} sure</span><span class="tier">{TIER[e.tier] ?? e.tier}</span></p>
+          <p class="lab"><span>{e.category.replaceAll("_", " ")}</span><span>{e.severity}</span><span>{dec(e.confidence)} sure</span><span class="tier"><OutcomeMark outcome={ended(e)} /> {label(ended(e))}</span></p>
         </li>
       ))}
     </ol>
@@ -54,5 +57,10 @@ const safe = (u: string) => (u.startsWith("https://") ? u : null);
   .feed h2 a { text-decoration-color: var(--line); }
   .sum { color: #26332c; max-width: var(--measure); }
   .lab { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
-  .lab .tier { color: var(--green); font-weight: 500; }
+  .lab .tier { color: var(--green); font-weight: 500; display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); }
+  .tally { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); border-block: 1px solid var(--ink); padding-block: var(--space-4); }
+  .tally li { display: flex; align-items: baseline; gap: var(--space-2); }
+  .tally b { font: 500 var(--step-1)/1 var(--font-mono); }
+  .tally span { font-size: var(--step--1); }
+  .tally .none { color: var(--muted); }
 </style>
