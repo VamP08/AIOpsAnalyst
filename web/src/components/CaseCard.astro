@@ -24,7 +24,7 @@ const short = excerpt.length > 150 ? `${excerpt.slice(0, 150).replace(/\s\S*$/, 
       ? <p class="detail">The same step failed on {n(s.cluster.size)} different commits. One problem, not {n(s.cluster.size)}.</p>
       : <p class="detail">{short}</p>}
 
-  {s.input.kind === "log" && <p class="detail">{n(s.cluster.size)} lines like it in all, read as one problem.</p>}
+  {s.input.kind === "log" && <p class="detail">One pile of {n(s.cluster.size)} lines like it, read as one problem.</p>}
 
   <p class="end">
     <span class="out"><OutcomeMark outcome={s.outcome} /> {out.label}</span>

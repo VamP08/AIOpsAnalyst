@@ -30,7 +30,7 @@ const rule = policy.gate[s.route.rule];
     <div class="f wide what"><dt>What happened</dt><dd><Heading class="title">{s.input.title}</Heading></dd></div>
     <div class="f"><dt>Kind</dt><dd>{s.verdict.category.replace("_", " ")}</dd></div>
     <div class="f"><dt>How bad</dt><dd>{s.verdict.severity}</dd></div>
-    <div class="f"><dt>Group size</dt><dd>{n(s.cluster.size)}</dd></div>
+    <div class="f"><dt>In its pile</dt><dd>{n(s.cluster.size)} {s.cluster.size === 1 ? "event" : "events"}</dd></div>
     <div class="f wide"><dt>How sure</dt><dd><ConfidenceStrip value={s.verdict.confidence} /></dd></div>
     <div class="f wide"><dt>Rule that decided</dt><dd>{s.route.rule + 1}. {rule.condition}</dd></div>
   </dl>
