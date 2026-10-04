@@ -1,4 +1,9 @@
-# AIOpsAnalyst
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/logo-lockup-dark.svg">
+    <img alt="AIOpsAnalyst" src="media/logo-lockup.svg" height="64">
+  </picture>
+</h1>
 
 **[ai-ops-analyst.vercel.app](https://ai-ops-analyst.vercel.app/)** &mdash; the five
 outcomes, real cases followed from event to decision, how it was measured, every

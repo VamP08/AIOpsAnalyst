@@ -26,7 +26,20 @@ const generated = stats.generated.slice(0, 10);
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{current === "home" ? title : `${title} · AIOpsAnalyst`}</title>
   <meta name="description" content={description} />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#052414" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AIOpsAnalyst" />
+  <meta property="og:title" content={current === "home" ? title : `${title} · AIOpsAnalyst`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).href} />
+  <meta property="og:image" content={new URL("/og.png", Astro.site).href} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -38,7 +51,7 @@ const generated = stats.generated.slice(0, 10);
   <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <div class="wrap bar">
-      <a class="word" href="/" aria-current={current === "home" ? "page" : undefined}>AIOpsAnalyst</a>
+      <a class="word" href="/" aria-current={current === "home" ? "page" : undefined}><img src="/logo.svg" alt="" width="32" height="32" />AIOpsAnalyst</a>
       <nav aria-label="Site">
         <ul>
           {nav.map((item) => (
@@ -56,7 +69,7 @@ const generated = stats.generated.slice(0, 10);
 
   <footer class="foot">
     <div class="wrap cols">
-      <p class="word">AIOpsAnalyst</p>
+      <p class="word"><img src="/logo-on-dark.svg" alt="" width="32" height="32" />AIOpsAnalyst</p>
       <p>Every number on this site comes from the exported corpus in <a href="/data/stats.json">/data</a>, generated <time datetime={generated}>{generated}</time>.</p>
       <ul>
         <li><a href="https://github.com/VamP08/AIOpsAnalyst">Source on GitHub</a></li>
@@ -84,10 +97,14 @@ const generated = stats.generated.slice(0, 10);
     min-height: 4rem;
   }
   .word {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     font: 700 1.05rem/1 var(--font-display);
     letter-spacing: -0.01em;
     text-decoration: none;
   }
+  .word img { flex: none; }
   nav ul {
     display: flex;
     flex-wrap: wrap;
