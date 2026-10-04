@@ -1,6 +1,6 @@
 [project]
 name = "aiopsanalyst"
-version = "1.0.0"
+version = "1.0.1"
 description = "Source-agnostic event triage: one pipeline from logs, issues and alerts to categorized, evidence-linked actions"
 requires-python = ">=3.12"
 license = "MIT"

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 (2026-10-05)
+
+- A case page's issue text ends on a whole word with an ellipsis. The export cut it at 300
+  characters, so two cases stopped mid-word ("...the issue is in Tor").
+- Icon links carry a version, so browsers that cached the earlier favicon pick up the logo.
+- README: screenshots retaken with the logo and colours; the route diagram is a GIF.
+- CI runs on actions v7; the site type-checks with TypeScript 7.
+
 ## 1.0.0 (2026-10-04)
 
 First release.
