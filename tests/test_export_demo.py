@@ -200,3 +200,18 @@ def test_stats_outcomes_sum_to_the_clusters():
                                  "draft": 1, "unsure": 1}
     assert sum(stats["outcomes"].values()) == stats["clusters"]
     assert stats["by_kind"] == {"issue": 1, "log": 2, "ci": 1, "status": 1}
+
+
+def test_events_by_kind_counts_arrivals_per_source_kind(tmp_path):
+    from export_demo import events_by_kind
+
+    from aiops.store import Store
+
+    store = Store(str(tmp_path / "db.sqlite"))
+    store.insert_events([
+        Event(id="i1", source="github://a/b", type="com.github.issue", title="x"),
+        Event(id="l1", source="syslog://h", type="dev.aiops.log.line", title="y"),
+        Event(id="l2", source="syslog://h", type="dev.aiops.log.line", title="z"),
+        Event(id="b1", source="bgl://llnl/bluegene", type="dev.aiops.log.line", title="w"),
+    ])
+    assert events_by_kind(store) == {"issue": 1, "log": 2, "supercomputer": 1}

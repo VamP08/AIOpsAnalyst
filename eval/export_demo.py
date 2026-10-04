@@ -58,6 +58,15 @@ def kind(event_type: str, source: str) -> str:
 _TIER_OUTCOME = {"escalate": "person", "suggest": "draft", "abstain": "unsure"}
 
 
+def events_by_kind(store: Store) -> dict[str, int]:
+    """How many events arrived from each kind of source, before any grouping."""
+    counts: Counter = Counter()
+    for event_type, source, n in store.db.execute(
+            "SELECT type, source, COUNT(*) FROM events GROUP BY type, source"):
+        counts[kind(event_type, source)] += n
+    return dict(counts)
+
+
 def outcome(row: dict, policy) -> str:
     """Which of the five bins a cluster ends in. Only auto-tier verdicts are
     routed, so the tier decides everything except ticket versus dropped."""
@@ -278,7 +287,8 @@ def main(db_path: str, out_dir: str = "web/public/data",
     written = {
         "clusters.json": rows,
         "escalations.json": escalations(store, rows),
-        "stats.json": stats_from(rows, store.count_events(), routes),
+        "stats.json": {**stats_from(rows, store.count_events(), routes),
+                       "events_by_kind": events_by_kind(store)},
         "scorecards.json": scorecards(),
         "replay.json": replay_from(store),
         "specimens.json": specimens,
