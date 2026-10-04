@@ -54,7 +54,7 @@ const grouping =
         </li>
 
         <li id="grouped">
-          <h2>{others > 0 ? `It was grouped with ${n(others)} others like it` : "Nothing else looked like it"}</h2>
+          <h2>{others > 0 ? `It was grouped into a set of ${n(s.cluster.size)} like it` : "Nothing else looked like it"}</h2>
           <p>{grouping} {others > 0 ? "The model reads the group once, not each line." : "It became a problem of its own, and the model read it on its own."}</p>
           <p class="meta">Group label: <code>{s.cluster.label}</code></p>
           {s.cluster.siblings.length > 0 && (

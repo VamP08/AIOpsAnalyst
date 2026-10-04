@@ -52,7 +52,7 @@ const unsure = specimens.find((s) => s.outcome === "unsure")!;
       </div>
       <figure class="example">
         <figcaption>One pile from the Linux server log</figcaption>
-        <pre>{oom.input.body}{"\n"}{oom.cluster.siblings.join("\n")}{"\n"}... and {n(oom.cluster.size - 1 - oom.cluster.siblings.length)} more like it</pre>
+        <pre>{oom.input.body}{"\n"}{oom.cluster.siblings.join("\n")}{"\n"}... {n(oom.cluster.size)} lines like it in all</pre>
         <p>One pile of <b>{n(oom.cluster.size)}</b> lines, read once.</p>
       </figure>
     </section>

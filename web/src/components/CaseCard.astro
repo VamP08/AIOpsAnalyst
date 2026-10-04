@@ -13,7 +13,6 @@ const { s } = Astro.props;
 const out = OUTCOMES.find((o) => o.key === s.outcome)!;
 const excerpt = s.input.body.replace(/<[^>]*>/g, "").replace(/[`#*>]/g, "").replace(/\s+/g, " ").trim();
 const short = excerpt.length > 150 ? `${excerpt.slice(0, 150).replace(/\s\S*$/, "")}...` : excerpt;
-const others = s.cluster.size - 1;
 ---
 <article class:list={["card", s.input.kind, s.outcome]}>
   <p class="from">{KIND_LABEL[s.input.kind]} · {sourceLine(s.input.source, s.input.kind, s.input.subject)}</p>
@@ -25,7 +24,7 @@ const others = s.cluster.size - 1;
       ? <p class="detail">The same step failed on {n(s.cluster.size)} different commits. One problem, not {n(s.cluster.size)}.</p>
       : <p class="detail">{short}</p>}
 
-  {s.input.kind === "log" && <p class="detail">{n(others)} more lines like it, read as one problem.</p>}
+  {s.input.kind === "log" && <p class="detail">{n(s.cluster.size)} lines like it in all, read as one problem.</p>}
 
   <p class="end">
     <span class="out"><OutcomeMark outcome={s.outcome} /> {out.label}</span>
