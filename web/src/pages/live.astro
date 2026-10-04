@@ -48,14 +48,14 @@ const safe = (u: string) => (u.startsWith("https://") ? u : null);
 <style>
   .page { padding-top: var(--space-7); }
   .head { max-width: 60rem; display: grid; gap: var(--space-4); }
-  .lede { font-size: var(--step-1); line-height: 1.5; color: #26332c; max-width: 52ch; }
+  .lede { font-size: var(--step-1); line-height: 1.5; color: var(--soft-ink); max-width: 52ch; }
   .stamp { font: 400 var(--step--1)/1.5 var(--font-mono); padding: var(--space-3) var(--space-4); border: 1px solid var(--ink); background: var(--tint); }
   .feed { list-style: none; padding: 0; margin-top: var(--space-7); border-top: 2px solid var(--ink); }
   .feed li { display: grid; gap: var(--space-2); padding: var(--space-5) 0; border-bottom: 1px solid var(--line); max-width: 60rem; }
   .src { font: 400 var(--step--2)/1.4 var(--font-mono); color: var(--muted); }
   .feed h2 { font: 600 var(--step-1)/1.3 var(--font-body); letter-spacing: -0.01em; overflow-wrap: anywhere; }
   .feed h2 a { text-decoration-color: var(--line); }
-  .sum { color: #26332c; max-width: var(--measure); }
+  .sum { color: var(--soft-ink); max-width: var(--measure); }
   .lab { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); font: 400 var(--step--1)/1.4 var(--font-mono); color: var(--muted); }
   .lab .tier { color: var(--green); font-weight: 500; display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-body); }
   .tally { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); border-block: 1px solid var(--ink); padding-block: var(--space-4); }

@@ -91,7 +91,7 @@ const lastRun = String(live.updated).slice(0, 10);
   }
   .pitch { padding-top: var(--space-3); }
   .pitch h1 { font-size: clamp(2.5rem, 1.6rem + 2.9vw, 4.1rem); }
-  .sub { margin-top: var(--space-5); font-size: var(--step-1); line-height: 1.5; max-width: 40ch; color: #26332c; }
+  .sub { margin-top: var(--space-5); font-size: var(--step-1); line-height: 1.5; max-width: 40ch; color: var(--soft-ink); }
   .acts { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
   .btn {
     display: inline-block;
@@ -128,7 +128,7 @@ const lastRun = String(live.updated).slice(0, 10);
 
   .block { padding-top: var(--space-8); }
   .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-6); align-items: end; margin-bottom: var(--space-6); }
-  .intro p { color: #26332c; max-width: 54ch; }
+  .intro p { color: var(--soft-ink); max-width: 54ch; }
 
   .cases { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-4); }
   .cases > :global(*) { grid-column: span 2; }
@@ -137,7 +137,7 @@ const lastRun = String(live.updated).slice(0, 10);
   .check .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: var(--space-5); border-top: 2px solid var(--ink); }
   .check .two > div { padding: var(--space-5) var(--space-5) 0 0; display: grid; gap: var(--space-3); align-content: start; }
   .check .two > div + div { padding-left: var(--space-5); border-left: 1px solid var(--line); }
-  .check p { max-width: 52ch; color: #26332c; }
+  .check p { max-width: 52ch; color: var(--soft-ink); }
   .check a { font-weight: 600; }
 
   @media (max-width: 980px) {

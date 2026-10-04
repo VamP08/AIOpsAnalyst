@@ -142,7 +142,7 @@ const binItems = (o: Outcome) => {
 <style>
   .routes { margin: 0; border: 1px solid var(--ink); background: var(--panel); color: var(--panel-ink); padding: var(--space-6) var(--space-5) var(--space-5); }
   .map { width: 100%; height: auto; font-family: var(--font-mono); }
-  .lanes path { fill: none; stroke: #23603f; stroke-width: 3; }
+  .lanes path { fill: none; stroke: var(--lane); stroke-width: 3; }
   .lanes path.lit { stroke: var(--mint); stroke-width: 6; }
   .src .name, .dest .name { font-size: 14px; fill: var(--panel-ink); }
   .src .num, .dest .num { font-size: 14px; fill: var(--mint); }
@@ -188,13 +188,13 @@ const binItems = (o: Outcome) => {
     .map, .litnote, .wide-only { display: none; }
     .narrow-only { display: inline; }
     .stack { display: block; }
-    .stack .in { list-style: none; padding: 0; border-top: 1px solid #23603f; }
-    .stack .in li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid #23603f; font: 400 var(--step--1)/1.4 var(--font-mono); }
+    .stack .in { list-style: none; padding: 0; border-top: 1px solid var(--lane); }
+    .stack .in li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--lane); font: 400 var(--step--1)/1.4 var(--font-mono); }
     .stack .in b { color: var(--mint); font-weight: 500; }
     .stack .hub { margin-top: var(--space-4); padding: var(--space-4); border: 2px solid var(--mint); }
     .stack .hub b { display: block; font: 900 var(--step-3)/1 var(--font-display); color: var(--mint); }
-    .stack .out { list-style: none; padding: 0; margin-top: var(--space-4); border-top: 1px solid #23603f; }
-    .stack .out li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid #23603f; font-size: var(--step--1); }
+    .stack .out { list-style: none; padding: 0; margin-top: var(--space-4); border-top: 1px solid var(--lane); }
+    .stack .out li { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px solid var(--lane); font-size: var(--step--1); }
     .stack .out li span { display: inline-flex; align-items: center; gap: var(--space-2); }
     .stack .out b { color: var(--mint); font: 500 var(--step--1)/1.4 var(--font-mono); }
     .stack .out .lit { color: var(--mint); }
